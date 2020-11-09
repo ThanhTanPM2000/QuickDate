@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "777625843525",
+    "firebase_url": "https://quickdate-fe1ae.firebaseio.com",
+    "project_id": "quickdate-fe1ae",
+    "storage_bucket": "quickdate-fe1ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777625843525:android:a0c8688443e627ed04b02c",
+        "android_client_info": {
+          "package_name": "com.example.quicktest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777625843525-smt59751ti1f04mr16snu0qcngeu0puf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuZYBuyrK9LhUe9s2xTA2uThyjKH3ZuVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777625843525-smt59751ti1f04mr16snu0qcngeu0puf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

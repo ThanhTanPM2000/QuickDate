@@ -1,7 +1,8 @@
-package com.example.quicktest;
+package com.example.quickdate;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     EditText username, password;
     CheckBox rememberpass;
     TextView btnLogin, btnforgotpass, btnSignUp;
@@ -21,8 +21,18 @@ public class LoginActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish(); // or your code
     }
 }

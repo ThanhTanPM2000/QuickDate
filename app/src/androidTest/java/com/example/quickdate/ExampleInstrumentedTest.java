@@ -1,4 +1,4 @@
-package com.example.quicktest;
+package com.example.quickdate;
 
 import android.content.Context;
 
