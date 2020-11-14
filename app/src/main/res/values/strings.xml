@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuickTest</string>
+    <string name="app_name">Quick Date</string>
     <string name="facebook_app_id">406448243845355</string>
     <string name="fb_login_protocol_scheme">fb406448243845355</string>
 </resources>
