@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e77e65f9-a2dc-4b5a-9953-be3d9a545fd3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-BlackItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-ExtraLightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/assets/fonts/Raleway-ThinItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/backgroundstartact.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/btnfbshape.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/checked.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/circle_white_shape.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/facebook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/framecheckboxgo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/key.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/key2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/quickdate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/shape_login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/shape_signup.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/uncheck.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/font/raleway_semibold.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/bar_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/androidTest/java/com/example/quicktest/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/androidTest/java/com/example/quickdate/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/quicktest/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/quickdate/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/quicktest/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/quickdate/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/_.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable/icon_user.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/frameplaintext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable/frameplaintext.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/h.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable/icon_key.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/preloaded_fonts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/preloaded_fonts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/quicktest/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/quickdate/ExampleUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../build.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1k4akXBETyr9qjVMP4ZPlVyQSdq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../../SDK/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDK Location" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e77e65f9-a2dc-4b5a-9953-be3d9a545fd3" name="Default Changelist" comment="" />
+      <created>1604962460051</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604962460051</updated>
+    </task>
+    <servers />
+  </component>
+</project>
