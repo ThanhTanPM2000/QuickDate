@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="544dp"
+        android:layout_marginTop="92dp"
+        android:background="@drawable/base2"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/edtPhonenumber"
+        android:layout_width="185dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="404dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:fontFamily="@font/raleway_semibold"
+        android:inputType="textPersonName"
+        android:paddingLeft="15dp"
+        android:shadowColor="#40FFFFFF"
+        android:text="Phone number"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.163"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="320dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:fontFamily="@font/raleway_semibold"
+        android:inputType="textPersonName"
+        android:paddingLeft="15dp"
+        android:shadowColor="#40FFFFFF"
+        android:text="Email"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnFinished"
+        android:layout_width="match_parent"
+        android:layout_height="62.06dp"
+        android:layout_marginBottom="92dp"
+        android:background="@drawable/btn"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/group2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtFullname"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:fontFamily="@font/raleway_semibold"
+        android:inputType="textPersonName"
+        android:paddingLeft="15dp"
+        android:shadowColor="#40FFFFFF"
+        android:text="Full name"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:fontFamily="@font/raleway_semibold"
+        android:inputType="textPersonName"
+        android:paddingLeft="15dp"
+        android:shadowColor="#40FFFFFF"
+        android:text="Password"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="124dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="404dp"
+        android:background="@drawable/shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="325dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="504dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Agree to terms &  Conditions"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
