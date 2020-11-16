@@ -7,127 +7,152 @@
     android:background="@drawable/gradient"
     tools:context=".MainActivity" >
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Sign Up"
+        app:titleMargin="4dp"
+        app:titleTextColor="@color/white">
+
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="544dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/base2"
         android:textColor="#000000"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:layout_editor_absoluteX="0dp" />
 
-    <EditText
-        android:id="@+id/edtPhonenumber"
-        android:layout_width="185dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="404dp"
-        android:background="@drawable/shape"
-        android:ems="10"
-        android:fontFamily="@font/raleway_semibold"
-        android:inputType="textPersonName"
-        android:paddingLeft="15dp"
-        android:shadowColor="#40FFFFFF"
-        android:text="Phone number"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.163"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="337dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="320dp"
-        android:background="@drawable/shape"
-        android:ems="10"
-        android:fontFamily="@font/raleway_semibold"
-        android:inputType="textPersonName"
-        android:paddingLeft="15dp"
-        android:shadowColor="#40FFFFFF"
-        android:text="Email"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnFinished"
-        android:layout_width="match_parent"
-        android:layout_height="62.06dp"
-        android:layout_marginBottom="92dp"
-        android:background="@drawable/btn"
-        app:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="84dp"
         android:layout_height="84dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/group2"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/shape_signup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <EditText
-        android:id="@+id/edtFullname"
+        android:id="@+id/et_username2"
         android:layout_width="337dp"
         android:layout_height="54dp"
-        android:layout_marginTop="160dp"
-        android:background="@drawable/shape"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/frameplaintext"
         android:ems="10"
-        android:fontFamily="@font/raleway_semibold"
+        android:fontFamily="@font/raleway_bold"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:paddingLeft="15dp"
         android:shadowColor="#40FFFFFF"
-        android:text="Full name"
         android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/edtPassword"
+        android:id="@+id/et_email"
         android:layout_width="337dp"
         android:layout_height="54dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/shape"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/frameplaintext"
         android:ems="10"
-        android:fontFamily="@font/raleway_semibold"
+        android:fontFamily="@font/raleway_bold"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:paddingLeft="15dp"
         android:shadowColor="#40FFFFFF"
-        android:text="Password"
         android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/et_password2" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="124dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="404dp"
-        android:background="@drawable/shape"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFinished"
+        android:layout_width="match_parent"
+        android:layout_height="62.06dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/framebutton"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <EditText
+        android:id="@+id/et_password2"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/frameplaintext"
+        android:ems="10"
+        android:fontFamily="@font/raleway_bold"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        android:shadowColor="#40FFFFFF"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/et_username2" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
+    <LinearLayout
+        android:id="@+id/linear22"
+        android:layout_width="337dp"
+        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email">
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="197dp"
+            android:layout_height="54dp"
+            android:background="@drawable/frameplaintext"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:fontFamily="@font/raleway_bold"
+            android:paddingLeft="15dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
+
+        <Spinner
+            android:id="@+id/spinner_provincial"
+            android:layout_width="127dp"
+            android:layout_height="54dp"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="10dp"
+            style="@style/SpinnerTheme"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_agree"
         android:layout_width="325dp"
         android:layout_height="29dp"
-        android:layout_marginTop="504dp"
-        android:fontFamily="@font/raleway_semibold"
-        android:text="Agree to terms &  Conditions"
+        android:layout_marginTop="36dp"
+        android:button="@drawable/framecheckboxgo"
+        android:fontFamily="@font/raleway_bold"
+        android:text="      Agree to terms and Conditions"
         android:textColor="#FFFFFF"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linear22" />
 </androidx.constraintlayout.widget.ConstraintLayout>
