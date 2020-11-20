@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nn">
+
+    <Button
+        android:id="@+id/btnchat"
+        android:layout_width="145dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/nhantin2"
+        android:rotationX="-4"
+        app:backgroundTint=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddfriend" />
+
+    <ImageView
+        android:id="@+id/imageAvatar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.765"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.389"
+        app:srcCompat="@drawable/avatar2" />
+
+    <ImageView
+        android:id="@+id/imageAvatar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageAvatar2"
+        app:layout_constraintEnd_toEndOf="@+id/imageAvatar2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageAvatar2"
+        app:layout_constraintVertical_bias="0.578"
+        app:srcCompat="@drawable/avatar1" />
+
+    <TextView
+        android:id="@+id/tvAddfriend"
+        android:layout_width="303dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="64dp"
+        android:text="You and Alex just liked each other"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageAvatar2" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="167dp"
+        android:layout_height="35dp"
+        android:text="Chat With Them"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.59"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnchat"
+        app:layout_constraintVertical_bias="0.503" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
