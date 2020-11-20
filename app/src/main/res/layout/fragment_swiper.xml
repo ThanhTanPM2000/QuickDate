@@ -40,12 +40,11 @@
         android:id="@+id/textView"
         android:layout_width="275dp"
         android:layout_height="105dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/backroudlike_can"
         app:layout_constraintEnd_toEndOf="@+id/btnCancle3"
         app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="@+id/btnCancle"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/btnCancle"
@@ -86,16 +85,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/imageViewAvatar"
-        android:layout_width="311dp"
-        android:layout_height="319dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:srcCompat="@drawable/avatar" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="175dp"
@@ -106,5 +95,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.025" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="311dp"
+        android:layout_height="303dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="213dp"
+        android:layout_height="235dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.25"
+        app:srcCompat="@drawable/a__1_" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
