@@ -18,6 +18,9 @@ allprojects {
         jcenter()
     }
 }
+dependencies {
+    compile 'de.hdodenhof:circleimageview:1.2.1'
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
