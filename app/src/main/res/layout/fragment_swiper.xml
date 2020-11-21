@@ -11,13 +11,13 @@
         android:id="@+id/btnnotification"
         android:layout_width="101dp"
         android:layout_height="90dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/a__8_"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/information"
         android:rotationX="-4"
         app:backgroundTint=""
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,16 +25,15 @@
         android:id="@+id/btnsetting"
         android:layout_width="103dp"
         android:layout_height="87dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/a__8_"
         android:rotationX="-4"
         app:backgroundTint=""
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -98,8 +97,8 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="311dp"
-        android:layout_height="303dp"
+        android:layout_width="337dp"
+        android:layout_height="330dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,13 +107,13 @@
 
     <ImageView
         android:id="@+id/imageViewAvatar"
-        android:layout_width="213dp"
-        android:layout_height="235dp"
+        android:layout_width="237dp"
+        android:layout_height="259dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.25"
-        app:srcCompat="@drawable/a__1_" />
+        app:layout_constraintVertical_bias="0.239"
+        app:srcCompat="@color/cardview_dark_background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
