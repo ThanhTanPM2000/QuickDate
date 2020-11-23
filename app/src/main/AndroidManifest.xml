@@ -15,6 +15,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity"/>
         <activity android:name=".MainActivity">
+        <activity android:name=".TabLayOutActivity"></activity>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

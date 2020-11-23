@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".TabLayOutActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/butsettings" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="320dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/butnotifications" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="280dp"
+            android:background="@drawable/baseuserprofile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="abc, "
+                    android:textColor="@color/white"
+                    android:textSize="36dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="18"
+                    android:textColor="@color/white"
+                    android:textSize="36dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Address, city - hight"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="320dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/editbtn" />
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="3dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="110dp"
+                android:background="@drawable/line" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="130dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Nullam tellus libero, tincidunt ut ipsum in, aliquet dictum dolor. Sed interdum lacinia urna non euismod. "
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="490dp"
+            android:background="@drawable/shapebehinduserprofile">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shapeforhoby" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
