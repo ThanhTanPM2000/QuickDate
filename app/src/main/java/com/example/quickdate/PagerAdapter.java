@@ -1,4 +1,4 @@
-package com.example.quicktest;
+package com.example.quickdate;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
