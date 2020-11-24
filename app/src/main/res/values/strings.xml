@@ -2,4 +2,18 @@
     <string name="app_name">Quick Date</string>
     <string name="facebook_app_id">406448243845355</string>
     <string name="fb_login_protocol_scheme">fb406448243845355</string>
+    <string name="regexEmail">"^(([^&lt;&gt;()\\[\\]\\\\.,;:\\s@\"]+(\\.[^&lt;&gt;()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@(((gmail+\\.)+com))$"</string>
+    <string name="regexPhoneNumber">"(09|01[2|6|8|9])+([0-9]{8})\\b"</string>
+    <string name="rememberEmail">""</string>
+    <string name="rememberPassword">""</string>
+    <string-array name="planets_array">
+        <item>HCMC</item>
+        <item>Ha Noi</item>
+        <item>Bac Giang</item>
+        <item>DakLak</item>
+        <item>DakNong</item>
+        <item>Gia Lai</item>
+        <item>Can Tho</item>
+        <item>Da Nang</item>
+    </string-array>
 </resources>

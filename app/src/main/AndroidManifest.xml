@@ -14,6 +14,8 @@
         <activity android:name=".Profile_User"></activity>
         <activity android:name=".MyprofileActivity"></activity>
         <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity"/>
+        <activity android:name=".TabLayOutActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

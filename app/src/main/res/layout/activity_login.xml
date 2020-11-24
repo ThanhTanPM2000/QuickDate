@@ -36,6 +36,23 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
+        android:id="@+id/et_emailLogin"
+        android:layout_width="335dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="196dp"
+        android:background="@drawable/frameplaintext"
+        android:ems="10"
+        android:fontFamily="@font/raleway_bold"
+        android:hint="Your Email"
+        android:inputType="textPersonName"
+        android:paddingLeft="24dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
+
+    <EditText
         android:id="@+id/et_password"
         android:layout_width="335dp"
         android:layout_height="52dp"
@@ -50,7 +67,7 @@
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username" />
+        app:layout_constraintTop_toBottomOf="@+id/et_emailLogin" />
 
     <TextView
         android:id="@+id/btn_forgotpass"
@@ -107,10 +124,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/cb_9999"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/cb_rememberpass"
+        android:layout_width="333dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:button="@drawable/framecheckboxgo"
         android:fontFamily="@font/raleway_bold"
 
@@ -120,33 +137,18 @@
         android:textColor="#FFFFFF"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.302"
+        app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="335dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="196dp"
-        android:background="@drawable/frameplaintext"
-        android:ems="10"
-        android:fontFamily="@font/raleway_bold"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        android:paddingLeft="24dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view2" />
+
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="89dp"
         android:layout_height="91dp"
         android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_username"
+        app:layout_constraintBottom_toTopOf="@+id/et_emailLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/key2" />

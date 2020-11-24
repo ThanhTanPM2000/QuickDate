@@ -1,25 +1,19 @@
 package com.example.quickdate.Models;
 
 public class Users {
-    private String id;
     private String username;
-    private String imageUrl;
-
-    public Users(String id, String username, String imageUrl) {
-        this.id = id;
-        this.username = username;
-        this.imageUrl = imageUrl;
-    }
+    private String email;
+    private String phone;
+    private String imgAvt;
 
     public Users() {
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Users(String username, String email, String phone, String imgAvt) {
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.imgAvt = imgAvt;
     }
 
     public String getUsername() {
@@ -30,11 +24,27 @@ public class Users {
         this.username = username;
     }
 
-    public String getImageURL() {
-        return imageUrl;
+    public String getEmail() {
+        return email;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageUrl = imageURL;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getImgAvt() {
+        return imgAvt;
+    }
+
+    public void setImgAvt(String imgAvt) {
+        this.imgAvt = imgAvt;
     }
 }
