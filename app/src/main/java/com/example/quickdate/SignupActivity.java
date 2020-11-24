@@ -146,8 +146,8 @@ public class SignupActivity extends AppCompatActivity {
 
     // using Regex Expression to check gmail and phone
     public Boolean Regex(String regexStr, String str_editText){
-         Pattern pattern = Pattern.compile(regexStr);
-         Matcher matcher = pattern.matcher(str_editText);
+        Pattern pattern = Pattern.compile(regexStr);
+        Matcher matcher = pattern.matcher(str_editText);
         return !matcher.find();
     }
 }
