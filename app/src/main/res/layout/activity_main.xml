@@ -72,18 +72,17 @@
             android:gravity="center_horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login_splashAct"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
-                android:background="@drawable/shape_circle_white"
+                android:background="@drawable/img_btnkey"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_key"
-                android:paddingLeft="@dimen/_26sdp"/>
+                android:layout_gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="@string/login"
                 android:fontFamily="@font/raleway_semibold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14ssp"
@@ -93,23 +92,22 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginStart="@dimen/_80sdp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_signUp_splashAct"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
-                android:background="@drawable/shape_circle_white"
+                android:background="@drawable/img_btnaddpeople"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_addpeople"
-                android:paddingLeft="@dimen/_26sdp"/>
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign up"
+                android:text="@string/sign_up"
                 android:fontFamily="@font/raleway_semibold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14ssp"

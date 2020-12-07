@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">QuickDate</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="facebook_app_id">406448243845355</string>
+    <string name="fb_login_protocol_scheme">fb406448243845355</string>
 </resources>

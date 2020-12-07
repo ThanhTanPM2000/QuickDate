@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "185359108651",
+    "firebase_url": "https://quickdate-c927e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "quickdate-c927e",
+    "storage_bucket": "quickdate-c927e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185359108651:android:61d53090260cbe1c58f86e",
+        "android_client_info": {
+          "package_name": "com.example.quickdate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185359108651-e60h23p87o6ak4d72gl3nb8hs94jl440.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHlrf4UcJ0ncuP3kRXwnP-NDYGWlQ80AU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185359108651-e60h23p87o6ak4d72gl3nb8hs94jl440.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
