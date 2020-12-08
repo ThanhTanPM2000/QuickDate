@@ -65,14 +65,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }else{
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     private void findViewById() {
@@ -120,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btnSignUp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(), SignUpAct.class));
+                finish();
             }
         });
     }
@@ -151,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("fb login status", "FB error: " + error.getMessage());
                         Toast.makeText(MainActivity.this, "Error.",
                                 Toast.LENGTH_SHORT).show();
-
                     }
                 });
             }
@@ -192,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
                                 data.put("min_weight", 40);
                                 data.put("max_weight", 80);
                                 data.put("interest", "");
-                                databaseReference.setValue("Hello, World");
 
                                 databaseReference.setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -225,6 +219,4 @@ public class MainActivity extends AppCompatActivity {
         // Pass the activity result back to the Facebook SDK
         fbCallBackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }

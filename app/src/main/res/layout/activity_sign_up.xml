@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/color_gradient"
-    android:layout_gravity="center_vertical"
-    tools:context=".LoginAct">
+    tools:context=".SignUpAct">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_login"
@@ -32,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/raleway_semibold"
-            android:text="@string/login"
+            android:text="@string/sign_up"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,8 +43,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/form_login"
-        android:layout_width="378dp"
-        android:layout_height="395dp"
+        android:layout_width="375dp"
+        android:layout_height="503dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/img_background_form_shadow"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,27 +53,28 @@
 
 
         <EditText
-            android:id="@+id/et_mail_Login"
+            android:id="@+id/et_register_name"
             android:layout_width="335dp"
             android:layout_height="52dp"
             android:layout_marginTop="100dp"
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
-            android:hint="Your Email"
+            android:hint="Full name"
             android:inputType="textPersonName"
-            android:paddingLeft="24dp"
+            android:paddingStart="@dimen/_24sdp"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_register_password"
             android:layout_width="335dp"
             android:layout_height="52dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
@@ -85,27 +85,42 @@
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_mail_Login" />
+            app:layout_constraintTop_toBottomOf="@+id/et_register_name" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cb_rememberpass"
-            android:layout_width="333dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:button="@drawable/shape_checkbox"
-            android:fontFamily="@font/raleway_bold"
-            android:text="   Remember this account"
+        <EditText
+            android:id="@+id/et_register_mail"
+            android:layout_width="335dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_plaintext"
+            android:ems="10"
+            android:fontFamily="@font/montserrat_semibold"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="24dp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_12ssp"
+            android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+            app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
+
+        <Spinner
+            android:id="@+id/spinner_provincial"
+            android:layout_width="238dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_spinner"
+            android:paddingLeft="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.145"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_register_mail" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_submit_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/img_btn_submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +128,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cb_rememberpass"
             app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_agree"
+            android:layout_width="325dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="16dp"
+            android:button="@drawable/shape_checkbox"
+            android:fontFamily="@font/raleway_bold"
+            android:text="      Agree to terms and Conditions"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_provincial" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -127,50 +156,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/btn_Signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/raleway_bold"
-        android:text="Sign up"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:drawableLeftCompat="@drawable/ic_addpeople"
-        app:drawableTint="#BFFFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-    <TextView
-        android:id="@+id/btn_forgotpass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/raleway_bold"
-        android:text="Forgot Password?"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:drawableLeftCompat="@drawable/ic_key"
-        app:drawableTint="#BFFFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_login" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="319dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="28dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_forgotpass" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
