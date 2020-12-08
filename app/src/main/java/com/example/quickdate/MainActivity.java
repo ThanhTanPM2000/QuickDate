@@ -54,11 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-        findViewById();
-        changeColorComponents();
-        setupFirebase();
+        initialization();
         doFunctionInAct();
     }
 
@@ -70,12 +66,15 @@ public class MainActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
-    private void findViewById() {
+    private void initialization() {
         tv_quick = (TextView) findViewById(R.id.tv_quick);
         tv_date = (TextView) findViewById(R.id.tv_date);
         btnFacebook = (Button) findViewById(R.id.btn_facebookLogin);
         btnLogin = (Button) findViewById(R.id.btn_login_splashAct);
         btnSignUp = (Button) findViewById(R.id.btn_signUp_splashAct);
+        auth = FirebaseAuth.getInstance();
+
+        changeColorComponents();
     }
 
     private void changeColorComponents() {
@@ -91,34 +90,10 @@ public class MainActivity extends AppCompatActivity {
         tv_date.getPaint().setShader(textShader);
     }
 
-    private void setupFirebase() {
-        auth = FirebaseAuth.getInstance();
-    }
-
     private void doFunctionInAct() {
         facebookLogin();
-        login();
-        signUp();
-    }
-
-    private void login() {
-        PushDownAnim.setPushDownAnimTo(btnLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginAct.class));
-                finish();
-            }
-        });
-    }
-
-    private void signUp() {
-        PushDownAnim.setPushDownAnimTo(btnSignUp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SignUpAct.class));
-                finish();
-            }
-        });
+        callActLogin();
+        callActSignUp();
     }
 
     private void facebookLogin() {
@@ -195,11 +170,6 @@ public class MainActivity extends AppCompatActivity {
                                             startActivity(new Intent(getApplicationContext(), LoginAct.class));
                                             finish();
                                         }
-                                        else
-                                        {
-                                            Toast.makeText(MainActivity.this, "Cant add data",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
                                     }
                                 });
                             }
@@ -210,6 +180,26 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void callActLogin() {
+        PushDownAnim.setPushDownAnimTo(btnLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginAct.class));
+                finish();
+            }
+        });
+    }
+
+    private void callActSignUp() {
+        PushDownAnim.setPushDownAnimTo(btnSignUp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SignUpAct.class));
+                finish();
+            }
+        });
     }
 
     @Override

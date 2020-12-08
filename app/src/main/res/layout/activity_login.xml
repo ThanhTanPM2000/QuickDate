@@ -19,7 +19,7 @@
         android:paddingStart="@dimen/_10sdp">
 
         <ImageView
-            android:id="@+id/btn_backAct_login"
+            android:id="@+id/iv_backAct_loginAct"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_17sdp"
             android:src="@drawable/ic_backarrow"
@@ -88,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/et_mail_Login" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cb_rememberpass"
+            android:id="@+id/cb_rememberpass_loginAct"
             android:layout_width="333dp"
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cb_rememberpass"
+            app:layout_constraintTop_toBottomOf="@+id/cb_rememberpass_loginAct"
             app:layout_constraintVertical_bias="1.0" />
 
 
@@ -129,7 +129,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/btn_Signup"
+        android:id="@+id/tv_Signup_loginAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:id="@+id/btn_forgotpass"
+        android:id="@+id/tv_forgotPass_loginAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -170,7 +170,7 @@
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_forgotpass" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgotPass_loginAct" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
