@@ -108,7 +108,7 @@ public class SignUpAct extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
                                                     Toast.makeText(getApplicationContext(), "Register Successfully", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(getBaseContext(), LoginAct.class));
+                                                    startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
                                                     finish();
                                                 }
                                             }

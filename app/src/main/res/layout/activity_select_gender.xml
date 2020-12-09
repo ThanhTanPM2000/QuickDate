@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/raleway_semibold"
-            android:text="@string/login"
+            android:text="Select gender"
             android:textColor="?attr/textColor"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -63,47 +63,81 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.263" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_chooseMale"
-            android:layout_width="@dimen/_112sdp"
-            android:layout_height="@dimen/_112sdp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="220dp"
-            android:background="@drawable/img_male"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/isCheckedMale"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:visibility="invisible"
-                android:background="@drawable/img_btn2_submit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctl_chooseMale_selectGenderAct"
+                android:layout_width="@dimen/_112sdp"
+                android:layout_height="@dimen/_112sdp"
+                android:background="@drawable/img_male">
+
+                <ImageView
+                    android:id="@+id/iv_isCheckedMale_selectGenderAct"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:visibility="invisible"
+                    android:background="@drawable/img_btn2_submit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textSize="@dimen/_30ssp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/raleway_semibold"/>
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_chooseFemale"
-        android:layout_width="@dimen/_112sdp"
-        android:layout_height="@dimen/_112sdp"
-        android:layout_marginTop="136dp"
-        android:background="@drawable/img_female"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:layout_marginTop="136dp"
+        android:gravity="center_horizontal"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/isCheckedFemale"
-            android:layout_width="@dimen/_36sdp"
-            android:layout_height="@dimen/_36sdp"
-            android:background="@drawable/img_btn2_submit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_chooseFemale_selectGenderAct"
+            android:layout_width="@dimen/_112sdp"
+            android:layout_height="@dimen/_112sdp"
+            android:background="@drawable/img_female">
+
+            <ImageView
+                android:id="@+id/iv_isCheckedFemale_selectGenderAct"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:background="@drawable/img_btn2_submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textSize="@dimen/_30ssp"
+            android:textColor="?attr/textColor"
+            android:fontFamily="@font/raleway_semibold"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
