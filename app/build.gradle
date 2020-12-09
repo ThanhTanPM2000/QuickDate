@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.quickdate"
-        minSdkVersion 17
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -54,4 +54,9 @@ dependencies {
     compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
         exclude group: 'com.android.support'
     }
+
+    //RangeSeekBar
+    implementation 'it.sephiroth.android.library.rangeseekbar:rangeseekbar:1.1.0'
+
+
 }
