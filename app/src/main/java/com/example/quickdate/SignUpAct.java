@@ -3,10 +3,17 @@ package com.example.quickdate;
 import com.example.quickdate.action.regexString;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Annotation;
+import android.text.SpannableString;
+import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +47,7 @@ public class SignUpAct extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+    TextView tv_hyperLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,9 @@ public class SignUpAct extends AppCompatActivity {
 
         initialization();
         doFunctionInAct();
+
+        tv_hyperLink = (TextView) findViewById(R.id.tv_hyperLink);
+        tv_hyperLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void initialization(){
@@ -56,6 +69,7 @@ public class SignUpAct extends AppCompatActivity {
         btn_submit = (Button) findViewById(R.id.btn_submit_signUpAct);
         iv_backAct_signUpAct = (ImageView) findViewById(R.id.iv_backAct_signUpAct);
         cb_policy = (CheckBox) findViewById(R.id.cb_policy_signUpAct);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         setValueForSpinner();
@@ -64,6 +78,7 @@ public class SignUpAct extends AppCompatActivity {
     private void doFunctionInAct(){
         signUpFunction();
         callBackAct();
+        termLinkToRead();
     }
 
     private void signUpFunction(){
@@ -156,6 +171,10 @@ public class SignUpAct extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // Specify the layout to use when the list of choices appears
         sp_provincial.setAdapter(adapter); // Apply the adapter to the spinner
+    }
+
+    private void termLinkToRead(){
+
     }
 
     @Override

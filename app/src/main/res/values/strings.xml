@@ -7,6 +7,7 @@
     <string name="remember_this_account">Remember this account?</string>
     <string name="regexEmail">"^(([^&lt;&gt;()\\[\\]\\\\.,;:\\s@\"]+(\\.[^&lt;&gt;()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@(((gmail+\\.)+com))$"</string>
     <string name="regexPhoneNumber">"(09|01[2|6|8|9]|03)+([0-9]{8})\\b"</string>
+    <string name="read_our_term">Visit the <a href="https://github.com/ThanhTanPM2000/QuickDate">TermQuickDate</a></string>
     <string-array name="planets_array">
         <item>HCMC</item>
         <item>Ha Noi</item>

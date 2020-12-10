@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -48,9 +49,11 @@
         android:layout_height="503dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/img_background_form_shadow"
+        app:layout_constraintBottom_toTopOf="@+id/tv_hyperLink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_key">
+        app:layout_constraintTop_toTopOf="@+id/iv_key"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <EditText
@@ -58,6 +61,7 @@
             android:layout_width="335dp"
             android:layout_height="52dp"
             android:layout_marginTop="100dp"
+            android:autofillHints=""
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
@@ -68,8 +72,7 @@
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
@@ -77,6 +80,7 @@
             android:layout_width="335dp"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
@@ -87,14 +91,14 @@
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_register_name_signUpAct"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/et_register_name_signUpAct" />
 
         <EditText
             android:id="@+id/et_register_mail_signUpAct"
             android:layout_width="335dp"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
@@ -105,8 +109,7 @@
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_register_password_signUpAct"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/et_register_password_signUpAct" />
 
         <Spinner
             android:id="@+id/sp_provincial_signUpAct"
@@ -148,6 +151,19 @@
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_hyperLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/read_our_term"
+        android:layout_marginBottom="@dimen/_7ssp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/raleway_semibold"
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageView
         android:id="@+id/iv_key"
