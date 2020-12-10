@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".ForgotPasswordAct"></activity>
+        <activity android:name=".BioPhotosAct" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".SelectGenderAct" />
         <activity android:name=".SwiperAct" />
         <activity android:name=".SignUpAct" />

@@ -3,9 +3,11 @@ package com.example.quickdate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -17,6 +19,7 @@ public class TypeAct extends AppCompatActivity {
     RangeSeekBar rangeSeekBar_age, rangeSeekBar_height, rangeSeekBar_weight;
     Button btn_longTerm, btn_oneNight, btn_Settlement;
     TextView tv_age, tv_height, tv_weight;
+    ImageView iv_backAct, iv_submit_typeAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class TypeAct extends AppCompatActivity {
         tv_age = (TextView) findViewById(R.id.tv_value_age);
         tv_height = (TextView) findViewById(R.id.tv_value_height);
         tv_weight = (TextView) findViewById(R.id.tv_value_weight);
+        iv_backAct = (ImageView) findViewById(R.id.iv_backAct_typeAct);
+        iv_submit_typeAct = (ImageView) findViewById(R.id.iv_submit_typeAct);
     }
 
     private void doFunctionInAct(){
@@ -139,5 +144,19 @@ public class TypeAct extends AppCompatActivity {
                 btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term));
             }
         });
+    }
+
+    private void callBackAct(){
+        PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
+                finish();
+            }
+        });
+    }
+
+    private void callSubmitAct(){
+
     }
 }
