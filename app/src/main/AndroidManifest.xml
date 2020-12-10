@@ -11,14 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
-        <activity android:name=".ForgotPasswordAct"></activity>
+        <activity android:name=".TypeAct"></activity>
         <activity android:name=".BioPhotosAct" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SelectGenderAct" />
-        <activity android:name=".SwiperAct" />
+        <activity android:name=".SwipeAct" />
         <activity android:name=".SignUpAct" />
         <activity android:name=".LoginAct" />
-        <activity android:name=".TypeAct">
+        <activity android:name=".ForgotPasswordAct">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

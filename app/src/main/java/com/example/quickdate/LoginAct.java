@@ -1,5 +1,7 @@
 package com.example.quickdate;
 
+import com.example.quickdate.action.regexString;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,10 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -88,7 +86,7 @@ public class LoginAct extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(getBaseContext(), "Login successfully", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getBaseContext(), SwiperAct.class));
+                                        startActivity(new Intent(getBaseContext(), SwipeAct.class));
                                         finish();
                                     } else {
                                         Toast.makeText(getBaseContext(), "Authenticator failed!", Toast.LENGTH_SHORT).show();
@@ -106,7 +104,7 @@ public class LoginAct extends AppCompatActivity {
     private boolean isCheckDataInput(String emailCheck, String passWordCheck){
         if (TextUtils.isEmpty(emailCheck) && TextUtils.isEmpty(passWordCheck)) {
             Toast.makeText(getApplicationContext(), "All fields shouldn't empty", Toast.LENGTH_SHORT).show();
-        } else if (regexFunc(getString(R.string.regexEmail), emailCheck)) {
+        } else if (new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)) {
             Toast.makeText(getApplicationContext(), "Field Email invalid", Toast.LENGTH_SHORT).show();
         } else if (passWordCheck.length() < 8) {
             Toast.makeText(getApplicationContext(), "Email wasn't found or Password incorrect", Toast.LENGTH_SHORT).show();
@@ -129,7 +127,7 @@ public class LoginAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(tv_forgotPass).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SignUpAct.class));
+                startActivity(new Intent(getApplicationContext(), ForgotPasswordAct.class));
                 finish();
             }
         });
@@ -153,12 +151,6 @@ public class LoginAct extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private Boolean regexFunc(String str, String str2) {
-        Pattern pattern = Pattern.compile(str);
-        Matcher matcher = pattern.matcher(str2);
-        return !matcher.find();
     }
 
     @Override

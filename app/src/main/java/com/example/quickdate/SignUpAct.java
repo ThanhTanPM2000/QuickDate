@@ -1,12 +1,12 @@
 package com.example.quickdate;
 
+import com.example.quickdate.action.regexString;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,12 +14,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +27,6 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SignUpAct extends AppCompatActivity {
 
@@ -130,7 +125,7 @@ public class SignUpAct extends AppCompatActivity {
         if(TextUtils.isEmpty(nameCheck) && TextUtils.isEmpty(passWordCheck) && TextUtils.isEmpty(emailCheck)){
             Toast.makeText(getBaseContext(), "All fields should not empty", Toast.LENGTH_SHORT).show();
         }
-        else if(regexFunc(getString(R.string.regexEmail), emailCheck)){
+        else if(new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)){
             Toast.makeText(getApplicationContext(), "Field Email invalid", Toast.LENGTH_SHORT).show();
         }
         else if(nameCheck.length() <8){
@@ -161,12 +156,6 @@ public class SignUpAct extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // Specify the layout to use when the list of choices appears
         sp_provincial.setAdapter(adapter); // Apply the adapter to the spinner
-    }
-
-    private Boolean regexFunc(String str, String str2) {
-        Pattern pattern = Pattern.compile(str);
-        Matcher matcher = pattern.matcher(str2);
-        return !matcher.find();
     }
 
     @Override

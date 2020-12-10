@@ -159,4 +159,12 @@ public class TypeAct extends AppCompatActivity {
     private void callSubmitAct(){
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
 }
