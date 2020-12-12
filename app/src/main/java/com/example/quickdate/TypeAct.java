@@ -49,6 +49,7 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBarHeightFunction();
         rangeSeekBarWeightFunction();
         lookingForFunction();
+        callBackAct();
     }
 
     private void rangeSeekBarAgeFunction(){

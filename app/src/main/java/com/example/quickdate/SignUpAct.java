@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class SignUpAct extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
     TextView tv_hyperLink;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class SignUpAct extends AppCompatActivity {
         btn_submit = (Button) findViewById(R.id.btn_submit_signUpAct);
         iv_backAct_signUpAct = (ImageView) findViewById(R.id.iv_backAct_signUpAct);
         cb_policy = (CheckBox) findViewById(R.id.cb_policy_signUpAct);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
 
         setValueForSpinner();
@@ -89,42 +91,45 @@ public class SignUpAct extends AppCompatActivity {
                         String str_username = et_name.getText().toString();
                         String str_password = et_passWord.getText().toString();
                         String str_email = et_email.getText().toString();
-
+                        progressBar.setVisibility(View.VISIBLE);
                         if(isCheckDataInput(str_username, str_password, str_email)){
                             firebaseAuth.createUserWithEmailAndPassword(str_email, str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isComplete()){
+                                        progressBar.setVisibility(View.GONE);
                                         firebaseUser = firebaseAuth.getCurrentUser();
                                         assert firebaseUser != null : "cant find user";
-                                        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                                        databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ firebaseUser.getUid());
 
                                         Map<String, Object> data = new HashMap<>();
+                                        data.put("status", 0);
                                         data.put("username", str_username);
                                         data.put("email", str_email);
                                         data.put("imgAvt", "default");
                                         data.put("provincial", sp_provincial.getSelectedItem().toString());  // get value item from spinner
-                                        data.put("gender", "male");
-                                        data.put("type_gender", "male");
-                                        data.put("min_age", 18);
-                                        data.put("max_age", 40);
-                                        data.put("min_height", 150);
-                                        data.put("max_height", 200);
-                                        data.put("min_weight", 40);
-                                        data.put("max_weight", 80);
 
                                         databaseReference.setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "Register Successfully", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
-                                                    finish();
+                                                    firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()){
+                                                                Toast.makeText(getApplicationContext(), "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
+                                                                startActivity(new Intent(getApplicationContext(), LoginAct.class));
+                                                                finish();
+                                                            }else{
+                                                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
                                                 }
                                             }
                                         });
                                     }else{
-                                        Toast.makeText(getApplicationContext(), "this email was register", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

@@ -1,5 +1,6 @@
 package com.example.quickdate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 ;
@@ -7,16 +8,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.example.quickdate.action.deleteUser;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class SelectGenderAct extends AppCompatActivity {
 
-    ConstraintLayout ctl_male, ctl_female;
-    ImageView iv_backAct, iv_isCheckedFemale, iv_isCheckedMale;
-    FirebaseAuth firebaseAuth;
+    private ConstraintLayout ctl_male, ctl_female;
+    private ImageView iv_backAct, iv_isCheckedFemale, iv_isCheckedMale, iv_submit;
+    private FirebaseAuth firebaseAuth;
+    private int gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +41,21 @@ public class SelectGenderAct extends AppCompatActivity {
         iv_backAct = (ImageView) findViewById(R.id.iv_backAct_selectGenderAct);
         iv_isCheckedFemale = (ImageView) findViewById(R.id.iv_isCheckedFemale_selectGenderAct);
         iv_isCheckedMale = (ImageView) findViewById(R.id.iv_isCheckedMale_selectGenderAct);
-
+        iv_submit = (ImageView) findViewById(R.id.iv_submit_selectGender);
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
     private void doFunctionInAct(){
         chooseGender();
         callBackAct();
+        submitDataFunction();
     }
 
     private void chooseGender(){
         PushDownAnim.setPushDownAnimTo(ctl_female).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gender = 0;
                 iv_isCheckedFemale.setVisibility(View.VISIBLE);
                 iv_isCheckedMale.setVisibility(View.GONE);
             }
@@ -54,6 +64,7 @@ public class SelectGenderAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(ctl_male).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gender =1;
                 iv_isCheckedFemale.setVisibility(View.GONE);
                 iv_isCheckedMale.setVisibility(View.VISIBLE);
             }
@@ -67,6 +78,27 @@ public class SelectGenderAct extends AppCompatActivity {
                 new deleteUser(firebaseAuth.getCurrentUser());
                 startActivity(new Intent(getApplicationContext(), SignUpAct.class));
                 finish();
+            }
+        });
+    }
+
+    private void submitDataFunction(){
+        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
+                db.child("gender").setValue(gender).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            startActivity(new Intent(getApplicationContext(), TypeAct.class));
+                            finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
             }
         });
     }

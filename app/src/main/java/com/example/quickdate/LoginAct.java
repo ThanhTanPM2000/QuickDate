@@ -15,14 +15,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class LoginAct extends AppCompatActivity {
@@ -33,6 +41,7 @@ public class LoginAct extends AppCompatActivity {
     CheckBox cb_rememberPass;
     FirebaseAuth firebaseAuth;
     ImageView iv_backAct;
+    ProgressBar progressBar;
 
     private static final String remember = "vidslogin";
     private static final String emailRemember = "email";
@@ -56,6 +65,7 @@ public class LoginAct extends AppCompatActivity {
         tv_signUp = (TextView) findViewById(R.id.tv_Signup_loginAct);
         cb_rememberPass = (CheckBox) findViewById(R.id.cb_rememberpass_loginAct);
         iv_backAct = (ImageView) findViewById(R.id.iv_backAct_loginAct);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         firebaseAuth = FirebaseAuth.getInstance();
 
         SharedPreferences loginPreferences = getSharedPreferences(remember,
@@ -79,23 +89,42 @@ public class LoginAct extends AppCompatActivity {
                     public void onClick(View view) {
                         String str_email = et_email.getText().toString().trim();
                         String str_password = et_password.getText().toString().trim();
+                        progressBar.setVisibility(View.VISIBLE);
                         if(isCheckDataInput(str_email, str_password)){
                             isRememberPasswordFunction(str_email, str_password);
                             firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(getBaseContext(), "Login successfully", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getBaseContext(), SwipeAct.class));
-                                        finish();
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        if(user.isEmailVerified()){
+                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + user.getUid());
+                                            db.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    User u = snapshot.getValue(User.class);
+                                                    if(u.getStatus() == 0){
+                                                        startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
+                                                    }else{
+                                                        startActivity(new Intent(getApplicationContext(), SwipeAct.class));
+                                                    }
+                                                    finish();
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    System.out.println("The read failed: " + error.getCode());
+                                                }
+                                            });
+                                        }else{
+                                            Toast.makeText(getBaseContext(), "Please verification your email for login", Toast.LENGTH_LONG).show();
+
+                                        }
                                     } else {
-                                        Toast.makeText(getBaseContext(), "Authenticator failed!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),"Sign in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
