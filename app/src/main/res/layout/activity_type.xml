@@ -100,7 +100,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:max="40"
+        android:max="42"
         app:range_progress_endValue="10"
         app:range_progress_startEnd_minDiff="1"
         app:range_progress_startValue="0"
@@ -223,7 +223,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="100dp"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">

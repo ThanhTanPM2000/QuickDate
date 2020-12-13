@@ -16,6 +16,6 @@
         <item name="buttonTabLayoutSelect">#DADADA</item>
         <item name="tintColor">@color/black</item>
         <item name="colorTabLayout">@color/white</item>
-        <item name="colorDayNightMode">#DADADA</item>
+        <item name="colorDayNightMode">#F2F2F2</item>
     </style>
 </resources>

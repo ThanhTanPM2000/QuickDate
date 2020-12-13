@@ -1,5 +1,7 @@
 package com.example.quickdate.model;
 
+import java.util.ArrayList;
+
 public class User {
     private int status;
     private String username;
@@ -15,6 +17,15 @@ public class User {
     private int max_height;
     private int min_weight;
     private int max_weight;
+    private ArrayList<String> image;
+
+    public ArrayList<String> getImage() {
+        return image;
+    }
+
+    public void setImage(ArrayList<String> image) {
+        this.image = image;
+    }
 
     public int getStatus() {
         return status;

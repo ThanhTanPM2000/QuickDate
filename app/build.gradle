@@ -58,5 +58,13 @@ dependencies {
     //RangeSeekBar
     implementation 'it.sephiroth.android.library.rangeseekbar:rangeseekbar:1.1.0'
 
+    //Number slider picker
+    implementation 'com.github.sephiroth74:NumberSlidingPicker:v.1.1.1'
+
+    //Rounded image View
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }
