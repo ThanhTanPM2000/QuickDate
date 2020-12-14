@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickdate.model.LookingFor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,13 +33,7 @@ public class TypeAct extends AppCompatActivity {
     private ImageView iv_backAct, iv_submit;
     private HashMap<String, Object> map;
     private FirebaseAuth firebaseAuth;
-    private int lookingFor;
-    private int minAge;
-    private int maxAge;
-    private float minHeight;
-    private float maxHeight;
-    private int minWeight;
-    private int maxWeight;
+    LookingFor lookingFor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +57,7 @@ public class TypeAct extends AppCompatActivity {
         iv_backAct = (ImageView) findViewById(R.id.iv_backAct_typeAct);
         iv_submit = (ImageView) findViewById(R.id.iv_submit_typeAct);
 
-        minAge = 18;
-        maxAge = 38;
-        minHeight = 1.6f;
-        maxHeight = 1.75f;
-        minWeight = 55;
-        maxWeight = 65;
+        lookingFor = new LookingFor();
 
         firebaseAuth = FirebaseAuth.getInstance();
         map = new HashMap<>();
@@ -86,9 +76,9 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBar_age.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
-                minAge = 18 + rangeSeekBar.getProgressStart();
-                maxAge = 18 + rangeSeekBar.getProgressEnd();
-                String strValue = minAge + "-" + maxAge;
+                lookingFor.setMin_age(18 + rangeSeekBar.getProgressStart());
+                lookingFor.setMax_age(18 + rangeSeekBar.getProgressEnd());
+                String strValue = lookingFor.getMin_age() + "-" + lookingFor.getMax_age();
                 tv_age.setText(strValue);
             }
 
@@ -108,9 +98,9 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBar_height.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
-                minHeight = (float) (100 + rangeSeekBar.getProgressStart()) /100;
-                maxHeight = (float) (100 + rangeSeekBar.getProgressEnd()) /100;
-                String strValue = minHeight + "-" + maxHeight + "m";
+                lookingFor.setMin_height(100 + rangeSeekBar.getProgressStart());
+                lookingFor.setMax_height(100 + rangeSeekBar.getProgressEnd());
+                String strValue = lookingFor.getMin_height() + "-" + lookingFor.getMax_height() + "cm";
                 tv_height.setText(strValue);
             }
 
@@ -130,9 +120,9 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBar_weight.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
-                minWeight = 40 + rangeSeekBar.getProgressStart();
-                maxWeight = 40 + rangeSeekBar.getProgressEnd();
-                String strValue = minWeight + "-" + maxWeight + "kg";
+                lookingFor.setMin_weight(40 + rangeSeekBar.getProgressStart());
+                lookingFor.setMax_weight(40 + rangeSeekBar.getProgressEnd());
+                String strValue = lookingFor.getMin_weight() + "-" + lookingFor.getMax_weight() + "kg";
                 tv_weight.setText(strValue);
             }
 
@@ -152,6 +142,7 @@ public class TypeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btn_oneNight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lookingFor.setLooking(0);
                 btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night_select));
                 btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term));
                 btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement));
@@ -161,6 +152,7 @@ public class TypeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btn_longTerm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lookingFor.setLooking(1);
                 btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term_select));
                 btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night));
                 btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement));
@@ -170,6 +162,7 @@ public class TypeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btn_Settlement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lookingFor.setLooking(2);
                 btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement_select));
                 btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night));
                 btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term));
@@ -181,7 +174,7 @@ public class TypeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
+                startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
                 finish();
             }
         });
@@ -191,19 +184,13 @@ public class TypeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                map.put("min_Age", minAge);
-                map.put("max_Age", maxAge);
-                map.put("min_height", minHeight);
-                map.put("max_height", maxHeight);
-                map.put("min_weight", minWeight);
-                map.put("max_weight", maxWeight);
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
-                db.child("type").setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                db.child("lookingFor").setValue(lookingFor).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(), SwipeAct.class));
                             finish();
+                            startActivity(new Intent(getApplicationContext(), SwipeAct.class));
                         }
                         else{
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();

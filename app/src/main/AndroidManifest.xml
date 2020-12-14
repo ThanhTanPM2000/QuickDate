@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
         <activity android:name=".TypeAct"/>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".BioPhotosAct" />
         <activity android:name=".SignUpAct" />
         <activity android:name=".SelectGenderAct" />
         <activity android:name=".SwipeAct" />
         <activity android:name=".ForgotPasswordAct" />
         <activity android:name=".LoginAct" />
-        <activity android:name=".BioPhotosAct">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

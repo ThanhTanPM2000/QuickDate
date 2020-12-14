@@ -25,6 +25,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickdate.model.Info;
+import com.example.quickdate.model.LookingFor;
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,7 +43,7 @@ import java.util.Map;
 
 public class SignUpAct extends AppCompatActivity {
 
-    EditText et_name, et_passWord, et_email;
+    EditText et_passWord, et_email;
     Spinner sp_provincial;
     Button btn_submit;
     ImageView iv_backAct_signUpAct;
@@ -64,7 +67,6 @@ public class SignUpAct extends AppCompatActivity {
     }
 
     private void initialization(){
-        et_name = (EditText) findViewById(R.id.et_register_name_signUpAct);
         et_passWord = (EditText) findViewById(R.id.et_register_password_signUpAct);
         et_email = (EditText) findViewById(R.id.et_register_mail_signUpAct);
         sp_provincial = (Spinner) findViewById(R.id.sp_provincial_signUpAct);
@@ -88,11 +90,10 @@ public class SignUpAct extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String str_username = et_name.getText().toString();
                         String str_password = et_passWord.getText().toString();
                         String str_email = et_email.getText().toString();
                         progressBar.setVisibility(View.VISIBLE);
-                        if(isCheckDataInput(str_username, str_password, str_email)){
+                        if(isCheckDataInput(str_password, str_email)){
                             firebaseAuth.createUserWithEmailAndPassword(str_email, str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -102,14 +103,9 @@ public class SignUpAct extends AppCompatActivity {
                                         assert firebaseUser != null : "cant find user";
                                         databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ firebaseUser.getUid());
 
-                                        Map<String, Object> data = new HashMap<>();
-                                        data.put("status", 0);
-                                        data.put("username", str_username);
-                                        data.put("email", str_email);
-                                        data.put("imgAvt", "default");
-                                        data.put("provincial", sp_provincial.getSelectedItem().toString());  // get value item from spinner
+                                        User user = new User( firebaseUser.getUid(), str_email, 0, sp_provincial.getSelectedItem().toString(), new LookingFor(), new Info());
 
-                                        databaseReference.setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
@@ -141,15 +137,12 @@ public class SignUpAct extends AppCompatActivity {
                 });
     }
 
-    private boolean isCheckDataInput(String nameCheck, String passWordCheck, String emailCheck){
-        if(TextUtils.isEmpty(nameCheck) && TextUtils.isEmpty(passWordCheck) && TextUtils.isEmpty(emailCheck)){
+    private boolean isCheckDataInput(String passWordCheck, String emailCheck){
+        if(TextUtils.isEmpty(passWordCheck) && TextUtils.isEmpty(emailCheck)){
             Toast.makeText(getBaseContext(), "All fields should not empty", Toast.LENGTH_SHORT).show();
         }
         else if(new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)){
             Toast.makeText(getApplicationContext(), "Field Email invalid", Toast.LENGTH_SHORT).show();
-        }
-        else if(nameCheck.length() <8){
-            Toast.makeText(getApplicationContext(), "Field Username must at least 8 characters", Toast.LENGTH_SHORT).show();
         }
         else if(passWordCheck.length() <8){
             Toast.makeText(getApplicationContext(), "Field Password must be at least 8 characters", Toast.LENGTH_SHORT).show();

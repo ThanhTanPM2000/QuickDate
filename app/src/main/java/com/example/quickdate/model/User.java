@@ -1,54 +1,27 @@
 package com.example.quickdate.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
-    private int status;
-    private String username;
-    private String password;
+    private String idUser;
     private String email;
-    private String imgAvt;
+    private int status;
     private String provincial;
-    private int gender;
-    private int looking_for;
-    private int min_age;
-    private int max_age;
-    private int min_height;
-    private int max_height;
-    private int min_weight;
-    private int max_weight;
-    private ArrayList<String> image;
+    private LookingFor lookingFor;
+    private Info info;
 
-    public ArrayList<String> getImage() {
-        return image;
+    public User(){
+
     }
 
-    public void setImage(ArrayList<String> image) {
-        this.image = image;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
+    public User(String idUser, String email, int status, String provincial, LookingFor lookingFor, Info info){
+        this.idUser = idUser;
+        this.email = email;
         this.status = status;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        this.provincial = provincial;
+        this.lookingFor = lookingFor;
+        this.info = info;
     }
 
     public String getEmail() {
@@ -59,12 +32,12 @@ public class User {
         this.email = email;
     }
 
-    public String getImgAvt() {
-        return imgAvt;
+    public int getStatus() {
+        return status;
     }
 
-    public void setImgAvt(String imgAvt) {
-        this.imgAvt = imgAvt;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getProvincial() {
@@ -75,67 +48,29 @@ public class User {
         this.provincial = provincial;
     }
 
-    public int getGender() {
-        return gender;
+    public LookingFor getLookingFor() {
+        return lookingFor;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setLookingFor(LookingFor lookingFor) {
+        this.lookingFor = lookingFor;
     }
 
-    public int getLooking_for() {
-        return looking_for;
+    public Info getInfo() {
+        return info;
     }
 
-    public void setLooking_for(int looking_for) {
-        this.looking_for = looking_for;
+    public void setInfo(Info info) {
+        this.info = info;
     }
 
-    public int getMin_age() {
-        return min_age;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setMin_age(int min_age) {
-        this.min_age = min_age;
-    }
-
-    public int getMax_age() {
-        return max_age;
-    }
-
-    public void setMax_age(int max_age) {
-        this.max_age = max_age;
-    }
-
-    public int getMin_height() {
-        return min_height;
-    }
-
-    public void setMin_height(int min_height) {
-        this.min_height = min_height;
-    }
-
-    public int getMax_height() {
-        return max_height;
-    }
-
-    public void setMax_height(int max_height) {
-        this.max_height = max_height;
-    }
-
-    public int getMin_weight() {
-        return min_weight;
-    }
-
-    public void setMin_weight(int min_weight) {
-        this.min_weight = min_weight;
-    }
-
-    public int getMax_weight() {
-        return max_weight;
-    }
-
-    public void setMax_weight(int max_weight) {
-        this.max_weight = max_weight;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }
+
+

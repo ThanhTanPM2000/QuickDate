@@ -104,6 +104,7 @@ public class LoginAct extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     User u = snapshot.getValue(User.class);
+                                                    assert u != null : "Cant find user";
                                                     if(u.getStatus() == 0){
                                                         startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
                                                     }else{

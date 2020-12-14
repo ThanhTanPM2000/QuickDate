@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.quickdate.action.deleteUser;
 
+import com.example.quickdate.model.Info;
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +26,7 @@ public class SelectGenderAct extends AppCompatActivity {
     private ConstraintLayout ctl_male, ctl_female;
     private ImageView iv_backAct, iv_isCheckedFemale, iv_isCheckedMale, iv_submit;
     private FirebaseAuth firebaseAuth;
-    private int gender;
+    private Info info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class SelectGenderAct extends AppCompatActivity {
         iv_isCheckedMale = (ImageView) findViewById(R.id.iv_isCheckedMale_selectGenderAct);
         iv_submit = (ImageView) findViewById(R.id.iv_submit_selectGender);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        info = new Info();
     }
 
     private void doFunctionInAct(){
@@ -55,7 +59,7 @@ public class SelectGenderAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(ctl_female).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gender = 0;
+                info.setMale(false);
                 iv_isCheckedFemale.setVisibility(View.VISIBLE);
                 iv_isCheckedMale.setVisibility(View.GONE);
             }
@@ -64,7 +68,7 @@ public class SelectGenderAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(ctl_male).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gender =1;
+                info.setMale(true);
                 iv_isCheckedFemale.setVisibility(View.GONE);
                 iv_isCheckedMale.setVisibility(View.VISIBLE);
             }
@@ -87,11 +91,11 @@ public class SelectGenderAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
-                db.child("gender").setValue(gender).addOnCompleteListener(new OnCompleteListener<Void>() {
+                db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(), TypeAct.class));
+                            startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
                             finish();
                         }else{
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
