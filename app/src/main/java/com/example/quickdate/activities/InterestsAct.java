@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class InterestsAct extends AppCompatActivity implements InterestsListener {
     private InterestsAdapter interestsAdapter;
@@ -95,7 +94,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
     }
 
     private void callBackAct(){
-        startActivity(new Intent(getApplicationContext(), DoneActivity.class));
+        startActivity(new Intent(getApplicationContext(), DoneAct.class));
         finish();
     }
 

@@ -6,4 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".activities.SwipeAct">
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>

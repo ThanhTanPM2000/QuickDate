@@ -67,4 +67,8 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Swipe
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+
 }

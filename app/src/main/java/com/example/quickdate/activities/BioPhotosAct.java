@@ -49,8 +49,7 @@ import java.util.Objects;
 public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
 
     private ConstraintLayout contraintLayout_snakebar;
-    private ImageRegisterAdapter imageRegisterAdapter;
-    private HashMap<String, String> imagesURI = new HashMap<>();
+    private final HashMap<String, String> imagesURI = new HashMap<>();
     private RecyclerView recyclerView;
     private String localFileUri;
     private ImageView iv_uploadImage, iv_submit, iv_backAct;
@@ -61,7 +60,8 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
     private FirebaseUser firebaseUser;
     private ArrayList<String> index;
     private Info info;
-    UploadTask uploadTask;
+    private UploadTask uploadTask;
+    private View parentLayout;
     private it.sephiroth.android.library.numberpicker.NumberPicker numberPicker_age, numberPicker_height, numberPicker_weight;
 
 
@@ -81,7 +81,7 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                    Snackbar.make(contraintLayout_snakebar, "Upload " + progress +"%", 5000).setAction("Undo", new View.OnClickListener() {
+                    Snackbar.make(parentLayout, "Upload " + progress +"%", 5000).setAction("Undo", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             uploadTask.cancel();
@@ -98,12 +98,13 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     saveDataToRealTimeDatabaseFunc();
-                    Snackbar.make(contraintLayout_snakebar, "Successfully", 2000).show();
+                    //Snackbar.make(contraintLayout_snakebar, "Successfully", 2000).show();
+                    Snackbar.make(parentLayout, "Successfully", BaseTransientBottomBar.LENGTH_LONG).show();
                 }
             }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                    Snackbar.make(contraintLayout_snakebar, "Paused", 2000).show();
+                    Snackbar.make(parentLayout, "Paused", 2000).show();
                 }
             });
         }
@@ -131,6 +132,7 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        parentLayout = findViewById(R.id.content);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseUser.getUid());
     }
@@ -229,7 +231,7 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
     }
 
     private void addDataToRecyclerViewFunc(){
-        imageRegisterAdapter = new ImageRegisterAdapter(imagesURI, this);
+        ImageRegisterAdapter imageRegisterAdapter = new ImageRegisterAdapter(imagesURI, this);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
 
         recyclerView.setHasFixedSize(true);
