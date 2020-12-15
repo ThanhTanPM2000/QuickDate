@@ -1,0 +1,87 @@
+package com.example.quickdate.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quickdate.R;
+import com.example.quickdate.listener.InterestsListener;
+import com.example.quickdate.model.Interest;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
+
+public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.ViewHolder> {
+
+    private final ArrayList<Interest> Interests;
+    private static InterestsListener interestsListener;
+
+    public InterestsAdapter(ArrayList<Interest> interests, InterestsListener interestsListener){
+        this.Interests = interests;
+        InterestsAdapter.interestsListener = interestsListener;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        View view = inflater.inflate(R.layout.layout_container_interests, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.tv_interestName.setText(Interests.get(position).getName());
+        holder.roundedImageView.setImageResource(Interests.get(position).getImageID());
+        holder.bindStatusInterest(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return Interests.size();
+    }
+
+
+    static class  ViewHolder extends RecyclerView.ViewHolder{
+        View view;
+        RoundedImageView roundedImageView;
+        TextView tv_interestName;
+        ImageView iv_status;
+        CheckBox checkBox;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.view = itemView;
+
+            roundedImageView = (RoundedImageView) view.findViewById(R.id.roundedImageView_interestsAct);
+            tv_interestName = (TextView) view.findViewById(R.id.tv_interestAct);
+            iv_status = (ImageView) view.findViewById(R.id.iv_checked_containerInterest);
+            checkBox = (CheckBox) view.findViewById(R.id.checkBox_interestsAct);
+        }
+
+        public void bindStatusInterest(int position){
+            PushDownAnim.setPushDownAnimTo(roundedImageView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkBox.setChecked(!checkBox.isChecked());
+                    if(checkBox.isChecked()){
+                        iv_status.setVisibility(View.VISIBLE);
+                    }else{
+                        iv_status.setVisibility(View.GONE);
+                    }
+                    interestsListener.onInterestsClicked(position, checkBox.isChecked());
+                }
+            });
+        }
+    }
+}
