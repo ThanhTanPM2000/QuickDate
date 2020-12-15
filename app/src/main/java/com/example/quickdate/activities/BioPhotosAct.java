@@ -1,4 +1,4 @@
-package com.example.quickdate;
+package com.example.quickdate.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,19 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickdate.R;
 import com.example.quickdate.adapter.ImageRegisterAdapter;
 import com.example.quickdate.listener.ImagesListener;
 import com.example.quickdate.model.Info;
@@ -39,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
@@ -47,12 +42,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-
-import kotlin.Metadata;
 
 public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
 
@@ -237,7 +229,7 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
     }
 
     private void addDataToRecyclerViewFunc(){
-        imageRegisterAdapter = new ImageRegisterAdapter(imagesURI, this, this);
+        imageRegisterAdapter = new ImageRegisterAdapter(imagesURI, this);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
 
         recyclerView.setHasFixedSize(true);

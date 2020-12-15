@@ -1,19 +1,14 @@
-package com.example.quickdate;
+package com.example.quickdate.activities;
 
+import com.example.quickdate.R;
 import com.example.quickdate.action.regexString;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Annotation;
-import android.text.SpannableString;
-import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.model.Info;
+import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.LookingFor;
 import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,9 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class SignUpAct extends AppCompatActivity {
 
@@ -103,7 +97,7 @@ public class SignUpAct extends AppCompatActivity {
                                         assert firebaseUser != null : "cant find user";
                                         databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ firebaseUser.getUid());
 
-                                        User user = new User( firebaseUser.getUid(), str_email, 0, sp_provincial.getSelectedItem().toString(), new LookingFor(), new Info());
+                                        User user = new User( firebaseUser.getUid(), str_email, 0, sp_provincial.getSelectedItem().toString(), new LookingFor(), new Info(), new ArrayList<Interest>());
 
                                         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override

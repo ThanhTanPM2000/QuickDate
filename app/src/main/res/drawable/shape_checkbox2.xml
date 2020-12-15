@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_checked="true"
+        android:visibility="visible"
+        android:drawable="@drawable/img_checkmark" />
+    <item android:state_pressed="true"
+        android:visibility="visible"
+        android:drawable="@drawable/img_checked" />
+    <item android:state_pressed="false"
+        android:visibility="gone"/>
+</selector>

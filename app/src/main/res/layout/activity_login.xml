@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/color_gradient"
     android:layout_gravity="center_vertical"
-    tools:context=".LoginAct">
+    tools:context=".activities.LoginAct">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_login"

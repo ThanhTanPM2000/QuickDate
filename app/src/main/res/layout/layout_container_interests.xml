@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="184dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="108dp"
+        android:layout_height="164dp"
+        android:background="@drawable/shape_biophotos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/roundedImageView_interestsAct"
+            android:layout_width="108dp"
+            android:layout_height="164dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="20dp" />
+
+        <TextView
+            android:id="@+id/tv_interestAct"
+            android:layout_width="87dp"
+            android:layout_height="109dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:gravity="bottom"
+            android:textColor="?attr/colorDayNightMode"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/roundedImageView_interestsAct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.941"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_checked_containerInterest"
+        android:layout_width="66dp"
+        android:layout_height="80dp"
+        android:src="@drawable/img_checkmark"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox_interestsAct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

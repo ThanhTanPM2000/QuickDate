@@ -10,18 +10,20 @@ public class User {
     private String provincial;
     private LookingFor lookingFor;
     private Info info;
+    private ArrayList<Interest> interests;
 
     public User(){
 
     }
 
-    public User(String idUser, String email, int status, String provincial, LookingFor lookingFor, Info info){
+    public User(String idUser, String email, int status, String provincial, LookingFor lookingFor, Info info, ArrayList<Interest> interests){
         this.idUser = idUser;
         this.email = email;
         this.status = status;
         this.provincial = provincial;
         this.lookingFor = lookingFor;
         this.info = info;
+        this.interests = interests;
     }
 
     public String getEmail() {
@@ -70,6 +72,14 @@ public class User {
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
+    }
+
+    public ArrayList<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(ArrayList<Interest> interests) {
+        this.interests = interests;
     }
 }
 

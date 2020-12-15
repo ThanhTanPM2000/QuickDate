@@ -1,16 +1,15 @@
-package com.example.quickdate;
+package com.example.quickdate.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.os.Build;
 import android.os.Bundle;
 
+import com.example.quickdate.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,7 +30,6 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;

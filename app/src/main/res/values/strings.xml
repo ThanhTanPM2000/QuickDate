@@ -18,4 +18,15 @@
         <item>Can Tho</item>
         <item>Da Nang</item>
     </string-array>
+    <string-array name="interest_names">
+        <item>Art &amp; Design</item>
+        <item>TV &amp; Music</item>
+        <item>Tech</item>
+        <item>Food</item>
+        <item>Animals</item>
+        <item>Fitness &amp; Health</item>
+        <item>Cars</item>
+        <item>Sports</item>
+        <item>Books</item>
+    </string-array>
 </resources>

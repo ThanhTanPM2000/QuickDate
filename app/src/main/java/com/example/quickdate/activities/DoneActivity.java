@@ -1,14 +1,16 @@
-package com.example.quickdate;
+package com.example.quickdate.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class SwipeAct extends AppCompatActivity {
+import com.example.quickdate.R;
+
+public class DoneActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_swipe);
+        setContentView(R.layout.activity_done);
     }
 }

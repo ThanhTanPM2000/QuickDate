@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryVariant"
-    tools:context=".SelectGenderAct">
+    android:background="?attr/colorDayNightMode"
+    tools:context=".activities.SelectGenderAct">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_selectGenderAct"

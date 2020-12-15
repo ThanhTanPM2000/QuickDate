@@ -20,15 +20,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdapter.ViewHolder> {
-
     private Context context;
     private final HashMap<String, String> images;
     private final ArrayList<String> indexs;
     private static ImagesListener imagesListener;
 
-    public ImageRegisterAdapter(HashMap<String, String> images, Context context, ImagesListener imagesListener){
+    public ImageRegisterAdapter(HashMap<String, String> images, ImagesListener imagesListener){
         this.images = images;
-        this.context = context;
         indexs  = new ArrayList<String>(images.keySet());
         ImageRegisterAdapter.imagesListener = imagesListener;
     }
