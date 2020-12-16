@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.action.deleteUser;
+import com.example.quickdate.utility.deleteUser;
 
 import com.example.quickdate.model.Info;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.Objects;
 
 public class SelectGenderAct extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class SelectGenderAct extends AppCompatActivity {
 
     private void doFunctionInAct(){
         chooseGender();
-        callBackAct();
+        //callBackAct();
         submitDataFunction();
     }
 
@@ -79,7 +81,7 @@ public class SelectGenderAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new deleteUser(firebaseAuth.getCurrentUser());
+                new deleteUser(Objects.requireNonNull(firebaseAuth.getCurrentUser()));
                 startActivity(new Intent(getApplicationContext(), SignUpAct.class));
                 finish();
             }
@@ -98,14 +100,14 @@ public class SelectGenderAct extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
                             finish();
                         }else{
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-
             }
         });
     }
+
 
     @Override
     protected void onResume() {

@@ -1,7 +1,7 @@
 package com.example.quickdate.activities;
 
 import com.example.quickdate.R;
-import com.example.quickdate.action.regexString;
+import com.example.quickdate.utility.regexString;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +53,6 @@ public class LoginAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         initialization();
         doFunctionInAct();
     }
@@ -99,6 +98,7 @@ public class LoginAct extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        assert user != null;
                                         if(user.isEmailVerified()){
                                             DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + user.getUid());
                                             db.addValueEventListener(new ValueEventListener() {
@@ -120,7 +120,6 @@ public class LoginAct extends AppCompatActivity {
                                             });
                                         }else{
                                             Toast.makeText(getBaseContext(), "Please verification your email for login", Toast.LENGTH_LONG).show();
-
                                         }
                                     } else {
                                         Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();

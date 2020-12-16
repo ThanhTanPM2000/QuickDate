@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
     //Push down anim
-    compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
+    implementation( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
         exclude group: 'com.android.support'
     }
 
@@ -69,6 +69,11 @@ dependencies {
 
     //Swipe
     implementation 'com.r0adkll:slidableactivity:2.0.6'
-    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    //Navigation
+
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
 
 }

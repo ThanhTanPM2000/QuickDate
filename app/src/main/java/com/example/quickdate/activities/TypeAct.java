@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import it.sephiroth.android.library.rangeseekbar.RangeSeekBar;
 
@@ -68,7 +69,7 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBarHeightFunction();
         rangeSeekBarWeightFunction();
         lookingForFunction();
-        callBackAct();
+        //callBackAct();
         callSubmitAct();
     }
 
@@ -190,10 +191,10 @@ public class TypeAct extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             finish();
-                            startActivity(new Intent(getApplicationContext(), SwipeAct.class));
+                            startActivity(new Intent(getApplicationContext(), InterestsAct.class));
                         }
                         else{
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

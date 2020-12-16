@@ -15,6 +15,8 @@ import com.example.quickdate.R;
 import com.example.quickdate.listener.InterestsListener;
 import com.example.quickdate.model.Interest;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
@@ -42,7 +44,17 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_interestName.setText(Interests.get(position).getName());
-        holder.roundedImageView.setImageResource(Interests.get(position).getImageID());
+        Picasso.get().load(Interests.get(position).getImage()).into(holder.roundedImageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.roundedImageView.animate().setDuration(300).alpha(1f).start();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         holder.bindStatusInterest(position);
     }
 

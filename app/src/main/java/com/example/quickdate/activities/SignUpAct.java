@@ -1,7 +1,7 @@
 package com.example.quickdate.activities;
 
 import com.example.quickdate.R;
-import com.example.quickdate.action.regexString;
+import com.example.quickdate.utility.regexString;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -56,7 +56,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/form_login"
         android:layout_width="378dp"
-        android:layout_height="395dp"
+        android:layout_height="331dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/img_background_form_shadow"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
             android:id="@+id/et_mail_Login"
             android:layout_width="335dp"
             android:layout_height="52dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/shape_plaintext"
             android:ems="10"
             android:fontFamily="@font/montserrat_semibold"
@@ -78,6 +78,7 @@
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,8 +95,8 @@
             android:paddingLeft="24dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_mail_Login"
+            app:layout_constraintStart_toStartOf="@+id/et_mail_Login"
             app:layout_constraintTop_toBottomOf="@+id/et_mail_Login" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -108,9 +109,8 @@
             android:text="   Remember this account"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_password"
+            app:layout_constraintStart_toStartOf="@+id/et_password"
             app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -152,7 +152,7 @@
         app:drawableLeftCompat="@drawable/ic_addpeople"
         app:drawableTint="#BFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -160,7 +160,7 @@
         android:id="@+id/tv_forgotPass_loginAct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:drawablePadding="10dp"
         android:fontFamily="@font/raleway_bold"
         android:text="Forgot Password?"
@@ -169,7 +169,6 @@
         app:drawableLeftCompat="@drawable/ic_key"
         app:drawableTint="#BFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/form_login" />
 

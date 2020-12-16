@@ -1,4 +1,4 @@
-package com.example.quickdate.action;
+package com.example.quickdate.utility;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

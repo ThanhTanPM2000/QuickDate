@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
+import com.example.quickdate.utility.calculateNoOfColumns;
 
 public class InterestsAct extends AppCompatActivity implements InterestsListener {
     private InterestsAdapter interestsAdapter;
@@ -33,6 +35,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
+    int width;
 
 
     @Override
@@ -49,7 +52,10 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
         iv_backAct = (ImageView) findViewById(R.id.iv_backAct_interestsAct);
         iv_submit = (ImageView) findViewById(R.id.iv_submit_interestsAct);
 
-        interests = new ArrayList<Interest>();
+        DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
+        width = metrics.widthPixels;
+
+        /*interests = new ArrayList<Interest>();
         interests.add(new Interest("Art & Design", false, R.drawable.image_artdesign));
         interests.add(new Interest("TV & Music", false, R.drawable.image_movie));
         interests.add(new Interest("Tech", false, R.drawable.image_tech));
@@ -58,7 +64,18 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
         interests.add(new Interest("Fitness & Health", false, R.drawable.image_fitnessandhealth));
         interests.add(new Interest("Cars", false, R.drawable.image_cars));
         interests.add(new Interest("Sports", false, R.drawable.image_fooball));
-        interests.add(new Interest("Books", false, R.drawable.image_book));
+        interests.add(new Interest("Books", false, R.drawable.image_book));*/
+
+        interests = new ArrayList<Interest>();
+        interests.add(new Interest("Art & Design", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("TV & Music", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Tech", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Food", false,"https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Animals", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Fitness & Health", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Cars", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Sports", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Books", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
 
         interestsAdapter = new InterestsAdapter(interests, this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_interestsAct);
@@ -104,7 +121,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), SwipeAct.class));
+                    startActivity(new Intent(getApplicationContext(), DoneAct.class));
                     finish();
                 }
                 else{

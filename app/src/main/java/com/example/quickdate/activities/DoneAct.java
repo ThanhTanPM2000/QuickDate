@@ -55,7 +55,7 @@ public class DoneAct extends AppCompatActivity {
     }
 
     private void callSubmitAct(){
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Uses/" + firebaseUser.getUid());
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Users/" + firebaseUser.getUid());
         databaseReference.child("status").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
