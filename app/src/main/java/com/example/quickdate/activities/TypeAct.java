@@ -44,8 +44,8 @@ public class TypeAct extends AppCompatActivity {
         doFunctionInAct();
     }
 
-    private void initialization(){
-        rangeSeekBar_age = (RangeSeekBar) findViewById(R.id.rangeSeekBar_age_typeAct) ;
+    private void initialization() {
+        rangeSeekBar_age = (RangeSeekBar) findViewById(R.id.rangeSeekBar_age_typeAct);
         rangeSeekBar_height = (RangeSeekBar) findViewById(R.id.rangeSeekBar_height_typeAct);
         rangeSeekBar_weight = (RangeSeekBar) findViewById(R.id.rangeSeekBar_weight_typeAct);
         btn_oneNight = (Button) findViewById(R.id.btn_oneNight_typeAct);
@@ -62,16 +62,28 @@ public class TypeAct extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    private void doFunctionInAct(){
+    private void doFunctionInAct() {
         rangeSeekBarAgeFunction();
         rangeSeekBarHeightFunction();
         rangeSeekBarWeightFunction();
         lookingForFunction();
-        callBackAct();
-        callSubmitAct();
+
+        PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBackAct();
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSubmitAct();
+            }
+        });
     }
 
-    private void rangeSeekBarAgeFunction(){
+    private void rangeSeekBarAgeFunction() {
         rangeSeekBar_age.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
@@ -93,7 +105,7 @@ public class TypeAct extends AppCompatActivity {
         });
     }
 
-    private void rangeSeekBarHeightFunction(){
+    private void rangeSeekBarHeightFunction() {
         rangeSeekBar_height.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
@@ -115,7 +127,7 @@ public class TypeAct extends AppCompatActivity {
         });
     }
 
-    private void rangeSeekBarWeightFunction(){
+    private void rangeSeekBarWeightFunction() {
         rangeSeekBar_weight.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
@@ -137,7 +149,7 @@ public class TypeAct extends AppCompatActivity {
         });
     }
 
-    private void lookingForFunction(){
+    private void lookingForFunction() {
         PushDownAnim.setPushDownAnimTo(btn_oneNight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,35 +181,24 @@ public class TypeAct extends AppCompatActivity {
         });
     }
 
-    private void callBackAct(){
-        PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    private void callBackAct() {
                 startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
                 finish();
-            }
-        });
     }
 
-    private void callSubmitAct(){
-        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+    private void callSubmitAct() {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
+        db.child("lookingFor").setValue(lookingFor).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onClick(View v) {
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
-                db.child("lookingFor").setValue(lookingFor).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent(TypeAct.this, InterestsAct.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finishAffinity();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(TypeAct.this, InterestsAct.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finishAffinity();
+                } else {
+                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

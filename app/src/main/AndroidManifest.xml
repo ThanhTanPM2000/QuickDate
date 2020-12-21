@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.quickdate">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk tools:overrideLibrary="it.sephiroth.android.library.rangeseekbar"/>
 
     <application
         android:largeHeap="true"
+        android:noHistory="true"
         android:hardwareAccelerated="false"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
         <activity android:name=".activities.BioPhotosAct" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.SwipeAct" />
         <activity android:name=".activities.TypeAct" />
         <activity android:name=".activities.DoneAct" />
         <activity android:name=".activities.SignUpAct" />
@@ -22,7 +25,7 @@
         <activity android:name=".activities.InterestsAct" />
         <activity android:name=".activities.ForgotPasswordAct" />
         <activity android:name=".activities.LoginAct" />
-        <activity android:name=".activities.SwipeAct">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

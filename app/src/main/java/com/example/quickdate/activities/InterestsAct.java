@@ -111,7 +111,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
     }
 
     private void callBackAct(){
-        startActivity(new Intent(getApplicationContext(), DoneAct.class));
+        startActivity(new Intent(getApplicationContext(), TypeAct.class));
         finish();
     }
 

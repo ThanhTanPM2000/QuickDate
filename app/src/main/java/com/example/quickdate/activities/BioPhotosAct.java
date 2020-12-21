@@ -173,23 +173,37 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user = snapshot.getValue(User.class);
-                            assert user != null : "user not found";
+                            info = user.getInfo();
                             String guestImage;
                             index = new ArrayList<>(imagesURI.keySet());
                             if (imagesURI == null) {
-                                guestImage = user.getInfo().getImgAvt();
+                                guestImage = info.getImgAvt();
                             } else {
                                 guestImage = imagesURI.get(index.get(0));
                             }
-                            info = new Info(imagesURI, guestImage, et_nickName.getText().toString(), et_aboutMe.getText().toString(), user.getInfo().isMale(), numberPicker_age.getProgress(), numberPicker_height.getProgress(), numberPicker_weight.getProgress());
+                            info.setImages(imagesURI);
+                            info.setImgAvt(guestImage);
+                            info.setNickname(et_nickName.getText().toString());
+                            info.setAboutMe(et_aboutMe.getText().toString());
+                            info.setAge(numberPicker_age.getProgress());
+                            info.setHeight(numberPicker_height.getProgress());
+                            info.setWeight(numberPicker_weight.getProgress());
+
                             db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Intent intent = new Intent(BioPhotosAct.this, TypeAct.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-                                        finishAffinity();
+                                        if(user.getStatus() == 0){
+                                            Intent intent = new Intent(BioPhotosAct.this, TypeAct.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finishAffinity();
+                                        }else if(user.getStatus() == 1){
+                                            Intent intent = new Intent(BioPhotosAct.this, MyProfileFragment.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finishAffinity();
+                                        }
                                     } else {
                                         Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                                     }

@@ -39,10 +39,9 @@ public class SelectGenderAct extends AppCompatActivity {
         setContentView(R.layout.activity_select_gender);
 
         initialization();
-        doFunctionInAct();
     }
 
-    private void initialization(){
+    private void initialization() {
         ctl_female = (ConstraintLayout) findViewById(R.id.ctl_chooseFemale_selectGenderAct);
         ctl_male = (ConstraintLayout) findViewById(R.id.ctl_chooseMale_selectGenderAct);
         iv_backAct = (ImageView) findViewById(R.id.iv_backAct_selectGenderAct);
@@ -55,6 +54,7 @@ public class SelectGenderAct extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 info = snapshot.getValue(Info.class);
+                doFunctionInAct();
             }
 
             @Override
@@ -64,33 +64,43 @@ public class SelectGenderAct extends AppCompatActivity {
         });
     }
 
-    private void doFunctionInAct(){
-        chooseGender();
-        //callBackAct();
-        submitDataFunction();
-    }
-
-    private void chooseGender(){
+    private void doFunctionInAct() {
         PushDownAnim.setPushDownAnimTo(ctl_female).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                info.setMale(false);
-                iv_isCheckedFemale.setVisibility(View.VISIBLE);
-                iv_isCheckedMale.setVisibility(View.GONE);
+                chooseGender(false);
             }
         });
 
         PushDownAnim.setPushDownAnimTo(ctl_male).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                info.setMale(true);
-                iv_isCheckedFemale.setVisibility(View.GONE);
-                iv_isCheckedMale.setVisibility(View.VISIBLE);
+                chooseGender(true);
+            }
+        });
+        //callBackAct();
+
+        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitDataFunction();
             }
         });
     }
 
-    private void callBackAct(){
+    private void chooseGender(Boolean isMale) {
+        if (isMale) {
+            info.setMale(true);
+            iv_isCheckedFemale.setVisibility(View.GONE);
+            iv_isCheckedMale.setVisibility(View.VISIBLE);
+        } else {
+            info.setMale(false);
+            iv_isCheckedFemale.setVisibility(View.VISIBLE);
+            iv_isCheckedMale.setVisibility(View.GONE);
+        }
+    }
+
+    private void callBackAct() {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,24 +111,19 @@ public class SelectGenderAct extends AppCompatActivity {
         });
     }
 
-    private void submitDataFunction(){
-        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+    private void submitDataFunction() {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
+        db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onClick(View v) {
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
-                db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent(SelectGenderAct.this, BioPhotosAct.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finishAffinity();
-                        }else{
-                            Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(SelectGenderAct.this, BioPhotosAct.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finishAffinity();
+                } else {
+                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -26,6 +26,10 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
     private final ArrayList<Interest> Interests;
     private static InterestsListener interestsListener;
 
+    public InterestsAdapter(ArrayList<Interest> interests){
+        this.Interests = interests;
+    }
+
     public InterestsAdapter(ArrayList<Interest> interests, InterestsListener interestsListener){
         this.Interests = interests;
         InterestsAdapter.interestsListener = interestsListener;

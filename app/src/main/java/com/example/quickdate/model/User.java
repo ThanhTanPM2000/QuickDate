@@ -7,13 +7,11 @@ public class User {
     private String idUser;
     private String email;
     private int status;
-    private String provincial;
     private LookingFor lookingFor;
     private Info info;
     private ArrayList<Interest> interests;
 
     public User(){
-
     }
 
     public User(String idUser, String email, int status, LookingFor lookingFor, Info info, ArrayList<Interest> interests){
