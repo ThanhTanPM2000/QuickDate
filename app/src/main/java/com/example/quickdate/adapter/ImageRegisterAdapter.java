@@ -50,6 +50,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
         String image = images.get(key);
 
 
+
         Picasso.get().load(image).noFade().into(holder.riv, new Callback() {
             @Override
             public void onSuccess() {

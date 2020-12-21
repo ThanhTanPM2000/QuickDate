@@ -64,11 +64,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_interestsAct"
-        android:layout_width="418dp"
-        android:layout_height="724dp"
-        android:layout_marginTop="14dp"
+        android:layout_width="416dp"
+        android:layout_height="1000dp"
+        android:layout_marginTop="32dp"
         android:paddingStart="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

@@ -60,9 +60,10 @@ public class DoneAct extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), SwipeAct.class));
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-                    finish();
+                    Intent intent = new Intent(DoneAct.this, SwipeAct.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finishAffinity();
                 }else{
                     Snackbar.make(parentView, Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()), BaseTransientBottomBar.LENGTH_LONG).show();
                 }

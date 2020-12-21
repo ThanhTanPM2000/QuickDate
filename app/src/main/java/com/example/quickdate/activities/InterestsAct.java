@@ -55,7 +55,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
         DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
         width = metrics.widthPixels;
 
-        /*interests = new ArrayList<Interest>();
+        interests = new ArrayList<Interest>();
         interests.add(new Interest("Art & Design", false, R.drawable.image_artdesign));
         interests.add(new Interest("TV & Music", false, R.drawable.image_movie));
         interests.add(new Interest("Tech", false, R.drawable.image_tech));
@@ -64,9 +64,9 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
         interests.add(new Interest("Fitness & Health", false, R.drawable.image_fitnessandhealth));
         interests.add(new Interest("Cars", false, R.drawable.image_cars));
         interests.add(new Interest("Sports", false, R.drawable.image_fooball));
-        interests.add(new Interest("Books", false, R.drawable.image_book));*/
+        interests.add(new Interest("Books", false, R.drawable.image_book));
 
-        interests = new ArrayList<Interest>();
+        /*interests = new ArrayList<Interest>();
         interests.add(new Interest("Art & Design", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
         interests.add(new Interest("TV & Music", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
         interests.add(new Interest("Tech", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
@@ -75,7 +75,7 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
         interests.add(new Interest("Fitness & Health", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
         interests.add(new Interest("Cars", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
         interests.add(new Interest("Sports", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Books", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
+        interests.add(new Interest("Books", false, "https://www.ruaviation.com/images/media/600/419.jpg"));*/
 
         interestsAdapter = new InterestsAdapter(interests, this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_interestsAct);
@@ -121,8 +121,10 @@ public class InterestsAct extends AppCompatActivity implements InterestsListener
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), DoneAct.class));
-                    finish();
+                    Intent intent = new Intent(new Intent(InterestsAct.this, DoneAct.class));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finishAffinity();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();

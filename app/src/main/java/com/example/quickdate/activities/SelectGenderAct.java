@@ -17,8 +17,11 @@ import com.example.quickdate.model.Info;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.Objects;
@@ -47,8 +50,18 @@ public class SelectGenderAct extends AppCompatActivity {
         iv_isCheckedMale = (ImageView) findViewById(R.id.iv_isCheckedMale_selectGenderAct);
         iv_submit = (ImageView) findViewById(R.id.iv_submit_selectGender);
         firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("Users/" + firebaseAuth.getCurrentUser().getUid() + "/info").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                info = snapshot.getValue(Info.class);
+            }
 
-        info = new Info();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void doFunctionInAct(){
@@ -97,8 +110,10 @@ public class SelectGenderAct extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
-                            finish();
+                            Intent intent = new Intent(SelectGenderAct.this, BioPhotosAct.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finishAffinity();
                         }else{
                             Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                         }

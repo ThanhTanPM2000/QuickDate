@@ -108,6 +108,7 @@ public class LoginAct extends AppCompatActivity {
                                                     assert u != null : "Cant find user";
                                                     if(u.getStatus() == 0){
                                                         startActivity(new Intent(getApplicationContext(), SelectGenderAct.class));
+                                                        finishAffinity();
                                                     }else{
                                                         startActivity(new Intent(getApplicationContext(), SwipeAct.class));
                                                     }

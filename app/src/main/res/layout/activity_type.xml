@@ -202,7 +202,7 @@
         app:range_progress_startValue="10" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="523dp"
         android:layout_marginTop="@dimen/_40sdp"
         android:background="@drawable/shape_background_typeact"

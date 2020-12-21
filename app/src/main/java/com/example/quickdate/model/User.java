@@ -16,11 +16,10 @@ public class User {
 
     }
 
-    public User(String idUser, String email, int status, String provincial, LookingFor lookingFor, Info info, ArrayList<Interest> interests){
+    public User(String idUser, String email, int status, LookingFor lookingFor, Info info, ArrayList<Interest> interests){
         this.idUser = idUser;
         this.email = email;
         this.status = status;
-        this.provincial = provincial;
         this.lookingFor = lookingFor;
         this.info = info;
         this.interests = interests;
@@ -40,14 +39,6 @@ public class User {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getProvincial() {
-        return provincial;
-    }
-
-    public void setProvincial(String provincial) {
-        this.provincial = provincial;
     }
 
     public LookingFor getLookingFor() {

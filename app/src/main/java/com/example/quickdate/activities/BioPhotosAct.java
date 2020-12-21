@@ -186,8 +186,10 @@ public class BioPhotosAct extends AppCompatActivity implements ImagesListener {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        startActivity(new Intent(getApplicationContext(), TypeAct.class));
-                                        finish();
+                                        Intent intent = new Intent(BioPhotosAct.this, TypeAct.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finishAffinity();
                                     } else {
                                         Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                                     }

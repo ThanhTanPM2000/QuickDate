@@ -32,7 +32,6 @@ public class TypeAct extends AppCompatActivity {
     private Button btn_longTerm, btn_oneNight, btn_Settlement;
     private TextView tv_age, tv_height, tv_weight;
     private ImageView iv_backAct, iv_submit;
-    private HashMap<String, Object> map;
     private FirebaseAuth firebaseAuth;
     LookingFor lookingFor;
 
@@ -61,7 +60,6 @@ public class TypeAct extends AppCompatActivity {
         lookingFor = new LookingFor();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        map = new HashMap<>();
     }
 
     private void doFunctionInAct(){
@@ -69,7 +67,7 @@ public class TypeAct extends AppCompatActivity {
         rangeSeekBarHeightFunction();
         rangeSeekBarWeightFunction();
         lookingForFunction();
-        //callBackAct();
+        callBackAct();
         callSubmitAct();
     }
 
@@ -190,8 +188,10 @@ public class TypeAct extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), InterestsAct.class));
+                            Intent intent = new Intent(TypeAct.this, InterestsAct.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finishAffinity();
                         }
                         else{
                             Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();

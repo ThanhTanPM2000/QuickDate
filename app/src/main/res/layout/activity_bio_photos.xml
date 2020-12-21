@@ -64,8 +64,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar_selectGenderAct" />
 
-
-
         <ImageView
             android:id="@+id/iv_uploadImage"
             android:layout_width="124dp"
@@ -92,12 +90,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contraintLayout_snakebar"
         android:layout_width="match_parent"
-        android:layout_height="415dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_background_typeact"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintHeight_percent="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_uploadImage">
 
@@ -115,7 +113,7 @@
         <EditText
             android:id="@+id/et_nickName"
             android:layout_width="220dp"
-            android:layout_height="0dp"
+            android:layout_height="52dp"
             android:layout_marginTop="@dimen/_14sdp"
             android:background="@drawable/shape_plaintext"
             android:fontFamily="@font/raleway_semibold"
@@ -124,7 +122,6 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="14sp"
-            app:layout_constraintHeight_percent="0.12"
             app:layout_constraintStart_toStartOf="@+id/et_aboutMe"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -146,13 +143,12 @@
             android:id="@+id/numberPicker_age"
             style="@style/NumberPicker.Filled"
             android:layout_width="84dp"
-            android:layout_height="0dp"
+            android:layout_height="52dp"
             android:autofillHints="Age"
             android:background="@drawable/shape_plaintext"
             android:progress="18"
             app:layout_constraintBottom_toBottomOf="@+id/et_nickName"
             app:layout_constraintEnd_toEndOf="@+id/et_aboutMe"
-            app:layout_constraintHeight_percent="0.12"
             app:layout_constraintTop_toTopOf="@+id/et_nickName"
             app:layout_constraintVertical_bias="0.0"
             app:picker_editTextStyle="@style/textAccent"

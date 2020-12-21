@@ -97,7 +97,7 @@ public class SignUpAct extends AppCompatActivity {
                                         assert firebaseUser != null : "cant find user";
                                         databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ firebaseUser.getUid());
 
-                                        User user = new User( firebaseUser.getUid(), str_email, 0, sp_provincial.getSelectedItem().toString(), new LookingFor(), new Info(), new ArrayList<Interest>());
+                                        User user = new User( firebaseUser.getUid(), str_email, 0, new LookingFor(), new Info( sp_provincial.getSelectedItem().toString()), new ArrayList<Interest>());
 
                                         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
