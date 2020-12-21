@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.quickdate.activities.MyProfileFragment"
@@ -16,9 +16,104 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.quickdate.activities.DashboardFragment"
         android:label="DashboardFragment" />
-    <activity
-        android:id="@+id/doneAct"
-        android:name="com.example.quickdate.activities.DoneAct"
-        android:label="activity_done"
-        tools:layout="@layout/activity_done" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.quickdate.activities.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_selectGenderFragment"
+            app:destination="@id/selectGenderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.quickdate.activities.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.quickdate.activities.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.quickdate.activities.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectGenderFragment"
+        android:name="com.example.quickdate.activities.SelectGenderFragment"
+        android:label="fragment_select_gender"
+        tools:layout="@layout/fragment_select_gender" >
+        <action
+            android:id="@+id/action_selectGenderFragment_to_bioPhotosFragment"
+            app:destination="@id/bioPhotosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bioPhotosFragment"
+        android:name="com.example.quickdate.activities.BioPhotosFragment"
+        android:label="fragment_bio_photos"
+        tools:layout="@layout/fragment_bio_photos" >
+        <action
+            android:id="@+id/action_bioPhotosFragment_to_selectGenderFragment"
+            app:destination="@id/selectGenderFragment" />
+        <action
+            android:id="@+id/action_bioPhotosFragment_to_typeFragment"
+            app:destination="@id/typeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/typeFragment"
+        android:name="com.example.quickdate.activities.TypeFragment"
+        android:label="fragment_type"
+        tools:layout="@layout/fragment_type" >
+        <action
+            android:id="@+id/action_typeFragment_to_bioPhotosFragment"
+            app:destination="@id/bioPhotosFragment" />
+        <action
+            android:id="@+id/action_typeFragment_to_interestsFragment"
+            app:destination="@id/interestsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/interestsFragment"
+        android:name="com.example.quickdate.activities.InterestsFragment"
+        android:label="fragment_interests"
+        tools:layout="@layout/fragment_interests" >
+        <action
+            android:id="@+id/action_interestsFragment_to_typeFragment"
+            app:destination="@id/typeFragment" />
+        <action
+            android:id="@+id/action_interestsFragment_to_doneFragment"
+            app:destination="@id/doneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneFragment"
+        android:name="com.example.quickdate.activities.DoneFragment"
+        android:label="fragment_done"
+        tools:layout="@layout/fragment_done" />
 </navigation>

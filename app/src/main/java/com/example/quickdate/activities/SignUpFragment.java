@@ -1,15 +1,18 @@
 package com.example.quickdate.activities;
 
-import com.example.quickdate.R;
-import com.example.quickdate.utility.regexString;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,10 +23,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickdate.R;
 import com.example.quickdate.model.Info;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.LookingFor;
 import com.example.quickdate.model.User;
+import com.example.quickdate.utility.regexString;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,39 +40,48 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 
-public class SignUpAct extends AppCompatActivity {
+public class SignUpFragment extends Fragment {
 
-    EditText et_passWord, et_email;
-    Spinner sp_provincial;
-    Button btn_submit;
-    ImageView iv_backAct_signUpAct;
-    CheckBox cb_policy;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
-    TextView tv_hyperLink;
-    ProgressBar progressBar;
+    private EditText et_passWord, et_email;
+    private Spinner sp_provincial;
+    private Button btn_submit;
+    private ImageView iv_backAct_signUpAct;
+    private CheckBox cb_policy;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference databaseReference;
+    private TextView tv_hyperLink;
+    private ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return  inflater.inflate(R.layout.fragment_sign_up, container, false);
+    }
 
-        initialization();
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialization(view);
         doFunctionInAct();
 
-        tv_hyperLink = (TextView) findViewById(R.id.tv_hyperLink);
+        tv_hyperLink = (TextView) view.findViewById(R.id.tv_hyperLink);
         tv_hyperLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    private void initialization(){
-        et_passWord = (EditText) findViewById(R.id.et_register_password_signUpAct);
-        et_email = (EditText) findViewById(R.id.et_register_mail_signUpAct);
-        sp_provincial = (Spinner) findViewById(R.id.sp_provincial_signUpAct);
-        btn_submit = (Button) findViewById(R.id.btn_submit_signUpAct);
-        iv_backAct_signUpAct = (ImageView) findViewById(R.id.iv_backAct_signUpAct);
-        cb_policy = (CheckBox) findViewById(R.id.cb_policy_signUpAct);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    private void initialization(View view){
+        et_passWord = (EditText) view.findViewById(R.id.et_register_password_signUpAct);
+        et_email = (EditText) view.findViewById(R.id.et_register_mail_signUpAct);
+        sp_provincial = (Spinner) view.findViewById(R.id.sp_provincial_signUpAct);
+        btn_submit = (Button) view.findViewById(R.id.btn_submit_signUpAct);
+        iv_backAct_signUpAct = (ImageView) view.findViewById(R.id.iv_backAct_signUpAct);
+        cb_policy = (CheckBox) view.findViewById(R.id.cb_policy_signUpAct);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
 
         setValueForSpinner();
@@ -76,7 +90,6 @@ public class SignUpAct extends AppCompatActivity {
     private void doFunctionInAct(){
         signUpFunction();
         callBackAct();
-        termLinkToRead();
     }
 
     private void signUpFunction(){
@@ -107,11 +120,11 @@ public class SignUpAct extends AppCompatActivity {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if(task.isSuccessful()){
-                                                                Toast.makeText(getApplicationContext(), "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
-                                                                startActivity(new Intent(getApplicationContext(), LoginAct.class));
-                                                                finish();
+                                                                Toast.makeText(getActivity(), "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
+                                                                NavHostFragment.findNavController(SignUpFragment.this)
+                                                                        .navigate(R.id.action_signUpFragment_to_loginFragment);
                                                             }else{
-                                                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                                Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                                             }
                                                         }
                                                     });
@@ -119,13 +132,13 @@ public class SignUpAct extends AppCompatActivity {
                                             }
                                         });
                                     }else{
-                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                         }
                         else{
-                            Toast.makeText(getApplicationContext(), "Sign up failed !!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Sign up failed !!!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -133,16 +146,16 @@ public class SignUpAct extends AppCompatActivity {
 
     private boolean isCheckDataInput(String passWordCheck, String emailCheck){
         if(TextUtils.isEmpty(passWordCheck) && TextUtils.isEmpty(emailCheck)){
-            Toast.makeText(getBaseContext(), "All fields should not empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "All fields should not empty", Toast.LENGTH_SHORT).show();
         }
         else if(new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)){
-            Toast.makeText(getApplicationContext(), "Field Email invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Field Email invalid", Toast.LENGTH_SHORT).show();
         }
         else if(passWordCheck.length() <8){
-            Toast.makeText(getApplicationContext(), "Field Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Field Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
         }
         else if(!cb_policy.isChecked()){
-            Toast.makeText(getApplicationContext(), "Please Agree to terms and Conditions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please Agree to terms and Conditions", Toast.LENGTH_SHORT).show();
         }
         else
             return true;
@@ -153,27 +166,15 @@ public class SignUpAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(iv_backAct_signUpAct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
+                NavHostFragment.findNavController(SignUpFragment.this)
+                        .navigate(R.id.action_signUpFragment_to_splashFragment);
             }
         });
     }
 
     private void setValueForSpinner(){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // Specify the layout to use when the list of choices appears
         sp_provincial.setAdapter(adapter); // Apply the adapter to the spinner
-    }
-
-    private void termLinkToRead(){
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 }

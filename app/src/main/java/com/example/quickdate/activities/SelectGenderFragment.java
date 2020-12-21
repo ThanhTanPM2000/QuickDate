@@ -1,19 +1,23 @@
 package com.example.quickdate.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.utility.deleteUser;
-
 import com.example.quickdate.model.Info;
+import com.example.quickdate.utility.deleteUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +30,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.Objects;
 
-public class SelectGenderAct extends AppCompatActivity {
+public class SelectGenderFragment extends Fragment {
 
     private ConstraintLayout ctl_male, ctl_female;
     private ImageView iv_backAct, iv_isCheckedFemale, iv_isCheckedMale, iv_submit;
@@ -34,20 +38,26 @@ public class SelectGenderAct extends AppCompatActivity {
     private Info info;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_gender);
-
-        initialization();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialization(view);
+        doFunctionInAct();
     }
 
-    private void initialization() {
-        ctl_female = (ConstraintLayout) findViewById(R.id.ctl_chooseFemale_selectGenderAct);
-        ctl_male = (ConstraintLayout) findViewById(R.id.ctl_chooseMale_selectGenderAct);
-        iv_backAct = (ImageView) findViewById(R.id.iv_backAct_selectGenderAct);
-        iv_isCheckedFemale = (ImageView) findViewById(R.id.iv_isCheckedFemale_selectGenderAct);
-        iv_isCheckedMale = (ImageView) findViewById(R.id.iv_isCheckedMale_selectGenderAct);
-        iv_submit = (ImageView) findViewById(R.id.iv_submit_selectGender);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_select_gender, container, false);
+    }
+
+    private void initialization(View view) {
+        ctl_female = (ConstraintLayout) view.findViewById(R.id.ctl_chooseFemale_selectGenderAct);
+        ctl_male = (ConstraintLayout) view.findViewById(R.id.ctl_chooseMale_selectGenderAct);
+        iv_backAct = (ImageView) view.findViewById(R.id.iv_backAct_selectGenderAct);
+        iv_isCheckedFemale = (ImageView) view.findViewById(R.id.iv_isCheckedFemale_selectGenderAct);
+        iv_isCheckedMale = (ImageView) view.findViewById(R.id.iv_isCheckedMale_selectGenderAct);
+        iv_submit = (ImageView) view.findViewById(R.id.iv_submit_selectGender);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("Users/" + firebaseAuth.getCurrentUser().getUid() + "/info").addValueEventListener(new ValueEventListener() {
@@ -78,7 +88,6 @@ public class SelectGenderAct extends AppCompatActivity {
                 chooseGender(true);
             }
         });
-        //callBackAct();
 
         PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,22 +115,12 @@ public class SelectGenderAct extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Intent intent = new Intent(SelectGenderAct.this, BioPhotosAct.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    NavHostFragment.findNavController(SelectGenderFragment.this)
+                            .navigate(R.id.action_selectGenderFragment_to_bioPhotosFragment);
                 } else {
-                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 }

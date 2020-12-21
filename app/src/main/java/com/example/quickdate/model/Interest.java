@@ -3,13 +3,13 @@ package com.example.quickdate.model;
 public class Interest {
     private String Name;
     private Boolean Status;
-    private int Image;
+    private String Image;
 
     public Interest(){
 
     }
 
-    public Interest(String Name, Boolean Status, int Image){
+    public Interest(String Name, Boolean Status, String Image){
         this.Name = Name;
         this.Status = Status;
         this.Image = Image;
@@ -31,11 +31,11 @@ public class Interest {
         Status = status;
     }
 
-    public int getImage() {
+    public String getImage() {
         return Image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         Image = image;
     }
 }

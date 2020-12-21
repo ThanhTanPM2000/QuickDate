@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/test"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/color_gradient"
-    tools:context=".activities.SignUpAct">
+    tools:context=".activities.SignUpFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingStart="@dimen/_10sdp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_backAct_signUpAct"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_17sdp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_backarrow"
-            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/app_name" />
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -151,14 +150,14 @@
         android:id="@+id/tv_hyperLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/read_our_term"
         android:layout_marginBottom="@dimen/_7ssp"
-        android:textColor="@color/white"
         android:fontFamily="@font/raleway_semibold"
+        android:text="@string/read_our_term"
+        android:textColor="@color/white"
         android:textSize="@dimen/_15ssp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/iv_key"

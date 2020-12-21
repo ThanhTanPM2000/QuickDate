@@ -1,13 +1,18 @@
 package com.example.quickdate.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,46 +22,53 @@ import com.example.quickdate.R;
 import com.example.quickdate.model.LookingFor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 import it.sephiroth.android.library.rangeseekbar.RangeSeekBar;
 
-public class TypeAct extends AppCompatActivity {
+public class TypeFragment extends Fragment {
 
     private RangeSeekBar rangeSeekBar_age, rangeSeekBar_height, rangeSeekBar_weight;
     private Button btn_longTerm, btn_oneNight, btn_Settlement;
     private TextView tv_age, tv_height, tv_weight;
     private ImageView iv_backAct, iv_submit;
     private FirebaseAuth firebaseAuth;
-    LookingFor lookingFor;
+    private LookingFor lookingFor;
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_type);
-
-        initialization();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialization(view);
         doFunctionInAct();
     }
 
-    private void initialization() {
-        rangeSeekBar_age = (RangeSeekBar) findViewById(R.id.rangeSeekBar_age_typeAct);
-        rangeSeekBar_height = (RangeSeekBar) findViewById(R.id.rangeSeekBar_height_typeAct);
-        rangeSeekBar_weight = (RangeSeekBar) findViewById(R.id.rangeSeekBar_weight_typeAct);
-        btn_oneNight = (Button) findViewById(R.id.btn_oneNight_typeAct);
-        btn_longTerm = (Button) findViewById(R.id.btn_longTerm_typeAct);
-        btn_Settlement = (Button) findViewById(R.id.btn_settlement_typeAct);
-        tv_age = (TextView) findViewById(R.id.tv_value_age);
-        tv_height = (TextView) findViewById(R.id.tv_value_height);
-        tv_weight = (TextView) findViewById(R.id.tv_value_weight);
-        iv_backAct = (ImageView) findViewById(R.id.iv_backAct_typeAct);
-        iv_submit = (ImageView) findViewById(R.id.iv_submit_typeAct);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_type, container, false);
+    }
+    private void initialization(View view) {
+        this.view = view;
+        rangeSeekBar_age = (RangeSeekBar) view.findViewById(R.id.rangeSeekBar_age_typeAct);
+        rangeSeekBar_height = (RangeSeekBar) view.findViewById(R.id.rangeSeekBar_height_typeAct);
+        rangeSeekBar_weight = (RangeSeekBar) view.findViewById(R.id.rangeSeekBar_weight_typeAct);
+        btn_oneNight = (Button) view.findViewById(R.id.btn_oneNight_typeAct);
+        btn_longTerm = (Button) view.findViewById(R.id.btn_longTerm_typeAct);
+        btn_Settlement = (Button) view.findViewById(R.id.btn_settlement_typeAct);
+        tv_age = (TextView) view.findViewById(R.id.tv_value_age);
+        tv_height = (TextView) view.findViewById(R.id.tv_value_height);
+        tv_weight = (TextView) view.findViewById(R.id.tv_value_weight);
+        iv_backAct = (ImageView) view.findViewById(R.id.iv_backAct_typeAct);
+        iv_submit = (ImageView) view.findViewById(R.id.iv_submit_typeAct);
 
         lookingFor = new LookingFor();
 
@@ -155,9 +167,9 @@ public class TypeAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lookingFor.setLooking(0);
-                btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night_select));
-                btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term));
-                btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement));
+                btn_oneNight.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.img_one_night_select));
+                btn_longTerm.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_long_term));
+                btn_Settlement.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_settlement));
             }
         });
 
@@ -165,9 +177,9 @@ public class TypeAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lookingFor.setLooking(1);
-                btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term_select));
-                btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night));
-                btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement));
+                btn_longTerm.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_long_term_select));
+                btn_oneNight.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_one_night));
+                btn_Settlement.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_settlement));
             }
         });
 
@@ -175,16 +187,16 @@ public class TypeAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lookingFor.setLooking(2);
-                btn_Settlement.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_settlement_select));
-                btn_oneNight.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_one_night));
-                btn_longTerm.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_long_term));
+                btn_Settlement.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_settlement_select));
+                btn_oneNight.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_one_night));
+                btn_longTerm.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.img_long_term));
             }
         });
     }
 
     private void callBackAct() {
-                startActivity(new Intent(getApplicationContext(), BioPhotosAct.class));
-                finish();
+        NavHostFragment.findNavController(TypeFragment.this)
+                .navigate(R.id.action_typeFragment_to_bioPhotosFragment);
     }
 
     private void callSubmitAct() {
@@ -193,22 +205,12 @@ public class TypeAct extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("debug success: ", "do u see this log");
-                    Intent intent = new Intent(TypeAct.this, InterestsAct.class);
-                    startActivity(intent);
+                    NavHostFragment.findNavController(TypeFragment.this)
+                            .navigate(R.id.action_typeFragment_to_interestsFragment);
                 } else {
-                    Log.d("debug error: ", task.getException().getMessage());
-                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    Snackbar.make(view, task.getException().getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 }

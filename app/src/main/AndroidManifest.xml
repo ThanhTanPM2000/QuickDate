@@ -8,7 +8,6 @@
 
     <application
         android:largeHeap="true"
-        android:noHistory="true"
         android:hardwareAccelerated="false"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,11 +19,8 @@
         <activity android:name=".activities.SwipeAct" />
         <activity android:name=".activities.TypeAct" />
         <activity android:name=".activities.DoneAct" />
-        <activity android:name=".activities.SignUpAct" />
         <activity android:name=".activities.SelectGenderAct" />
         <activity android:name=".activities.InterestsAct" />
-        <activity android:name=".activities.ForgotPasswordAct" />
-        <activity android:name=".activities.LoginAct" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
