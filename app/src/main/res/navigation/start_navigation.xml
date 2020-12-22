@@ -5,20 +5,8 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/splashFragment">
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.quickdate.activities.MyProfileFragment"
-        android:label="HomeFragment" />
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.quickdate.activities.NotificationsFragment"
-        android:label="NotificationsFragment" />
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.quickdate.activities.DashboardFragment"
-        android:label="DashboardFragment" />
-    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.quickdate.activities.LoginFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -36,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.quickdate.activities.SignUpFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -48,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.quickdate.activities.SplashFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SplashFragment"
         android:label="SplashFragment" >
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
@@ -59,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.quickdate.activities.ForgotPasswordFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" >
         <action
@@ -68,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/selectGenderFragment"
-        android:name="com.example.quickdate.activities.SelectGenderFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SelectGenderFragment"
         android:label="fragment_select_gender"
         tools:layout="@layout/fragment_select_gender" >
         <action
@@ -77,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/bioPhotosFragment"
-        android:name="com.example.quickdate.activities.BioPhotosFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosFragment"
         android:label="fragment_bio_photos"
         tools:layout="@layout/fragment_bio_photos" >
         <action
@@ -89,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/typeFragment"
-        android:name="com.example.quickdate.activities.TypeFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.TypeFragment"
         android:label="fragment_type"
         tools:layout="@layout/fragment_type" >
         <action
@@ -101,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/interestsFragment"
-        android:name="com.example.quickdate.activities.InterestsFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsFragment"
         android:label="fragment_interests"
         tools:layout="@layout/fragment_interests" >
         <action
@@ -113,7 +101,7 @@
     </fragment>
     <fragment
         android:id="@+id/doneFragment"
-        android:name="com.example.quickdate.activities.DoneFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.DoneFragment"
         android:label="fragment_done"
         tools:layout="@layout/fragment_done" />
 </navigation>

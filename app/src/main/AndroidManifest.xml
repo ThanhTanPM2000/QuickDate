@@ -15,13 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
-        <activity android:name=".activities.BioPhotosAct" />
-        <activity android:name=".activities.SwipeAct" />
-        <activity android:name=".activities.TypeAct" />
-        <activity android:name=".activities.DoneAct" />
-        <activity android:name=".activities.SelectGenderAct" />
-        <activity android:name=".activities.InterestsAct" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities_fragment.UI_QuickDate.SwipeAct" />
+        <activity android:name=".activities_fragment.UI_StartLoginRegister.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

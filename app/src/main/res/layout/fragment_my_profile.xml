@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MyProfileFragment">
+    tools:context=".activities_fragment.UI_QuickDate.MyProfileFragment">
 
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/imageSlider_Profile"
@@ -17,7 +17,7 @@
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:period="1000" />
+        app:period="5000" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -69,11 +69,14 @@
             android:id="@+id/edit_myProfile"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:background="@drawable/img_edit"
             android:layout_marginEnd="45dp"
+            android:background="@drawable/img_edit"
+            app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
             app:layout_constraintTop_toTopOf="@id/tv_info_myProfile"
-            app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"/>
+            app:layout_constraintVertical_bias="0.333" />
 
         <View
             android:id="@+id/divider"
@@ -100,21 +103,22 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="1"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/background_myprofile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_info4_myProfile">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_myProfile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.2"
                 android:layout_marginTop="28dp"
+                android:layout_marginStart="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.2"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -1,4 +1,4 @@
-package com.example.quickdate.activities;
+package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,22 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.quickdate.R;
 
 
-public class DashboardFragment extends Fragment {
-
-    private com.example.quickdate.activities.DashboardViewModel dashboardViewModel;
+public class MatchesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(com.example.quickdate.activities.DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 }

@@ -1,6 +1,5 @@
-package com.example.quickdate.activities;
+package com.example.quickdate.activities_fragment.UI_StartLoginRegister;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

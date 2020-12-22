@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/color_gradient"
-    tools:context=".activities.SignUpFragment">
+    tools:context=".activities_fragment.UI_StartLoginRegister.SignUpFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_login"
@@ -54,17 +54,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/form_login"
+        android:id="@+id/form_signUp"
         android:layout_width="375dp"
         android:layout_height="455dp"
-        android:layout_marginTop="60dp"
         android:background="@drawable/img_background_form_shadow"
-        app:layout_constraintBottom_toTopOf="@+id/tv_hyperLink"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_key"
-        app:layout_constraintVertical_bias="0.0">
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/et_register_mail_signUpAct"
@@ -168,6 +165,7 @@
         android:src="@drawable/img_btnkey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/form_signUp"
+        app:layout_constraintBottom_toTopOf="@+id/form_signUp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

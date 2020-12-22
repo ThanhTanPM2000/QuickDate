@@ -1,6 +1,5 @@
-package com.example.quickdate.activities;
+package com.example.quickdate.activities_fragment.UI_QuickDate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.quickdate.R;
 import com.example.quickdate.adapter.InterestsAdapter;
-import com.example.quickdate.listener.ImagesListener;
-import com.example.quickdate.listener.InterestsListener;
 import com.example.quickdate.model.Info;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
@@ -49,6 +46,7 @@ public class MyProfileFragment extends Fragment {
     private Info info;
     private User user;
     private ArrayList<Interest> interests;
+    private ArrayList<Interest> interestsTrue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +72,7 @@ public class MyProfileFragment extends Fragment {
         tv_info4 = root.findViewById(R.id.tv_info4_myProfile);
         btn_edit = root.findViewById(R.id.edit_myProfile);
         recyclerView = root.findViewById(R.id.recyclerView_myProfile);
+        interestsTrue = new ArrayList<Interest>();
         firebaseDatabase.getReference("Users/" + firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,25 +107,34 @@ public class MyProfileFragment extends Fragment {
         for (int i = 0; i < info.getImages().size(); i++) {
             slideModels.add(new SlideModel(info.getImages().get(index.get(i))));
         }
-        imageSlider.setImageList(slideModels, true);
+        imageSlider.setImageList(slideModels, false);
     }
 
     private void showInfo() {
-        tv_info.setText(info.getNickname() + ",");
+        String[] arr = info.getNickname().split(" ");
+        if(arr[arr.length -1].length() > 8){
+            tv_info.setText(arr[arr.length -1].substring(0, 8) + "...,");
+        }else{
+            tv_info.setText(arr[arr.length-1] + ",");
+        }
         tv_info2.setText(info.getAge()+"");
         tv_info3.setText(info.getProvincial() + ", " + info.getHeight() + "cm - " + info.getWeight() + "kg");
         tv_info4.setText(info.getAboutMe());
     }
 
     private void showInterestRecyclerview() {
-        InterestsAdapter interestsAdapter = new InterestsAdapter(interests);
+        for(Interest item : interests){
+            if(item.getStatus()){
+                interestsTrue.add(item);
+            }
+        }
+        InterestsAdapter interestsAdapter = new InterestsAdapter(interestsTrue, user.getStatus() == 1);
         recyclerView.setAdapter(interestsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
     }
 
     private void editMyProfile(){
-        Intent intent = new Intent(getActivity(), BioPhotosAct.class);
-        startActivity(intent);
+
     }
 
 }

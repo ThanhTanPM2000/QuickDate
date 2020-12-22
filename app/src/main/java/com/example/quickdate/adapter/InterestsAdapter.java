@@ -25,14 +25,17 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
 
     private final ArrayList<Interest> Interests;
     private static InterestsListener interestsListener;
+    private Boolean status;
 
-    public InterestsAdapter(ArrayList<Interest> interests){
+    public InterestsAdapter(ArrayList<Interest> interests, Boolean status){
+        this.status = status;
         this.Interests = interests;
     }
 
-    public InterestsAdapter(ArrayList<Interest> interests, InterestsListener interestsListener){
+    public InterestsAdapter(ArrayList<Interest> interests, InterestsListener interestsListener, Boolean status){
         this.Interests = interests;
         InterestsAdapter.interestsListener = interestsListener;
+        this.status = status;
     }
 
     @NonNull
@@ -59,7 +62,9 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
 
             }
         });
-        holder.bindStatusInterest(position);
+        if(!status){
+            holder.bindStatusInterest(position);
+        }
     }
 
     @Override

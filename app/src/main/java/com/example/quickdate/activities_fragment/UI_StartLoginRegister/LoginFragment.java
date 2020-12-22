@@ -1,4 +1,4 @@
-package com.example.quickdate.activities;
+package com.example.quickdate.activities_fragment.UI_StartLoginRegister;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
 import com.example.quickdate.model.User;
 import com.example.quickdate.utility.regexString;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -120,9 +120,10 @@ public class LoginFragment extends Fragment {
                                                             NavHostFragment.findNavController(LoginFragment.this)
                                                                     .navigate(R.id.action_loginFragment_to_selectGenderFragment);
                                                         }
-
                                                     }else{
-                                                        startActivity(new Intent(getActivity(), SwipeAct.class));
+                                                        Intent intent = new Intent(getActivity(), SwipeAct.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(intent);
                                                     }
                                                 }
                                                 @Override

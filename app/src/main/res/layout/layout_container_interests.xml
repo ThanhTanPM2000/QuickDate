@@ -7,18 +7,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.9"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.95"
+        android:layout_width="100dp"
+        android:layout_height="160dp"
         android:background="@drawable/shape_biophotos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/roundedImageView_interestsAct"
-            android:layout_width="108dp"
-            android:layout_height="164dp"
+            android:layout_width="100dp"
+            android:layout_height="160dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
