@@ -19,6 +19,7 @@ import com.example.quickdate.R;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.listener.InterestsListener;
 import com.example.quickdate.model.Interest;
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +33,12 @@ import java.util.ArrayList;
 public class InterestsFragment extends Fragment implements InterestsListener {
     private InterestsAdapter interestsAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Interest> interests;
     private ImageView iv_backAct, iv_submit;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private View view;
+    private User user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,29 +59,9 @@ public class InterestsFragment extends Fragment implements InterestsListener {
         iv_backAct = (ImageView) view.findViewById(R.id.iv_backAct_interestsAct);
         iv_submit = (ImageView) view.findViewById(R.id.iv_submit_interestsAct);
 
-        interests = new ArrayList<Interest>();
-        interests.add(new Interest("Art & Design", false, R.drawable.image_artdesign));
-        interests.add(new Interest("TV & Music", false, R.drawable.image_movie));
-        interests.add(new Interest("Tech", false, R.drawable.image_tech));
-        interests.add(new Interest("Food", false, R.drawable.image_food));
-        interests.add(new Interest("Animals", false, R.drawable.image_animals));
-        interests.add(new Interest("Fitness & Health", false, R.drawable.image_fitnessandhealth));
-        interests.add(new Interest("Cars", false, R.drawable.image_cars));
-        interests.add(new Interest("Sports", false, R.drawable.image_fooball));
-        interests.add(new Interest("Books", false, R.drawable.image_book));
+        user = (User) getArguments().getSerializable("User");
 
-        /*interests = new ArrayList<Interest>();
-        interests.add(new Interest("Art & Design", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("TV & Music", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Tech", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Food", false,"https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Animals", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Fitness & Health", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Cars", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Sports", false, "https://www.ruaviation.com/images/media/600/419.jpg"));
-        interests.add(new Interest("Books", false, "https://www.ruaviation.com/images/media/600/419.jpg"));*/
-
-        interestsAdapter = new InterestsAdapter(interests, this, false);
+        interestsAdapter = new InterestsAdapter(user.getInterests(), this, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_interestsAct);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -94,7 +75,7 @@ public class InterestsFragment extends Fragment implements InterestsListener {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //callBackAct();
+                callBackAct();
             }
         });
 
@@ -113,29 +94,21 @@ public class InterestsFragment extends Fragment implements InterestsListener {
     }
 
     private void callBackAct(){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("User", user);
         NavHostFragment.findNavController(InterestsFragment.this)
-                .navigate(R.id.action_interestsFragment_to_typeFragment);
+                .navigate(R.id.action_interestsFragment_to_typeFragment, bundle);
     }
 
     private void callSubmitAct(){
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Users/" + firebaseUser.getUid());
-        databaseReference.child("interests").setValue(interests).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    NavHostFragment.findNavController(InterestsFragment.this)
-                            .navigate(R.id.action_interestsFragment_to_doneFragment);
-
-                }
-                else{
-                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("User", user);
+        NavHostFragment.findNavController(InterestsFragment.this)
+                .navigate(R.id.action_interestsFragment_to_doneFragment, bundle);
     }
 
     @Override
     public void onInterestsClicked(int position, Boolean status) {
-        interests.get(position).setStatus(status);
+        user.getInterests().get(position).setStatus(status);
     }
 }

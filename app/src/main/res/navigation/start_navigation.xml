@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_selectGenderFragment_to_bioPhotosFragment"
             app:destination="@id/bioPhotosFragment" />
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
     </fragment>
     <fragment
         android:id="@+id/bioPhotosFragment"
@@ -74,6 +77,9 @@
         <action
             android:id="@+id/action_bioPhotosFragment_to_typeFragment"
             app:destination="@id/typeFragment" />
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
     </fragment>
     <fragment
         android:id="@+id/typeFragment"
@@ -86,6 +92,9 @@
         <action
             android:id="@+id/action_typeFragment_to_interestsFragment"
             app:destination="@id/interestsFragment" />
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
     </fragment>
     <fragment
         android:id="@+id/interestsFragment"
@@ -98,10 +107,17 @@
         <action
             android:id="@+id/action_interestsFragment_to_doneFragment"
             app:destination="@id/doneFragment" />
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
     </fragment>
     <fragment
         android:id="@+id/doneFragment"
         android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.DoneFragment"
         android:label="fragment_done"
-        tools:layout="@layout/fragment_done" />
+        tools:layout="@layout/fragment_done" >
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
+    </fragment>
 </navigation>

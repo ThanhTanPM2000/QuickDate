@@ -1,8 +1,10 @@
 package com.example.quickdate.model;
 
-public class LookingFor {
+import java.io.Serializable;
 
-    private int looking;
+public class LookingFor implements Serializable {
+
+    private String looking;
     private int min_age;
     private int max_age;
     private int min_height;
@@ -11,7 +13,7 @@ public class LookingFor {
     private int max_weight;
 
     public LookingFor(){
-        this.looking = 1;
+        this.looking = "LongTerm";
         this.min_age = 18;
         this.max_age = 60;
         this.min_height = 100;
@@ -20,21 +22,11 @@ public class LookingFor {
         this.max_weight = 100;
     }
 
-    public LookingFor(int looking, int min_age, int max_age, int min_height, int max_height, int min_weight, int max_weight){
-        this.looking = looking;
-        this.min_age = min_age;
-        this.max_age = max_age;
-        this.min_height = min_height;
-        this.max_height = max_height;
-        this.min_weight = min_weight;
-        this.max_weight = max_weight;
-    }
-
-    public int getLooking() {
+    public String getLooking() {
         return looking;
     }
 
-    public void setLooking(int looking) {
+    public void setLooking(String looking) {
         this.looking = looking;
     }
 

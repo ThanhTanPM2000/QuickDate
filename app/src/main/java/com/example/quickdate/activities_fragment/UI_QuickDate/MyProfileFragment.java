@@ -17,6 +17,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.quickdate.R;
 import com.example.quickdate.adapter.InterestsAdapter;
+import com.example.quickdate.listener.UserListener;
 import com.example.quickdate.model.Info;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
@@ -31,11 +32,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.util.ArrayList;
 
 
-public class MyProfileFragment extends Fragment {
-
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
+public class MyProfileFragment extends Fragment{
     private ImageSlider imageSlider;
     private ArrayList<SlideModel> slideModels;
     private ArrayList<String> index;
@@ -43,9 +40,7 @@ public class MyProfileFragment extends Fragment {
     private Button btn_edit;
     private RecyclerView recyclerView;
     private View root;
-    private Info info;
-    private User user;
-    private ArrayList<Interest> interests;
+    private User myUser;
     private ArrayList<Interest> interestsTrue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,9 +56,6 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void initialization() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseDatabase = FirebaseDatabase.getInstance();
         imageSlider = root.findViewById(R.id.imageSlider_Profile);
         slideModels = new ArrayList<SlideModel>();
         tv_info = root.findViewById(R.id.tv_info_myProfile);
@@ -73,19 +65,13 @@ public class MyProfileFragment extends Fragment {
         btn_edit = root.findViewById(R.id.edit_myProfile);
         recyclerView = root.findViewById(R.id.recyclerView_myProfile);
         interestsTrue = new ArrayList<Interest>();
-        firebaseDatabase.getReference("Users/" + firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+
+        ((SwipeAct) getActivity()).passVal(new UserListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.getValue(User.class);
-                info = user.getInfo();
-                interests = user.getInterests();
-                index = new ArrayList<>(info.getImages().keySet());
+            public void getUser(User user) {
+                myUser = user;
+                index = new ArrayList<>(myUser.getInfo().getImages().keySet());
                 doFunctionInAct();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -104,31 +90,31 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void showSliderImage() {
-        for (int i = 0; i < info.getImages().size(); i++) {
-            slideModels.add(new SlideModel(info.getImages().get(index.get(i))));
+        for (int i = 0; i < myUser.getInfo().getImages().size(); i++) {
+            slideModels.add(new SlideModel(myUser.getInfo().getImages().get(index.get(i))));
         }
         imageSlider.setImageList(slideModels, false);
     }
 
     private void showInfo() {
-        String[] arr = info.getNickname().split(" ");
+        String[] arr = myUser.getInfo().getNickname().split(" ");
         if(arr[arr.length -1].length() > 8){
             tv_info.setText(arr[arr.length -1].substring(0, 8) + "...,");
         }else{
             tv_info.setText(arr[arr.length-1] + ",");
         }
-        tv_info2.setText(info.getAge()+"");
-        tv_info3.setText(info.getProvincial() + ", " + info.getHeight() + "cm - " + info.getWeight() + "kg");
-        tv_info4.setText(info.getAboutMe());
+        tv_info2.setText(myUser.getInfo().getAge()+"");
+        tv_info3.setText(myUser.getInfo().getProvincial() + ", " + myUser.getInfo().getHeight() + "cm - " + myUser.getInfo().getWeight() + "kg");
+        tv_info4.setText(myUser.getInfo().getAboutMe());
     }
 
     private void showInterestRecyclerview() {
-        for(Interest item : interests){
+        for(Interest item : myUser.getInterests()){
             if(item.getStatus()){
                 interestsTrue.add(item);
             }
         }
-        InterestsAdapter interestsAdapter = new InterestsAdapter(interestsTrue, user.getStatus() == 1);
+        InterestsAdapter interestsAdapter = new InterestsAdapter(interestsTrue, myUser.getStatus() == 1);
         recyclerView.setAdapter(interestsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
     }
@@ -136,5 +122,4 @@ public class MyProfileFragment extends Fragment {
     private void editMyProfile(){
 
     }
-
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class LoginFragment extends Fragment {
     EditText et_email, et_password;
-    Button btn_submit;
+    ImageButton btn_submit;
     TextView tv_forgotPass, tv_signUp;
     CheckBox cb_rememberPass;
     FirebaseAuth firebaseAuth;
@@ -69,7 +70,7 @@ public class LoginFragment extends Fragment {
     private void initialization(View view){
         et_email = (EditText) view.findViewById(R.id.et_mail_Login);
         et_password = (EditText) view.findViewById(R.id.et_password);
-        btn_submit = (Button) view.findViewById(R.id.btn_submit_login);
+        btn_submit = (ImageButton) view.findViewById(R.id.btn_submit_login);
         tv_forgotPass = (TextView) view.findViewById(R.id.tv_forgotPass_loginAct);
         tv_signUp = (TextView) view.findViewById(R.id.tv_Signup_loginAct);
         cb_rememberPass = (CheckBox) view.findViewById(R.id.cb_rememberpass_loginAct);
@@ -109,26 +110,26 @@ public class LoginFragment extends Fragment {
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         assert user != null;
                                         if(user.isEmailVerified()){
-                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + user.getUid());
+                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + user.getUid());
                                             db.addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    User u = snapshot.getValue(User.class);
-                                                    assert u != null : "Cant find user";
-                                                    if(u.getStatus() == 0){
+                                                    User user = snapshot.getValue(User.class);
+                                                    if(user == null){
+                                                        Intent intent = new Intent(getActivity(), SwipeAct.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(intent);
+                                                    }else{
                                                         if (NavHostFragment.findNavController(LoginFragment.this).getCurrentDestination().getId() == R.id.loginFragment) {
                                                             NavHostFragment.findNavController(LoginFragment.this)
                                                                     .navigate(R.id.action_loginFragment_to_selectGenderFragment);
                                                         }
-                                                    }else{
-                                                        Intent intent = new Intent(getActivity(), SwipeAct.class);
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        startActivity(intent);
                                                     }
                                                 }
+
                                                 @Override
                                                 public void onCancelled(@NonNull DatabaseError error) {
-                                                    System.out.println("The read failed: " + error.getCode());
+
                                                 }
                                             });
                                         }else{

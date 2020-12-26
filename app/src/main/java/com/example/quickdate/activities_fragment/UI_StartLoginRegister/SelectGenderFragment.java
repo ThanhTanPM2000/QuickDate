@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.quickdate.R;
 import com.example.quickdate.model.Info;
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class SelectGenderFragment extends Fragment {
     private ConstraintLayout ctl_male, ctl_female;
     private ImageView iv_isCheckedFemale, iv_isCheckedMale, iv_submit;
     private FirebaseAuth firebaseAuth;
-    private Info info;
+    private User user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -57,10 +58,10 @@ public class SelectGenderFragment extends Fragment {
         iv_submit = (ImageView) view.findViewById(R.id.iv_submit_selectGender);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getReference("Users/" + firebaseAuth.getCurrentUser().getUid() + "/info").addValueEventListener(new ValueEventListener() {
+        firebaseDatabase.getReference("Users/UnRegisters/" + firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                info = snapshot.getValue(Info.class);
+                user = snapshot.getValue(User.class);
                 doFunctionInAct();
             }
 
@@ -96,28 +97,20 @@ public class SelectGenderFragment extends Fragment {
 
     private void chooseGender(Boolean isMale) {
         if (isMale) {
-            info.setMale(true);
+            user.getInfo().setGender("Male");
             iv_isCheckedFemale.setVisibility(View.GONE);
             iv_isCheckedMale.setVisibility(View.VISIBLE);
         } else {
-            info.setMale(false);
+            user.getInfo().setGender("Female");
             iv_isCheckedFemale.setVisibility(View.VISIBLE);
             iv_isCheckedMale.setVisibility(View.GONE);
         }
     }
 
     private void submitDataFunction() {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
-        db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    NavHostFragment.findNavController(SelectGenderFragment.this)
-                            .navigate(R.id.action_selectGenderFragment_to_bioPhotosFragment);
-                } else {
-                    Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("User", user);
+        NavHostFragment.findNavController(SelectGenderFragment.this)
+                .navigate(R.id.action_selectGenderFragment_to_bioPhotosFragment, bundle);
     }
 }

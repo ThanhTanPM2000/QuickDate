@@ -45,8 +45,8 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-auth:20.0.1'
-    implementation 'com.google.firebase:firebase-database:19.5.1'
-    implementation 'com.google.firebase:firebase-storage:19.2.0'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
 
     //Facebook Sdk
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
@@ -68,10 +68,6 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Swipe
-    implementation 'com.r0adkll:slidableactivity:2.0.6'
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-
     //Navigation
 
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
@@ -79,5 +75,8 @@ dependencies {
 
     //ImageSlider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+
+    //Swipe cards
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
 }

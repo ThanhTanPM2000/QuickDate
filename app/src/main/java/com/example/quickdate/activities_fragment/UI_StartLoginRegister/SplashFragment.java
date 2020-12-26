@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,8 @@ import java.util.concurrent.Executor;
 public class SplashFragment extends Fragment {
 
     TextView tv_quick, tv_date;
-    Button btnFacebook, btnLogin, btnSignUp;
+    Button btnFacebook;
+    ImageButton btnLogin, btnSignUp;
     CallbackManager fbCallBackManager;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -76,8 +78,8 @@ public class SplashFragment extends Fragment {
         tv_quick = (TextView) view.findViewById(R.id.tv_quick);
         tv_date = (TextView) view.findViewById(R.id.tv_date);
         btnFacebook = (Button) view.findViewById(R.id.btn_facebookLogin);
-        btnLogin = (Button) view.findViewById(R.id.btn_login_splashAct);
-        btnSignUp = (Button) view.findViewById(R.id.btn_signUp_splashAct);
+        btnLogin = (ImageButton) view.findViewById(R.id.btn_login_splashAct);
+        btnSignUp = (ImageButton) view.findViewById(R.id.btn_signUp_splashAct);
         auth = FirebaseAuth.getInstance();
 
         changeColorComponents();

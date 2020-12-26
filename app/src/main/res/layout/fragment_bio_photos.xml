@@ -64,15 +64,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar_selectGenderAct" />
 
-    <ImageView
-        android:id="@+id/iv_uploadImage"
-        android:layout_width="124dp"
+    <ImageButton
+        android:id="@+id/btn_uploadImage"
+        android:src="@drawable/ic_upload"
+        android:background="@drawable/shape_rectangle_white"
+        android:layout_width="123dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.2"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:src="@drawable/uploadphoto" />
+        app:layout_constraintStart_toStartOf="@id/textView4"
+        app:layout_constraintTop_toBottomOf="@id/textView4"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -81,10 +82,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_uploadImage"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_uploadImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_uploadImage"
-        app:layout_constraintTop_toTopOf="@+id/iv_uploadImage"
+        app:layout_constraintStart_toEndOf="@+id/btn_uploadImage"
+        app:layout_constraintTop_toTopOf="@+id/btn_uploadImage"
         app:layout_constraintWidth_percent="0.6" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +100,7 @@
         app:layout_constraintHeight_percent="0.6"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_uploadImage"
+        app:layout_constraintTop_toBottomOf="@+id/btn_uploadImage"
         app:layout_constraintVertical_bias="1.0">
 
         <TextView

@@ -9,7 +9,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MatchesFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_swiper" />
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.SwiperFragment"

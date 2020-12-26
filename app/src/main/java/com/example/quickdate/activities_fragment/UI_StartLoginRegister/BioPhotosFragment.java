@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -59,14 +60,15 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
 
     private RecyclerView recyclerView;
     private String localFileUri;
-    private ImageView iv_uploadImage, iv_submit, iv_backAct;
+    private ImageView iv_submit, iv_backAct;
+    private ImageButton btn_uploadImage;
     private EditText et_nickName, et_aboutMe;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
     private ArrayList<String> index;
-    private Info info;
+    private User user;
     private View root;
     private UploadTask uploadTask;
     private it.sephiroth.android.library.numberpicker.NumberPicker numberPicker_age, numberPicker_height, numberPicker_weight;
@@ -87,7 +89,7 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
 
     private void initialization(View view) {
         root = view;
-        iv_uploadImage = (ImageView) view.findViewById(R.id.iv_uploadImage);
+        btn_uploadImage = (ImageButton) view.findViewById(R.id.btn_uploadImage);
         et_nickName = (EditText) view.findViewById(R.id.et_nickName);
         et_aboutMe = (EditText) view.findViewById(R.id.et_aboutMe);
         numberPicker_age = view.findViewById(R.id.numberPicker_age);
@@ -102,6 +104,8 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseUser.getUid());
+
+        user = (User) getArguments().getSerializable("User");
     }
 
     private void doFunctionInAct() {
@@ -116,7 +120,7 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
     }
 
     private void uploadImageFunction() {
-        PushDownAnim.setPushDownAnimTo(iv_uploadImage).setOnClickListener(new View.OnClickListener() {
+        PushDownAnim.setPushDownAnimTo(btn_uploadImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -129,8 +133,10 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
 
     private void callBackAct() {
         if (NavHostFragment.findNavController(BioPhotosFragment.this).getCurrentDestination().getId() == R.id.bioPhotosFragment) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("User", user);
             NavHostFragment.findNavController(BioPhotosFragment.this)
-                    .navigate(R.id.action_bioPhotosFragment_to_selectGenderFragment);
+                    .navigate(R.id.action_bioPhotosFragment_to_selectGenderFragment, bundle);
         }
     }
 
@@ -139,47 +145,27 @@ public class BioPhotosFragment extends Fragment implements ImagesListener {
             @Override
             public void onClick(View v) {
                 if (checkDataInput(et_nickName.getText().toString(), et_aboutMe.getText().toString())) {
-                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    db.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = snapshot.getValue(User.class);
-                            info = user.getInfo();
-                            String guestImage;
-                            index = new ArrayList<>(imagesURI.keySet());
-                            if (imagesURI == null) {
-                                guestImage = info.getImgAvt();
-                            } else {
-                                guestImage = imagesURI.get(index.get(0));
-                            }
-                            info.setImages(imagesURI);
-                            info.setImgAvt(guestImage);
-                            info.setNickname(et_nickName.getText().toString());
-                            info.setAboutMe(et_aboutMe.getText().toString());
-                            info.setAge(numberPicker_age.getProgress());
-                            info.setHeight(numberPicker_height.getProgress());
-                            info.setWeight(numberPicker_weight.getProgress());
+                    String guestImage;
+                    index = new ArrayList<>(imagesURI.keySet());
+                    if (imagesURI == null) {
+                        guestImage = user.getInfo().getImgAvt();
+                    } else {
+                        guestImage = imagesURI.get(index.get(0));
+                    }
+                    user.getInfo().setImages(imagesURI);
+                    user.getInfo().setImgAvt(guestImage);
+                    user.getInfo().setNickname(et_nickName.getText().toString());
+                    user.getInfo().setAboutMe(et_aboutMe.getText().toString());
+                    user.getInfo().setAge(numberPicker_age.getProgress());
+                    user.getInfo().setHeight(numberPicker_height.getProgress());
+                    user.getInfo().setWeight(numberPicker_weight.getProgress());
 
-                            db.child("info").setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        if (NavHostFragment.findNavController(BioPhotosFragment.this).getCurrentDestination().getId() == R.id.bioPhotosFragment) {
-                                            NavHostFragment.findNavController(BioPhotosFragment.this)
-                                                    .navigate(R.id.action_bioPhotosFragment_to_typeFragment);
-                                        }
-                                    } else {
-                                        Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    if (NavHostFragment.findNavController(BioPhotosFragment.this).getCurrentDestination().getId() == R.id.bioPhotosFragment) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("User", user);
+                        NavHostFragment.findNavController(BioPhotosFragment.this)
+                                .navigate(R.id.action_bioPhotosFragment_to_typeFragment, bundle);
+                    }
                 }
             }
         });

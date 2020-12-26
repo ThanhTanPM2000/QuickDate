@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -43,7 +44,7 @@ public class SignUpFragment extends Fragment {
 
     private EditText et_passWord, et_email;
     private Spinner sp_provincial;
-    private Button btn_submit;
+    private ImageButton btn_submit;
     private ImageView iv_backAct_signUpAct;
     private CheckBox cb_policy;
     private FirebaseAuth firebaseAuth;
@@ -77,7 +78,7 @@ public class SignUpFragment extends Fragment {
         et_passWord = (EditText) view.findViewById(R.id.et_register_password_signUpAct);
         et_email = (EditText) view.findViewById(R.id.et_register_mail_signUpAct);
         sp_provincial = (Spinner) view.findViewById(R.id.sp_provincial_signUpAct);
-        btn_submit = (Button) view.findViewById(R.id.btn_submit_signUpAct);
+        btn_submit = (ImageButton) view.findViewById(R.id.btn_submit_signUpAct);
         iv_backAct_signUpAct = (ImageView) view.findViewById(R.id.iv_backAct_signUpAct);
         cb_policy = (CheckBox) view.findViewById(R.id.cb_policy_signUpAct);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -107,9 +108,9 @@ public class SignUpFragment extends Fragment {
                                         progressBar.setVisibility(View.GONE);
                                         firebaseUser = firebaseAuth.getCurrentUser();
                                         assert firebaseUser != null : "cant find user";
-                                        databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ firebaseUser.getUid());
+                                        databaseReference = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/"+ firebaseUser.getUid());
 
-                                        User user = new User( firebaseUser.getUid(), str_email, 0, new LookingFor(), new Info( sp_provincial.getSelectedItem().toString()), new ArrayList<Interest>());
+                                        User user = new User( firebaseUser.getUid(), str_email, 0, new LookingFor(), new Info( sp_provincial.getSelectedItem().toString()));
 
                                         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override

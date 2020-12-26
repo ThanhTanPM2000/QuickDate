@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="8dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="@drawable/gradation_black">
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/montserrat_light"
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            app:layout_constraintStart_toEndOf="@id/item_name"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_bold"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/item_name"
+            app:layout_constraintStart_toStartOf="@id/item_name"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_black">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/skip_white_120dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_black">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/like_white_120dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/top_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

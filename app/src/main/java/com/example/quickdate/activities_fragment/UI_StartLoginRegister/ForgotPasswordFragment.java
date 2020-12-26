@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 public class ForgotPasswordFragment extends Fragment {
 
     EditText et_email;
-    ConstraintLayout ctl_submit;
+    ImageButton btn_submit;
     ImageView iv_backAct;
     FirebaseAuth firebaseAuth;
 
@@ -46,7 +47,7 @@ public class ForgotPasswordFragment extends Fragment {
 
     private void initialization(View view){
         et_email = (EditText) view.findViewById(R.id.et_email_forgotPasswordAct);
-        ctl_submit = (ConstraintLayout) view.findViewById(R.id.ctl_submit_forgotPasswordAct);
+        btn_submit = (ImageButton) view.findViewById(R.id.btn_submit_forgotPassword);
         iv_backAct = (ImageView) view.findViewById(R.id.iv_backAct_forgotPasswordAct);
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -57,7 +58,7 @@ public class ForgotPasswordFragment extends Fragment {
     }
 
     private void forgotPasswordFunction(){
-        PushDownAnim.setPushDownAnimTo(ctl_submit).setOnClickListener(new View.OnClickListener() {
+        PushDownAnim.setPushDownAnimTo(btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String mail = et_email.getText().toString();

@@ -63,21 +63,20 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_facebookLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageButton
+                android:src="@drawable/ic_key"
                 android:id="@+id/btn_login_splashAct"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
-                android:background="@drawable/img_btnkey"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center"/>
+                android:background="@drawable/shape_circle_white"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,13 +95,13 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageButton
                 android:id="@+id/btn_signUp_splashAct"
+                android:src="@drawable/ic_addpeople"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
-                android:background="@drawable/img_btnaddpeople"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"/>
+                android:background="@drawable/shape_circle_white"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:layout_width="wrap_content"

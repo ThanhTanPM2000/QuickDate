@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
+import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -32,7 +34,10 @@ public class DoneFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private DatabaseReference databaseReference;
     private View view;
+    private ProgressBar progressBar;
+    private User user;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -54,9 +59,29 @@ public class DoneFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar_done);
+
+        user = (User) getArguments().getSerializable("User");
     }
 
     private void doFunctionInAct(){
+        user.setStatus(1);
+        databaseReference = firebaseDatabase.getReference("Users/" + user.getInfo().getGender() +"/" + user.getLookingFor().getLooking() + "/" + firebaseUser.getUid());
+        databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
+                    iv_submit.setVisibility(View.VISIBLE);
+
+                    databaseReference = firebaseDatabase.getReference("Users/UnRegisters/" + firebaseUser.getUid());
+                    databaseReference.removeValue();
+                }else{
+                    Snackbar.make(view, Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()), BaseTransientBottomBar.LENGTH_LONG).show();
+                }
+            }
+        });
+
         PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,19 +91,8 @@ public class DoneFragment extends Fragment {
     }
 
     private void callSubmitAct(){
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Users/" + firebaseUser.getUid());
-        databaseReference.child("status").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Intent intent = new Intent(getActivity(), SwipeAct.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }else{
-                    Snackbar.make(view, Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()), BaseTransientBottomBar.LENGTH_LONG).show();
-                }
-            }
-        });
-
+        Intent intent = new Intent(getActivity(), SwipeAct.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
