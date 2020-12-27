@@ -21,6 +21,7 @@ import com.example.quickdate.listener.UserListener;
 import com.example.quickdate.model.Info;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
+import com.example.quickdate.model.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,12 +67,17 @@ public class MyProfileFragment extends Fragment{
         recyclerView = root.findViewById(R.id.recyclerView_myProfile);
         interestsTrue = new ArrayList<Interest>();
 
-        ((SwipeAct) getActivity()).passVal(new UserListener() {
+        ((SwipeAct) getActivity()).passValUser(new UserListener() {
             @Override
             public void getUser(User user) {
                 myUser = user;
                 index = new ArrayList<>(myUser.getInfo().getImages().keySet());
                 doFunctionInAct();
+            }
+
+            @Override
+            public void getUsers(Users users) {
+
             }
         });
     }

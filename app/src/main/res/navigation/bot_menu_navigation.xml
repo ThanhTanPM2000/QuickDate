@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MatchesFragment"
-        android:label="fragment_dashboard"
+        android:name="com.example.quickdate.activities_fragment.UI_QuickDate.SwiperFragment"
+        android:label="fragment_swiper"
         tools:layout="@layout/fragment_swiper" />
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.quickdate.activities_fragment.UI_QuickDate.SwiperFragment"
-        android:label="NotificationsFragment" />
+        android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MatchesFragment"
+        android:label="fragment_matches" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MyProfileFragment"

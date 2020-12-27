@@ -109,7 +109,8 @@ public class LoginFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         assert user != null;
-                                        if(user.isEmailVerified()){
+                                        //user.isEmailVerified()
+                                        if(true){
                                             DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + user.getUid());
                                             db.addValueEventListener(new ValueEventListener() {
                                                 @Override

@@ -20,6 +20,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     private ArrayList<User> Users;
 
+    public CardStackAdapter(com.example.quickdate.model.Users myUsers) {
+        this.Users = myUsers.getUsers();
+    }
+
     public ArrayList<User> getUsers() {
         return Users;
     }
