@@ -39,14 +39,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.util.Objects;
+
 public class LoginFragment extends Fragment {
-    EditText et_email, et_password;
-    ImageButton btn_submit;
-    TextView tv_forgotPass, tv_signUp;
-    CheckBox cb_rememberPass;
-    FirebaseAuth firebaseAuth;
-    ImageView iv_backAct;
-    ProgressBar progressBar;
+    private EditText et_email, et_password;
+    private ImageButton btn_submit;
+    private TextView tv_forgotPass, tv_signUp;
+    private CheckBox cb_rememberPass;
+    private FirebaseAuth firebaseAuth;
+    private ImageView iv_backAct;
+    private ProgressBar progressBar;
 
     private static final String remember = "vidslogin";
     private static final String emailRemember = "email";
@@ -120,6 +122,8 @@ public class LoginFragment extends Fragment {
                                                         Intent intent = new Intent(getActivity(), SwipeAct.class);
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         startActivity(intent);
+                                                        requireActivity().finish();
+                                                        return;
                                                     }else{
                                                         if (NavHostFragment.findNavController(LoginFragment.this).getCurrentDestination().getId() == R.id.loginFragment) {
                                                             NavHostFragment.findNavController(LoginFragment.this)

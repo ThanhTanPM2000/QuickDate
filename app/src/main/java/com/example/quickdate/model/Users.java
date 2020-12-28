@@ -6,7 +6,7 @@ public class Users {
     ArrayList<User> users;
 
     public Users(){
-
+        users = new ArrayList<User>();
     }
 
     public ArrayList<User> getUsers() {

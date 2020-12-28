@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import okhttp3.internal.cache.DiskLruCache;
 
 
-public class SwiperFragment extends Fragment{
+public class SwiperFragment extends Fragment implements CardStackListener {
 
 
     private CardStackView cardStackView;
@@ -54,21 +54,201 @@ public class SwiperFragment extends Fragment{
     private ImageButton btn_skip, btn_love, btn_rewind;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+    private User user, tempUser;
     private Users myUsers;
+    private View root;
     private FirebaseUser firebaseUser;
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //init(view);
+        root = view;
+        getUser();
 
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_swiper, container, false);
-        return root;
+        return inflater.inflate(R.layout.fragment_swiper, container, false);
     }
 
+    private void getUser(){
+        String[] genders = new String[]{"Male", "Female"};
+        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                FirebaseDatabase.getInstance()
+                        .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.getValue() != null){
+                                    user = snapshot.getValue(User.class);
+                                    getOppositeUser();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+            }
+        }
+    }
+
+    private void getOppositeUser(){
+        myUsers = new Users();
+        FirebaseDatabase.getInstance().getReference("Users/" + (user.getInfo().getGender().equals("Male") ? "Female/" : "Male/")).child(user.getLookingFor().getLooking()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    tempUser = postSnapshot.getValue(User.class);
+                    if(tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()){
+                        myUsers.getUsers().add(tempUser);
+                    }
+                }
+                init(root);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void init(View view) {
+        /*((SwipeAct) getActivity()).passValUsers(new UserListener() {
+            @Override
+            public void getUser(User user) {
+            }
+
+            @Override
+            public void getUsers(Users users) {
+                myUsers = users;
+            }
+        });*/
+
+        cardStackView = view.findViewById(R.id.card_stack_view);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
+        cardStackAdapter = new CardStackAdapter(myUsers);
+        btn_skip = (ImageButton) view.findViewById(R.id.skip_button);
+        btn_love = (ImageButton) view.findViewById(R.id.love_button);
+        btn_rewind = (ImageButton) view.findViewById(R.id.rewind_button);
+        doFunction();
+
+    }
+
+    private void doFunction() {
+        setupCardStackView();
+        setupButton();
+    }
+
+    private void setupButton() {
+        PushDownAnim.setPushDownAnimTo(btn_skip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                        .setDirection(Direction.Left)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .build();
+                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+                cardStackView.swipe();
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(btn_rewind).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
+                        .setDirection(Direction.Bottom)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new DecelerateInterpolator())
+                        .build();
+                cardStackLayoutManager.setRewindAnimationSetting(setting);
+                cardStackView.rewind();
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(btn_love).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                        .setDirection(Direction.Right)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .build();
+                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+                cardStackView.swipe();
+            }
+        });
+    }
+
+    private void setupCardStackView() {
+        cardStackLayoutManager.setStackFrom(StackFrom.None);
+        cardStackLayoutManager.setVisibleCount(3);
+        cardStackLayoutManager.setTranslationInterval(8.0f);
+        cardStackLayoutManager.setScaleInterval(0.95f);
+        cardStackLayoutManager.setSwipeThreshold(0.3f);
+        cardStackLayoutManager.setMaxDegree(20.0f);
+        cardStackLayoutManager.setDirections(Direction.HORIZONTAL);
+        cardStackLayoutManager.setCanScrollHorizontal(true);
+        cardStackLayoutManager.setCanScrollVertical(true);
+        cardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
+        cardStackLayoutManager.setOverlayInterpolator(new LinearInterpolator());
+        cardStackView.setLayoutManager(cardStackLayoutManager);
+        cardStackView.setAdapter(cardStackAdapter);
+
+        RecyclerView.ItemAnimator itemAnimator = cardStackView.getItemAnimator();
+        if (itemAnimator instanceof DefaultItemAnimator) {
+            DefaultItemAnimator di = (DefaultItemAnimator) itemAnimator;
+            di.setSupportsChangeAnimations(false);
+        }
+    }
+
+    @Override
+    public void onCardDragging(Direction direction, float ratio) {
+
+    }
+
+    @Override
+    public void onCardSwiped(Direction direction) {
+        if (cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount() - 5) {
+            paginate();
+        }
+    }
+
+    @Override
+    public void onCardRewound() {
+
+    }
+
+    @Override
+    public void onCardCanceled() {
+
+    }
+
+    @Override
+    public void onCardAppeared(View view, int position) {
+
+    }
+
+    @Override
+    public void onCardDisappeared(View view, int position) {
+
+    }
+
+    private void paginate() {
+        ArrayList<User> old = cardStackAdapter.getUsers();
+        ArrayList<User> newer = old;
+        newer.addAll(myUsers.getUsers());
+        UserDiffCallBack callback = new UserDiffCallBack(old, newer);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        cardStackAdapter.setUsers(newer);
+        result.dispatchUpdatesTo(cardStackAdapter);
+    }
 
 }

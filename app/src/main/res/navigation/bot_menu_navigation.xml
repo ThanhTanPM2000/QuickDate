@@ -9,7 +9,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.SwiperFragment"
         android:label="fragment_swiper"
-        tools:layout="@layout/fragment_swiper" />
+        tools:layout="@layout/fragment_swiper" >
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MatchesFragment"
@@ -18,5 +22,9 @@
         android:id="@+id/navigation_home"
         android:name="com.example.quickdate.activities_fragment.UI_QuickDate.MyProfileFragment"
         android:label="fragment_my_profile"
-        tools:layout="@layout/fragment_my_profile" />
+        tools:layout="@layout/fragment_my_profile" >
+        <argument
+            android:name="User"
+            app:argType="com.example.quickdate.model.User" />
+    </fragment>
 </navigation>

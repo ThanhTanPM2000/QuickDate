@@ -6,8 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/selectableItemBackground"
-    android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="8dp"
@@ -35,7 +33,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@android:color/white"
-            android:textSize="36sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -43,10 +41,10 @@
             android:id="@+id/item_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="5dp"
             android:fontFamily="@font/montserrat_light"
             android:textColor="@android:color/white"
-            android:textSize="36sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/item_name"
             app:layout_constraintTop_toTopOf="parent"/>
 

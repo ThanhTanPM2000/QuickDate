@@ -99,7 +99,7 @@ public class MyProfileFragment extends Fragment{
         for (int i = 0; i < myUser.getInfo().getImages().size(); i++) {
             slideModels.add(new SlideModel(myUser.getInfo().getImages().get(index.get(i))));
         }
-        imageSlider.setImageList(slideModels, false);
+        imageSlider.setImageList(slideModels, true);
     }
 
     private void showInfo() {

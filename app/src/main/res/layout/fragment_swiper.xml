@@ -23,7 +23,7 @@
         android:id="@+id/card_stack_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintCircleRadius="200dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.38"

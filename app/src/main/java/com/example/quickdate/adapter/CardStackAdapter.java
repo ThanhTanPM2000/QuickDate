@@ -48,7 +48,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         }else{
             holder.tv_name.setText(arr[arr.length-1] + ",");
         }
-        holder.tv_age.setText(user.getInfo().getAge());
+        holder.tv_age.setText(user.getInfo().getAge() + "");
         holder.tv_height.setText(user.getInfo().getHeight() + "cm");
         Picasso.get().load(user.getInfo().getImgAvt()).into(holder.imageView, new Callback() {
             @Override

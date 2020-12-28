@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +56,7 @@ public class DoneFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_done, container, false);
     }
 
-    private void initialization(View view){
+    private void initialization(View view) {
         iv_submit = (ImageView) view.findViewById(R.id.iv_submit_doneAct);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -64,19 +66,19 @@ public class DoneFragment extends Fragment {
         user = (User) getArguments().getSerializable("User");
     }
 
-    private void doFunctionInAct(){
+    private void doFunctionInAct() {
         user.setStatus(1);
-        databaseReference = firebaseDatabase.getReference("Users/" + user.getInfo().getGender() +"/" + user.getLookingFor().getLooking() + "/" + firebaseUser.getUid());
+        databaseReference = firebaseDatabase.getReference("Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + firebaseUser.getUid());
         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     iv_submit.setVisibility(View.VISIBLE);
 
                     databaseReference = firebaseDatabase.getReference("Users/UnRegisters/" + firebaseUser.getUid());
                     databaseReference.removeValue();
-                }else{
+                } else {
                     Snackbar.make(view, Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()), BaseTransientBottomBar.LENGTH_LONG).show();
                 }
             }
@@ -90,9 +92,11 @@ public class DoneFragment extends Fragment {
         });
     }
 
-    private void callSubmitAct(){
+    private void callSubmitAct() {
         Intent intent = new Intent(getActivity(), SwipeAct.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        requireActivity().finish();
+        return;
     }
 }
