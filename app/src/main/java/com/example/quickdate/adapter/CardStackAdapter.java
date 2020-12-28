@@ -36,7 +36,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.item_spot, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_swiper, parent, false));
     }
 
     @Override
