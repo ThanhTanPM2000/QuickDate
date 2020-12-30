@@ -1,6 +1,7 @@
 package com.example.quickdate.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,11 @@ import java.util.HashMap;
 
 public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdapter.ViewHolder> {
     private Context context;
-    private final HashMap<String, String> images;
-    private final ArrayList<String> indexs;
+    private final ArrayList<Uri> images;
     private static ImagesListener imagesListener;
 
-    public ImageRegisterAdapter(HashMap<String, String> images, ImagesListener imagesListener){
+    public ImageRegisterAdapter(ArrayList<Uri> images, ImagesListener imagesListener){
         this.images = images;
-        indexs  = new ArrayList<String>(images.keySet());
         ImageRegisterAdapter.imagesListener = imagesListener;
     }
 
@@ -46,10 +45,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String key = indexs.get(position);
-        String image = images.get(key);
-
-
+        String image = images.get(position).toString();
 
         Picasso.get().load(image).noFade().into(holder.riv, new Callback() {
             @Override
@@ -63,7 +59,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
             }
         });
 
-        holder.bindImage(key);
+        holder.bindImage(position);
     }
 
     @Override
@@ -83,11 +79,11 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
             iv_removeImage = (ImageView) this.itemView.findViewById(R.id.iv_removeImage);
         }
 
-        public void bindImage(String imageKey){
+        public void bindImage(int position){
             PushDownAnim.setPushDownAnimTo(iv_removeImage).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    imagesListener.onImageClicked(imageKey);
+                    imagesListener.onImageClicked(position);
                 }
             });
         }

@@ -4,44 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_base_notification"
     tools:context=".activities_fragment.UI_QuickDate.NotificationFragment">
 
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Notification"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/notification_rv"
+        app:layout_constraintStart_toStartOf="@+id/notification_rv" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notification_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintHeight_percent="0.9"
-        android:background="@drawable/img_base_notification"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:foregroundGravity="bottom"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:text="Notification"
-            android:textColor="@color/black"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView2" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.9"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:foregroundGravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/item_notification" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_notification" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

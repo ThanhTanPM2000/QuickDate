@@ -1,8 +1,9 @@
 package com.example.quickdate.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Users {
+public class Users implements Serializable {
     ArrayList<User> users;
 
     public Users(){

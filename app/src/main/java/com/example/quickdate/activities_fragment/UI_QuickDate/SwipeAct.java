@@ -42,6 +42,7 @@ public class SwipeAct extends AppCompatActivity {
     private BottomNavigationView navView;
     private View dialogFragment, navBotFragment;
     private Boolean isNotificationClick;
+    private Users myUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,8 @@ public class SwipeAct extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("User", myUsers);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     fragment = new MyProfileFragment();
@@ -146,16 +149,16 @@ public class SwipeAct extends AppCompatActivity {
                 FirebaseDatabase.getInstance()
                         .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.getValue() != null){
-                            user = snapshot.getValue(User.class);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.getValue() != null){
+                                    user = snapshot.getValue(User.class);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
             }
         }
     }

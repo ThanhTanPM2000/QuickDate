@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-            android:id="@+id/avatarIv"
+            android:id="@+id/avatarIv_itemNotification"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="10dp"

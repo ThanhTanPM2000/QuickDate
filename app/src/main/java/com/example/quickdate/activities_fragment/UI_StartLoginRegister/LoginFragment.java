@@ -1,5 +1,6 @@
 package com.example.quickdate.activities_fragment.UI_StartLoginRegister;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,7 +49,7 @@ public class LoginFragment extends Fragment {
     private CheckBox cb_rememberPass;
     private FirebaseAuth firebaseAuth;
     private ImageView iv_backAct;
-    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
 
     private static final String remember = "vidslogin";
     private static final String emailRemember = "email";
@@ -77,8 +78,9 @@ public class LoginFragment extends Fragment {
         tv_signUp = (TextView) view.findViewById(R.id.tv_Signup_loginAct);
         cb_rememberPass = (CheckBox) view.findViewById(R.id.cb_rememberpass_loginAct);
         iv_backAct = (ImageView) view.findViewById(R.id.iv_backAct_loginAct);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
         firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading...");
 
         SharedPreferences loginPreferences = this.getActivity().getSharedPreferences(remember,
                 Context.MODE_PRIVATE);
@@ -101,13 +103,12 @@ public class LoginFragment extends Fragment {
                     public void onClick(View view) {
                         String str_email = et_email.getText().toString().trim();
                         String str_password = et_password.getText().toString().trim();
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressDialog.show();
                         if(isCheckDataInput(str_email, str_password)){
                             isRememberPasswordFunction(str_email, str_password);
                             firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         assert user != null;
@@ -117,6 +118,7 @@ public class LoginFragment extends Fragment {
                                             db.addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    progressDialog.dismiss();
                                                     User user = snapshot.getValue(User.class);
                                                     if(user == null){
                                                         Intent intent = new Intent(getActivity(), SwipeAct.class);

@@ -6,125 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".activities_fragment.UI_QuickDate.MyProfileFragment">
 
-    <com.denzcoskun.imageslider.ImageSlider
-        android:id="@+id/imageSlider_Profile"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:auto_cycle="true"
-        app:corner_radius="5"
-        app:delay="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:period="2000" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="1"
-        android:background="@drawable/shape_background_typeact"
-        app:layout_constraintTop_toBottomOf="@+id/imageSlider_Profile"
-        tools:layout_editor_absoluteX="0dp">
-
-        <TextView
-            android:id="@+id/tv_info_myProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Dave,"
-            android:textColor="@color/white"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_info2_myProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:fontFamily="@font/montserrat_light"
-            android:text="24"
-            android:textColor="@color/white"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_info_myProfile"
-            app:layout_constraintStart_toEndOf="@id/tv_info_myProfile"
-            app:layout_constraintTop_toTopOf="@id/tv_info_myProfile" />
-
-        <TextView
-            android:id="@+id/tv_info3_myProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/raleway_bold"
-            android:text="Los Angeles, CA - 1.77cm"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_info_myProfile"
-            app:layout_constraintTop_toBottomOf="@id/tv_info_myProfile" />
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/edit_myProfile"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginEnd="45dp"
-            android:background="@drawable/img_edit"
-            app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
-            app:layout_constraintTop_toTopOf="@id/tv_info_myProfile"
-            app:layout_constraintVertical_bias="0.333" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_info3_myProfile" />
-
-        <TextView
-            android:id="@+id/tv_info4_myProfile"
-            android:layout_width="385dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/raleway_bold"
-            android:text="Nullam tellus libero, tincidunt ut ipsum in, aliquet dictum dolor. Sed interdum lacinia urna non euismod. "
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_info_myProfile"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="64dp"
-            android:background="@drawable/background_myprofile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="1"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_info4_myProfile">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_myProfile"
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/imageSlider_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginStart="20dp"
+                app:auto_cycle="true"
+                app:corner_radius="5"
+                app:delay="0"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:period="2000" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_background_typeact"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.6"
+                app:layout_constraintStart_toStartOf="parent">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                    android:id="@+id/avatarIv_myProfile"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/img_doneemoji"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_info3_myProfile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_info_myProfile" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_info_myProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Dave,"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintStart_toEndOf="@+id/avatarIv_myProfile"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/tv_info2_myProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="24"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_info_myProfile"
+                    app:layout_constraintStart_toEndOf="@id/tv_info_myProfile"
+                    app:layout_constraintTop_toTopOf="@id/tv_info_myProfile" />
+
+                <TextView
+                    android:id="@+id/tv_info3_myProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Los Angeles, CA - 1.77cm"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_info_myProfile"
+                    app:layout_constraintTop_toBottomOf="@id/tv_info_myProfile" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/edit_myProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="45dp"
+                    android:background="@drawable/img_edit"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
+                    app:layout_constraintTop_toTopOf="@id/tv_info_myProfile"
+                    app:layout_constraintVertical_bias="0.333" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_info3_myProfile" />
+
+                <TextView
+                    android:id="@+id/tv_info4_myProfile"
+                    android:layout_width="377dp"
+                    android:layout_height="69dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Nullam tellus libero, tincidunt ut ipsum in, aliquet dictum dolor. Sed interdum lacinia urna non euismod. "
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/avatarIv_myProfile"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/background_myprofile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="1"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_info4_myProfile">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_myProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="28dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

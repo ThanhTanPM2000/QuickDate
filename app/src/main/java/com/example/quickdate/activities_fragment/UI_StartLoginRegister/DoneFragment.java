@@ -78,16 +78,16 @@ public class DoneFragment extends Fragment {
 
                     databaseReference = firebaseDatabase.getReference("Users/UnRegisters/" + firebaseUser.getUid());
                     databaseReference.removeValue();
+
+                    PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            callSubmitAct();
+                        }
+                    });
                 } else {
                     Snackbar.make(view, Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()), BaseTransientBottomBar.LENGTH_LONG).show();
                 }
-            }
-        });
-
-        PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callSubmitAct();
             }
         });
     }
@@ -97,6 +97,5 @@ public class DoneFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         requireActivity().finish();
-        return;
     }
 }

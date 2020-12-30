@@ -1,47 +1,77 @@
 package com.example.quickdate.model;
 
 public class Notification {
-    private String sUid;
-    private String sImage;
-    private String hisUid;
+    private String type;
+    private String Uid;
+    private String myUid;
     private String hisImage;
-    private String message;
+    private String hisName;
+    private String notification;
     private String timeStamp;
 
-    public Notification(String sUid, String sImage, String hisUid, String hisImage, String message, String timeStamp) {
-        this.sUid = sUid;
-        this.sImage = sImage;
-        this.hisUid = hisUid;
+    public Notification(String type, String uid, String myUid, String hisImage, String hisName, String notification, String timeStamp) {
+        this.type = type;
+        Uid = uid;
+        this.myUid = myUid;
         this.hisImage = hisImage;
-        this.message = message;
+        this.hisName = hisName;
+        this.notification = notification;
         this.timeStamp = timeStamp;
     }
 
-    public String getsUid() {
-        return sUid;
+    public String getType() {
+        return type;
     }
 
-    public String getsImage() {
-        return sImage;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getHisUid() {
-        return hisUid;
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
+    }
+
+    public String getMyUid() {
+        return myUid;
+    }
+
+    public void setMyUid(String myUid) {
+        this.myUid = myUid;
     }
 
     public String getHisImage() {
         return hisImage;
     }
 
-    public String getMessage() {
-        return message;
+    public void setHisImage(String hisImage) {
+        this.hisImage = hisImage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getHisName() {
+        return hisName;
+    }
+
+    public void setHisName(String hisName) {
+        this.hisName = hisName;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
     }
 
     public String getTimeStamp() {
         return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

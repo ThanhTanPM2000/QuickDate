@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
 import com.example.quickdate.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
@@ -75,7 +80,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             init(itemView);
         }
 
@@ -86,4 +90,5 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             imageView = (RoundedImageView) view.findViewById(R.id.item_image);
         }
     }
+
 }

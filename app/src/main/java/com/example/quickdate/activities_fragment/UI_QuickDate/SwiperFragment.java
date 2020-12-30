@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +21,13 @@ import com.example.quickdate.R;
 import com.example.quickdate.adapter.CardStackAdapter;
 import com.example.quickdate.adapter.UserDiffCallBack;
 import com.example.quickdate.listener.UserListener;
+import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.example.quickdate.model.Users;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +47,7 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import okhttp3.internal.cache.DiskLruCache;
 
@@ -54,18 +61,18 @@ public class SwiperFragment extends Fragment implements CardStackListener {
     private ImageButton btn_skip, btn_love, btn_rewind;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
-    private User user, tempUser;
+    private User user;
     private Users myUsers;
     private View root;
     private FirebaseUser firebaseUser;
+    private Boolean flag = true;
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         root = view;
-        getUser();
-
+        findUser();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -73,7 +80,7 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         return inflater.inflate(R.layout.fragment_swiper, container, false);
     }
 
-    private void getUser(){
+    private void findUser() {
         String[] genders = new String[]{"Male", "Female"};
         String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
         for (int i = 0; i < 2; i++) {
@@ -83,11 +90,12 @@ public class SwiperFragment extends Fragment implements CardStackListener {
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.getValue() != null){
+                                if (snapshot.getValue() != null) {
                                     user = snapshot.getValue(User.class);
-                                    getOppositeUser();
+                                    getOppositeUsers();
                                 }
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                             }
@@ -96,18 +104,22 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         }
     }
 
-    private void getOppositeUser(){
+    private void getOppositeUsers() {
         myUsers = new Users();
         FirebaseDatabase.getInstance().getReference("Users/" + (user.getInfo().getGender().equals("Male") ? "Female/" : "Male/")).child(user.getLookingFor().getLooking()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    tempUser = postSnapshot.getValue(User.class);
-                    if(tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()){
-                        myUsers.getUsers().add(tempUser);
+                if (flag) {
+                    myUsers.getUsers().clear();
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        User tempUser = postSnapshot.getValue(User.class);
+                        if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
+                            myUsers.getUsers().add(tempUser);
+                            init(root);
+                            flag = false;
+                        }
                     }
                 }
-                init(root);
             }
 
             @Override
@@ -116,29 +128,18 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         });
     }
 
+
     private void init(View view) {
-        /*((SwipeAct) getActivity()).passValUsers(new UserListener() {
-            @Override
-            public void getUser(User user) {
-            }
-
-            @Override
-            public void getUsers(Users users) {
-                myUsers = users;
-            }
-        });*/
-
         cardStackView = view.findViewById(R.id.card_stack_view);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
         cardStackAdapter = new CardStackAdapter(myUsers);
+        cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
         btn_skip = (ImageButton) view.findViewById(R.id.skip_button);
         btn_love = (ImageButton) view.findViewById(R.id.love_button);
         btn_rewind = (ImageButton) view.findViewById(R.id.rewind_button);
         doFunction();
-
     }
 
     private void doFunction() {
@@ -199,6 +200,7 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         cardStackLayoutManager.setCanScrollVertical(true);
         cardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
         cardStackLayoutManager.setOverlayInterpolator(new LinearInterpolator());
+
         cardStackView.setLayoutManager(cardStackLayoutManager);
         cardStackView.setAdapter(cardStackAdapter);
 
@@ -219,6 +221,10 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         if (cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount() - 5) {
             paginate();
         }
+        if (direction == Direction.Right) {
+            User test = myUsers.getUsers().get(cardStackLayoutManager.getTopPosition() - 1);
+            addToHisNotifications(test.getInfo().getGender(), test.getLookingFor().getLooking(), test.getIdUser(), "Love", "Want to match with you");
+        }
     }
 
     @Override
@@ -238,7 +244,6 @@ public class SwiperFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardDisappeared(View view, int position) {
-
     }
 
     private void paginate() {
@@ -251,4 +256,28 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         result.dispatchUpdatesTo(cardStackAdapter);
     }
 
+    private void addToHisNotifications(String gender, String looking, String hisId, String type, String message) {
+        String timeStamp = "" + System.currentTimeMillis();
+
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("type", type);
+        hashMap.put("Uid", hisId);
+        hashMap.put("myUid", firebaseUser.getUid());
+        hashMap.put("hisImage", user.getInfo().getImgAvt());
+        hashMap.put("hisName", user.getInfo().getNickname());
+        hashMap.put("notification", message);
+        hashMap.put("timeStamp", timeStamp);
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + gender + "/" + looking + "/" + hisId + "/Notifications/" + timeStamp);
+        db.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getActivity(), "send love", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

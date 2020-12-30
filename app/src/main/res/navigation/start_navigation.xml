@@ -21,9 +21,6 @@
         <action
             android:id="@+id/action_loginFragment_to_selectGenderFragment"
             app:destination="@id/selectGenderFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_bot_menu_navigation"
-            app:destination="@id/bot_menu_navigation" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -122,9 +119,5 @@
         <argument
             android:name="User"
             app:argType="com.example.quickdate.model.User" />
-        <action
-            android:id="@+id/action_doneFragment_to_bot_menu_navigation"
-            app:destination="@id/bot_menu_navigation" />
     </fragment>
-    <include app:graph="@navigation/bot_menu_navigation" />
 </navigation>
