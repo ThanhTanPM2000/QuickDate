@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorDayNightMode"
-    tools:context=".activities_fragment.UI_StartLoginRegister.BioPhotosFragment">
+    tools:context=".activities_fragment.UI_StartLoginRegister.BioPhotosActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_selectGenderAct"

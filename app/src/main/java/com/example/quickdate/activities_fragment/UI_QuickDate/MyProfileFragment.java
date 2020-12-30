@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,7 +29,10 @@ import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosActivity;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsActivity;
 import com.example.quickdate.adapter.InterestsAdapter;
+import com.example.quickdate.adapter.SliderAdapter;
 import com.example.quickdate.listener.UserListener;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
@@ -36,15 +40,24 @@ import com.example.quickdate.utility.UploadImage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
+
+import okhttp3.internal.Internal;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -61,6 +74,10 @@ public class MyProfileFragment extends Fragment {
     private User myUser;
     private ProgressDialog pd;
 
+    // Slider images
+    private SliderView sliderView;
+    private SliderAdapter adapter;
+
     // Firebase Database Ref
     DatabaseReference databaseReference;
 
@@ -73,8 +90,6 @@ public class MyProfileFragment extends Fragment {
     private Uri image_Uri;
 
     // Array needs in View
-    private ArrayList<SlideModel> slideModels;
-    private ArrayList<String> index;
     private ArrayList<Interest> interests;
 
     // Permissions Contants
@@ -100,14 +115,12 @@ public class MyProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        findUserInfo();
     }
 
     private void init() {
-        // Init array SlideModel for Pictures Slide
-        slideModels = new ArrayList<SlideModel>();
 
         // Init View
-        imageSlider = root.findViewById(R.id.imageSlider_Profile);
         avatarIv = (CircularImageView) root.findViewById(R.id.avatarIv_myProfile);
         tv_info = root.findViewById(R.id.tv_info_myProfile);
         tv_info2 = root.findViewById(R.id.tv_info2_myProfile);
@@ -115,6 +128,7 @@ public class MyProfileFragment extends Fragment {
         tv_info4 = root.findViewById(R.id.tv_info4_myProfile);
         btn_edit = root.findViewById(R.id.edit_myProfile);
         recyclerView = root.findViewById(R.id.recyclerView_myProfile);
+        sliderView = root.findViewById(R.id.imageSlider_Profile);
 
         // Init Firebase Database
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -128,22 +142,30 @@ public class MyProfileFragment extends Fragment {
         // Init ProgressDialog
         pd = new ProgressDialog(getActivity());
 
-        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        // get User from Activity using Interface
-        ((SwipeAct) getActivity()).passValUser(new UserListener() {
-            @Override
-            public void getUser(User user) {
-                myUser = user;
-                doFunction();
+    }
+
+    private void findUserInfo() {
+        String[] genders = new String[]{"Male", "Female"};
+        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                FirebaseDatabase.getInstance()
+                        .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.getValue() != null){
+                                    myUser = snapshot.getValue(User.class);
+                                    doFunction();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
             }
-
-            @Override
-            public void getUsers(ArrayList<User> users) {
-
-            }
-        });
+        }
     }
 
     private void doFunction() {
@@ -197,9 +219,21 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void editProfile() {
+        Intent intent = new Intent(getActivity(), BioPhotosActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("User", myUser);
+        intent.putExtra("isRegisterInfo", true);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void editInterest() {
+        Intent intent = new Intent(getActivity(), InterestsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("User", myUser);
+        intent.putExtra("isRegisterInfo", true);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void showImagePicDialog() {
@@ -239,10 +273,20 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void showSliderImage() {
-        for (int i = 0; i < myUser.getInfo().getImages().size(); i++) {
-            slideModels.add(new SlideModel(myUser.getInfo().getImages().get(i)));
-        }
-        imageSlider.setImageList(slideModels, true);
+        // Init SliderAdapter
+        adapter = new SliderAdapter(myUser.getInfo().getImages() ,getActivity());
+        sliderView.setSliderAdapter(adapter);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        sliderView.setIndicatorSelectedColor(Color.WHITE);
+        sliderView.setIndicatorUnselectedColor(Color.GRAY);
+        sliderView.setScrollTimeInSec(3);
+        sliderView.setAutoCycle(true);
+        sliderView.startAutoCycle();
+
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
     private void showInfo() {

@@ -6,9 +6,9 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.LoginFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.LoginActivity"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/activity_login" >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -24,9 +24,9 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SignUpFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SignUpActivity"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/activity_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_splashFragment"
             app:destination="@id/splashFragment" />
@@ -47,18 +47,18 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.ForgotPasswordFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.ForgotPasswordActivity"
         android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" >
+        tools:layout="@layout/activity_forgot_password" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectGenderFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SelectGenderFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.SelectGenderActivity"
         android:label="fragment_select_gender"
-        tools:layout="@layout/fragment_select_gender" >
+        tools:layout="@layout/activity_select_gender" >
         <action
             android:id="@+id/action_selectGenderFragment_to_bioPhotosFragment"
             app:destination="@id/bioPhotosFragment" />
@@ -68,9 +68,9 @@
     </fragment>
     <fragment
         android:id="@+id/bioPhotosFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosActivity"
         android:label="fragment_bio_photos"
-        tools:layout="@layout/fragment_bio_photos" >
+        tools:layout="@layout/activity_bio_photos" >
         <action
             android:id="@+id/action_bioPhotosFragment_to_selectGenderFragment"
             app:destination="@id/selectGenderFragment" />
@@ -83,9 +83,9 @@
     </fragment>
     <fragment
         android:id="@+id/typeFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.TypeFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.TypeActivity"
         android:label="fragment_type"
-        tools:layout="@layout/fragment_type" >
+        tools:layout="@layout/activity_type" >
         <action
             android:id="@+id/action_typeFragment_to_bioPhotosFragment"
             app:destination="@id/bioPhotosFragment" />
@@ -98,9 +98,9 @@
     </fragment>
     <fragment
         android:id="@+id/interestsFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsActivity"
         android:label="fragment_interests"
-        tools:layout="@layout/fragment_interests" >
+        tools:layout="@layout/activity_interests" >
         <action
             android:id="@+id/action_interestsFragment_to_typeFragment"
             app:destination="@id/typeFragment" />
@@ -113,9 +113,9 @@
     </fragment>
     <fragment
         android:id="@+id/doneFragment"
-        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.DoneFragment"
+        android:name="com.example.quickdate.activities_fragment.UI_StartLoginRegister.DoneActivity"
         android:label="fragment_done"
-        tools:layout="@layout/fragment_done" >
+        tools:layout="@layout/activity_done" >
         <argument
             android:name="User"
             app:argType="com.example.quickdate.model.User" />

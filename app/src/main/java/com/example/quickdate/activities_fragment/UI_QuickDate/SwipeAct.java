@@ -44,6 +44,9 @@ public class SwipeAct extends AppCompatActivity {
     private Boolean isNotificationClick;
     private Users myUsers;
 
+    // index menu default
+    private int indexMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,8 @@ public class SwipeAct extends AppCompatActivity {
         dialogFragment = (View) findViewById(R.id.dialog_fragment);
         navBotFragment = (View) findViewById(R.id.nav_host_fragment);
         isNotificationClick = true;
+
+        indexMenu = getIntent().getIntExtra("MenuDefault", 1);
     }
 
     private void doFunction() {
@@ -98,13 +103,18 @@ public class SwipeAct extends AppCompatActivity {
                 }
             }
         });
-        loadFragment(new SwiperFragment(), R.id.nav_host_fragment);
+
+        if(indexMenu == 0){
+            loadFragment(new MyProfileFragment(), R.id.nav_host_fragment);
+        }else if (indexMenu == 1){
+            loadFragment(new SwiperFragment(), R.id.nav_host_fragment);
+        }else {
+            loadFragment(new MatchesFragment(), R.id.nav_host_fragment);
+        }
+
         // connect bottom navigation with menu
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navView.getMenu().getItem(1).setChecked(true);
-
-        // Search user in firebase realtime database
-        findUserInfo();
+        navView.getMenu().getItem(indexMenu).setChecked(true);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -141,27 +151,7 @@ public class SwipeAct extends AppCompatActivity {
         userListener.getUser(user);
     }
 
-    private void findUserInfo() {
-        String[] genders = new String[]{"Male", "Female"};
-        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                FirebaseDatabase.getInstance()
-                        .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.getValue() != null){
-                                    user = snapshot.getValue(User.class);
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-            }
-        }
-    }
+
 
     private void loadFragment(Fragment fragment, int id) {
         // load fragment

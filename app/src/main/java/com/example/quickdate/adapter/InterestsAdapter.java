@@ -50,6 +50,15 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        if(Interests.get(position).getStatus()){
+            holder.iv_status.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(true);
+        }else{
+            holder.iv_status.setVisibility(View.GONE);
+            holder.checkBox.setChecked(false);
+        }
+
         holder.tv_interestName.setText(Interests.get(position).getName());
         Picasso.get().load(Interests.get(position).getImage()).into(holder.roundedImageView, new Callback() {
             @Override

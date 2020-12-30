@@ -1,7 +1,6 @@
 package com.example.quickdate.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,12 @@ import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdapter.ViewHolder> {
-    private Context context;
-    private final ArrayList<Uri> images;
+    public final ArrayList<String> images;
     private static ImagesListener imagesListener;
 
-    public ImageRegisterAdapter(ArrayList<Uri> images, ImagesListener imagesListener){
+    public ImageRegisterAdapter(ArrayList<String> images, ImagesListener imagesListener){
         this.images = images;
         ImageRegisterAdapter.imagesListener = imagesListener;
     }
@@ -33,7 +30,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View imageView = inflater.inflate(R.layout.layout_container_image, parent, false);
@@ -45,7 +42,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String image = images.get(position).toString();
+        String image = images.get(position);
 
         Picasso.get().load(image).noFade().into(holder.riv, new Callback() {
             @Override
@@ -67,7 +64,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
         return images.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         View itemView;
         RoundedImageView riv;
         ImageView iv_removeImage;
