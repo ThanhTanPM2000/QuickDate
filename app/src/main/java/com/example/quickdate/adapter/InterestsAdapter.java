@@ -44,7 +44,7 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.View
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.layout_container_interests, parent, false);
+        View view = inflater.inflate(R.layout.item_interest, parent, false);
         return new ViewHolder(view);
     }
 

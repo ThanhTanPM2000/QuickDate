@@ -22,8 +22,8 @@
         <activity android:name=".activities_fragment.UI_StartLoginRegister.SignUpActivity" />
         <activity android:name=".activities_fragment.UI_StartLoginRegister.ForgotPasswordActivity" />
         <activity android:name=".activities_fragment.UI_StartLoginRegister.SelectGenderActivity"/>
-        <activity android:name=".activities_fragment.UI_StartLoginRegister.BioPhotosActivity"/>
         <activity android:name=".activities_fragment.UI_StartLoginRegister.TypeActivity"/>
+        <activity android:name=".activities_fragment.UI_StartLoginRegister.BioPhotosActivity"/>
         <activity android:name=".activities_fragment.UI_StartLoginRegister.InterestsActivity"/>
         <activity android:name=".activities_fragment.UI_StartLoginRegister.DoneActivity"/>
         <activity android:name=".activities_fragment.UI_StartLoginRegister.MainActivity">

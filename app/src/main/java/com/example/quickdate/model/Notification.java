@@ -1,22 +1,47 @@
 package com.example.quickdate.model;
 
 public class Notification {
+
+    private String senderId;
+    private String senderAvatar;
+    private String senderName;
     private String type;
-    private String Uid;
-    private String myUid;
-    private String hisImage;
-    private String hisName;
+    private String received;
     private String notification;
     private String timeStamp;
 
-    public Notification(String type, String uid, String myUid, String hisImage, String hisName, String notification, String timeStamp) {
+    public Notification(String senderId, String senderAvatar, String senderName, String type, String received, String notification, String timeStamp) {
+        this.senderId = senderId;
+        this.senderAvatar = senderAvatar;
+        this.senderName = senderName;
         this.type = type;
-        Uid = uid;
-        this.myUid = myUid;
-        this.hisImage = hisImage;
-        this.hisName = hisName;
+        this.received = received;
         this.notification = notification;
         this.timeStamp = timeStamp;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getSenderAvatar() {
+        return senderAvatar;
+    }
+
+    public void setSenderAvatar(String senderAvatar) {
+        this.senderAvatar = senderAvatar;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     public String getType() {
@@ -27,36 +52,12 @@ public class Notification {
         this.type = type;
     }
 
-    public String getUid() {
-        return Uid;
+    public String getReceived() {
+        return received;
     }
 
-    public void setUid(String uid) {
-        Uid = uid;
-    }
-
-    public String getMyUid() {
-        return myUid;
-    }
-
-    public void setMyUid(String myUid) {
-        this.myUid = myUid;
-    }
-
-    public String getHisImage() {
-        return hisImage;
-    }
-
-    public void setHisImage(String hisImage) {
-        this.hisImage = hisImage;
-    }
-
-    public String getHisName() {
-        return hisName;
-    }
-
-    public void setHisName(String hisName) {
-        this.hisName = hisName;
+    public void setReceived(String received) {
+        this.received = received;
     }
 
     public String getNotification() {

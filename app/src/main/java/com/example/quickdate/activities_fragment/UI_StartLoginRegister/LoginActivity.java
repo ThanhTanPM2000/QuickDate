@@ -21,13 +21,14 @@ import android.widget.Toast;
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
 import com.example.quickdate.model.User;
+import com.example.quickdate.model.OppositeUsers;
 import com.example.quickdate.utility.regexString;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -39,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView iv_backAct;
     private ProgressDialog progressDialog;
+
+    private String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private User user;
+    private OppositeUsers myOppositeUsers;
 
     private static final String remember = "vidslogin";
     private static final String emailRemember = "email";
@@ -53,11 +59,11 @@ public class LoginActivity extends AppCompatActivity {
         doFunctionInAct();
     }
 
-    private void initialization(){
+    private void initialization() {
         et_email = findViewById(R.id.et_mail_Login);
         et_password = findViewById(R.id.et_password);
         btn_submit = findViewById(R.id.btn_submit_login);
-        tv_forgotPass =findViewById(R.id.tv_forgotPass_loginAct);
+        tv_forgotPass = findViewById(R.id.tv_forgotPass_loginAct);
         tv_signUp = findViewById(R.id.tv_Signup_loginAct);
         cb_rememberPass = findViewById(R.id.cb_rememberpass_loginAct);
         iv_backAct = findViewById(R.id.iv_backAct_loginAct);
@@ -72,42 +78,39 @@ public class LoginActivity extends AppCompatActivity {
         cb_rememberPass.setChecked(loginPreferences.getBoolean(checkedRemember, false));
     }
 
-    private void doFunctionInAct(){
+    private void doFunctionInAct() {
         loginFunction();
         callBackAct();
         callActForgotPassword();
         callActSignUp();
     }
 
-    private void loginFunction(){
+    private void loginFunction() {
         PushDownAnim.setPushDownAnimTo(btn_submit)
                 .setOnClickListener(view -> {
                     String str_email = et_email.getText().toString().trim();
                     String str_password = et_password.getText().toString().trim();
                     progressDialog.show();
-                    if(isCheckDataInput(str_email, str_password)){
+                    if (isCheckDataInput(str_email, str_password)) {
                         isRememberPasswordFunction(str_email, str_password);
                         firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                assert firebaseUser != null;
                                 //user.isEmailVerified()
-                                if(true){
-                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + firebaseUser.getUid());
+                                if (true) {
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + idUser);
                                     db.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             progressDialog.dismiss();
                                             User user = snapshot.getValue(User.class);
-                                            Intent intent;
-                                            if(user == null){
-                                                intent = new Intent(getApplicationContext(), SwipeAct.class);
-                                            }else{
-                                                intent = new Intent(getApplicationContext(), SelectGenderActivity.class);
+                                            if (user == null) {
+                                                findCurrentUser();
+                                            } else {
+                                                Intent intent = new Intent(getApplicationContext(), SelectGenderActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                finish();
                                             }
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                            finish();
                                         }
 
                                         @Override
@@ -115,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                         }
                                     });
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), "Please verification your email for login", Toast.LENGTH_LONG).show();
                                 }
                             } else {
@@ -126,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean isCheckDataInput(String emailCheck, String passWordCheck){
+    private boolean isCheckDataInput(String emailCheck, String passWordCheck) {
         if (TextUtils.isEmpty(emailCheck) && TextUtils.isEmpty(passWordCheck)) {
             Toast.makeText(LoginActivity.this, "All fields shouldn't empty", Toast.LENGTH_SHORT).show();
         } else if (new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)) {
@@ -138,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    private void isRememberPasswordFunction(String email, String passWord){
+    private void isRememberPasswordFunction(String email, String passWord) {
         if (cb_rememberPass.isChecked()) {
             SharedPreferences loginPreferences = getSharedPreferences(remember, Context.MODE_PRIVATE);
             loginPreferences.edit().putString(emailRemember, email).putString(passWordRemember, passWord).putBoolean(checkedRemember, true).apply();
@@ -148,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void callActForgotPassword(){
+    private void callActForgotPassword() {
         PushDownAnim.setPushDownAnimTo(tv_forgotPass).setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -157,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void callActSignUp(){
+    private void callActSignUp() {
         PushDownAnim.setPushDownAnimTo(tv_signUp).setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -166,13 +169,70 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void callBackAct(){
+    private void callBackAct() {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
 
+        });
+    }
+
+    private void findCurrentUser() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+
+        String[] genders = new String[]{"Male", "Female"};
+        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                Query query = ref.child(genders[i]).child(lookingFor[j]).child(idUser);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            user = snapshot.getValue(User.class);
+                            getAllOppositeUsers();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    private void getAllOppositeUsers() {
+        myOppositeUsers = new OppositeUsers();
+        FirebaseDatabase.getInstance().getReference("Users/" + (user.getInfo().getGender().equals("Male") ? "Female/" : "Male/")).child(user.getLookingFor().getLooking()).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //myUsers.getUsers().clear();
+                /*if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
+                    myUsers.getUsers().add(tempUser);
+                }*/
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    User tempUser = item.getValue(User.class);
+                    if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
+                        myOppositeUsers.getUsers().add(tempUser);
+                        Intent intent = new Intent(getApplicationContext(), SwipeAct.class);
+                        intent.putExtra("User", user);
+                        intent.putExtra("OppositeUsers", myOppositeUsers);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 }

@@ -25,27 +25,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosActivity;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsActivity;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.adapter.SliderAdapter;
-import com.example.quickdate.listener.UserListener;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
-import com.example.quickdate.utility.UploadImage;
+import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -57,7 +49,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 
-import okhttp3.internal.Internal;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -65,14 +57,17 @@ import static android.app.Activity.RESULT_OK;
 public class MyProfileFragment extends Fragment {
 
     // Components in View
-    private ImageSlider imageSlider;
-    private CircularImageView avatarIv;
+    private CircleImageView circleImageView;
     private TextView tv_info, tv_info2, tv_info3, tv_info4;
     private Button btn_edit;
     private RecyclerView recyclerView;
     private View root;
-    private User myUser;
     private ProgressDialog pd;
+
+    // Model
+    private User myUser;
+    private OppositeUsers myOppositeUsers;
+
 
     // Slider images
     private SliderView sliderView;
@@ -115,13 +110,19 @@ public class MyProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        findUserInfo();
+        doFunction();
     }
 
     private void init() {
 
+        // Init User
+        SwipeAct act = (SwipeAct) getActivity();
+        myUser = act.getCurrentUser();
+        myOppositeUsers = act.getAllOppositeUsers();
+        act.tv_head_title.setText("");
+
         // Init View
-        avatarIv = (CircularImageView) root.findViewById(R.id.avatarIv_myProfile);
+        circleImageView = root.findViewById(R.id.avatarIv_myProfile);
         tv_info = root.findViewById(R.id.tv_info_myProfile);
         tv_info2 = root.findViewById(R.id.tv_info2_myProfile);
         tv_info3 = root.findViewById(R.id.tv_info3_myProfile);
@@ -141,31 +142,6 @@ public class MyProfileFragment extends Fragment {
 
         // Init ProgressDialog
         pd = new ProgressDialog(getActivity());
-
-
-    }
-
-    private void findUserInfo() {
-        String[] genders = new String[]{"Male", "Female"};
-        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                FirebaseDatabase.getInstance()
-                        .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.getValue() != null){
-                                    myUser = snapshot.getValue(User.class);
-                                    doFunction();
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-            }
-        }
     }
 
     private void doFunction() {
@@ -222,6 +198,7 @@ public class MyProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), BioPhotosActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", myUser);
+        intent.putExtra("OppositeUsers", myOppositeUsers);
         intent.putExtra("isRegisterInfo", true);
         startActivity(intent);
         getActivity().finish();
@@ -231,6 +208,7 @@ public class MyProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), InterestsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", myUser);
+        intent.putExtra("OppositeUsers", myOppositeUsers);
         intent.putExtra("isRegisterInfo", true);
         startActivity(intent);
         getActivity().finish();
@@ -293,10 +271,10 @@ public class MyProfileFragment extends Fragment {
         //show avatar image
         try {
             // if image is received then set
-            Picasso.get().load(myUser.getInfo().getImgAvt()).placeholder(R.drawable.img_doneemoji).into(avatarIv);
+            Picasso.get().load(myUser.getInfo().getImgAvt()).placeholder(R.drawable.img_doneemoji).into(circleImageView);
         } catch (Exception e) {
             // if there is any exception while getting image then set default
-            avatarIv.setImageResource(R.drawable.img_doneemoji);
+            circleImageView.setImageResource(R.drawable.img_doneemoji);
         }
 
         String[] arr = myUser.getInfo().getNickname().split(" ");
@@ -409,6 +387,7 @@ public class MyProfileFragment extends Fragment {
                                         public void onSuccess(Void aVoid) {
                                             pd.dismiss();
                                             Toast.makeText(getActivity(), "Image Updated...", Toast.LENGTH_SHORT).show();
+                                            myUser.getInfo().setImgAvt(downloadUri.toString());
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {

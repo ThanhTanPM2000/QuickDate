@@ -20,21 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickdate.R;
 import com.example.quickdate.adapter.CardStackAdapter;
 import com.example.quickdate.adapter.UserDiffCallBack;
-import com.example.quickdate.listener.UserListener;
-import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.Users;
+import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -49,8 +42,6 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import okhttp3.internal.cache.DiskLruCache;
-
 
 public class SwiperFragment extends Fragment implements CardStackListener {
 
@@ -62,17 +53,21 @@ public class SwiperFragment extends Fragment implements CardStackListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private User user;
-    private Users myUsers;
+    private OppositeUsers myOppositeUsers;
     private View root;
     private FirebaseUser firebaseUser;
     private Boolean flag = true;
 
+    String uidUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        root = view;
-        findUser();
+
+
+
+        init(view);
+        doFunction();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -80,66 +75,21 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         return inflater.inflate(R.layout.fragment_swiper, container, false);
     }
 
-    private void findUser() {
-        String[] genders = new String[]{"Male", "Female"};
-        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                FirebaseDatabase.getInstance()
-                        .getReference("Users/" + genders[i] + "/" + lookingFor[j] + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.getValue() != null) {
-                                    user = snapshot.getValue(User.class);
-                                    getOppositeUsers();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-            }
-        }
-    }
-
-    private void getOppositeUsers() {
-        myUsers = new Users();
-        FirebaseDatabase.getInstance().getReference("Users/" + (user.getInfo().getGender().equals("Male") ? "Female/" : "Male/")).child(user.getLookingFor().getLooking()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (flag) {
-                    myUsers.getUsers().clear();
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        User tempUser = postSnapshot.getValue(User.class);
-                        if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
-                            myUsers.getUsers().add(tempUser);
-                            init(root);
-                            flag = false;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
-
     private void init(View view) {
+        SwipeAct act = (SwipeAct) getActivity();
+        user = act.getCurrentUser();
+        myOppositeUsers = act.getAllOppositeUsers();
+        act.tv_head_title.setText("Quick Date");
+
         cardStackView = view.findViewById(R.id.card_stack_view);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        cardStackAdapter = new CardStackAdapter(myUsers);
+        cardStackAdapter = new CardStackAdapter(myOppositeUsers);
         cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
         btn_skip = (ImageButton) view.findViewById(R.id.skip_button);
         btn_love = (ImageButton) view.findViewById(R.id.love_button);
         btn_rewind = (ImageButton) view.findViewById(R.id.rewind_button);
-        doFunction();
     }
 
     private void doFunction() {
@@ -222,7 +172,7 @@ public class SwiperFragment extends Fragment implements CardStackListener {
             paginate();
         }
         if (direction == Direction.Right) {
-            User test = myUsers.getUsers().get(cardStackLayoutManager.getTopPosition() - 1);
+            User test = myOppositeUsers.getUsers().get(cardStackLayoutManager.getTopPosition() - 1);
             addToHisNotifications(test.getInfo().getGender(), test.getLookingFor().getLooking(), test.getIdUser(), "Love", "Want to match with you");
         }
     }
@@ -249,7 +199,7 @@ public class SwiperFragment extends Fragment implements CardStackListener {
     private void paginate() {
         ArrayList<User> old = cardStackAdapter.getUsers();
         ArrayList<User> newer = old;
-        newer.addAll(myUsers.getUsers());
+        newer.addAll(myOppositeUsers.getUsers());
         UserDiffCallBack callback = new UserDiffCallBack(old, newer);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         cardStackAdapter.setUsers(newer);

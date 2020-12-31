@@ -1,7 +1,6 @@
 package com.example.quickdate.listener;
 
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.Users;
 
 import java.util.ArrayList;
 

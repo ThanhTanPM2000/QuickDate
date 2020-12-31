@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.example.quickdate.R;
 import com.example.quickdate.model.Notification;
 import com.squareup.picasso.Picasso;
@@ -18,6 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
@@ -39,7 +40,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = notificationArrayList.get(position);
 
-        holder.tv_name.setText(notification.getHisName());
+        holder.tv_name.setText("");
         holder.tv_notification.setText(notification.getNotification());
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -48,7 +49,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.tv_timeStamp.setText(pTime);
 
         try{
-            Picasso.get().load(notification.getHisImage()).placeholder(R.drawable.img_doneemoji).into(holder.avatar_Image);
+            Picasso.get().load("").placeholder(R.drawable.img_doneemoji).into(holder.avatar_Image);
         }catch (Exception e){
             holder.avatar_Image.setImageResource(R.drawable.img_doneemoji);
         }
@@ -61,12 +62,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        CircularImageView avatar_Image;
+        CircleImageView avatar_Image;
         TextView tv_name, tv_notification, tv_timeStamp;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            avatar_Image = (CircularImageView) itemView.findViewById(R.id.avatarIv_itemNotification);
+            avatar_Image = itemView.findViewById(R.id.avatarIv_itemNotification);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name_notification);
             tv_notification = (TextView) itemView.findViewById(R.id.tv_message_notification);
             tv_timeStamp = (TextView) itemView.findViewById(R.id.tv_timeStamp);

@@ -205,7 +205,7 @@
         android:layout_width="match_parent"
         android:layout_height="523dp"
         android:layout_marginTop="@dimen/_40sdp"
-        android:background="@drawable/shape_background_typeact"
+        android:background="@drawable/shape_background_gadient"
         android:padding="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -226,8 +226,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -242,18 +243,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_one_night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="One night"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_oneNight_typeAct"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -278,12 +279,12 @@
                     android:id="@+id/tv_long_term"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Long term"
                     android:textColor="#222222"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_longTerm_typeAct"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -293,26 +294,26 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:src="@drawable/ic_settlement"
                     android:id="@+id/btn_settlement_typeAct"
                     android:layout_width="114dp"
                     android:layout_height="123dp"
                     android:background="@drawable/shape_retangle_clarity"
+                    android:src="@drawable/ic_settlement"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_settlement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="Settlement"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_settlement_typeAct"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

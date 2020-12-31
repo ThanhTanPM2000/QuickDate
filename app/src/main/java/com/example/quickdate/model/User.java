@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User implements Serializable {
-    private ArrayList<Notification> notifications;
     private String idUser;
     private String email;
     private int status;
@@ -17,7 +16,6 @@ public class User implements Serializable {
     }
 
     public User(String idUser, String email, int status, LookingFor lookingFor, Info info){
-        this.notifications = new ArrayList<Notification>();
         this.idUser = idUser;
         this.email = email;
         this.status = status;
@@ -33,14 +31,6 @@ public class User implements Serializable {
         this.interests.add(new Interest("Cars", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_cars.jpg?alt=media&token=6370fadb-8132-467e-a933-350d7e94a9a2"));
         this.interests.add(new Interest("Sports", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_fooball.jpg?alt=media&token=eae0fc7f-a071-4be9-97d3-d3ed1d934996"));
         this.interests.add(new Interest("Books", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_book.jpg?alt=media&token=7faaf98e-fad9-4085-9f77-32e7ba8c4a9e"));
-    }
-
-    public ArrayList<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(ArrayList<Notification> notifications) {
-        this.notifications = notifications;
     }
 
     public String getEmail() {

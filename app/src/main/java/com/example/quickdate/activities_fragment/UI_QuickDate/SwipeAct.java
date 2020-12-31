@@ -1,19 +1,11 @@
 package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,28 +13,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.listener.UserListener;
+import com.example.quickdate.model.Matcher;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.Users;
+import com.example.quickdate.model.OppositeUsers;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthCredential;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
 
 
 public class SwipeAct extends AppCompatActivity {
 
     private User user;
-    private TextView tv_head_title;
+    public TextView tv_head_title;
     private ImageButton btn_setting, btn_notification;
     private BottomNavigationView navView;
     private View dialogFragment, navBotFragment;
     private Boolean isNotificationClick;
-    private Users myUsers;
+    private OppositeUsers myOppositeUsers;
 
     // index menu default
     private int indexMenu;
@@ -51,7 +41,6 @@ public class SwipeAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
-
         init();
         doFunction();
     }
@@ -65,6 +54,9 @@ public class SwipeAct extends AppCompatActivity {
         navBotFragment = (View) findViewById(R.id.nav_host_fragment);
         isNotificationClick = true;
 
+        user = (User) getIntent().getSerializableExtra("User");
+        myOppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
+
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
     }
 
@@ -73,7 +65,12 @@ public class SwipeAct extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btn_setting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
+                FirebaseDatabase.getInstance().getReference("Matcher").child(user.getIdUser()).setValue(myOppositeUsers.getUsers()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(SwipeAct.this, "add matcher successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -124,34 +121,24 @@ public class SwipeAct extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
             Bundle bundle=new Bundle();
-            bundle.putSerializable("User", myUsers);
+            bundle.putSerializable("User", myOppositeUsers);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     fragment = new MyProfileFragment();
                     loadFragment(fragment, R.id.nav_host_fragment);
-                    tv_head_title.setText("");
                     return true;
                 case R.id.navigation_dashboard:
                     fragment = new SwiperFragment();
                     loadFragment(fragment, R.id.nav_host_fragment);
-                    tv_head_title.setText("Quick Date");
                     return true;
                 case R.id.navigation_notifications:
                     fragment = new MatchesFragment();
                     loadFragment(fragment, R.id.nav_host_fragment);
-                    tv_head_title.setText("Matches");
                     return true;
             }
             return false;
         }
     };
-
-    // Pass value user for fragment which need this user
-    public void passValUser(UserListener userListener) {
-        userListener.getUser(user);
-    }
-
-
 
     private void loadFragment(Fragment fragment, int id) {
         // load fragment
@@ -159,5 +146,13 @@ public class SwipeAct extends AppCompatActivity {
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public User getCurrentUser() {
+        return user;
+    }
+
+    public OppositeUsers getAllOppositeUsers() {
+        return myOppositeUsers;
     }
 }

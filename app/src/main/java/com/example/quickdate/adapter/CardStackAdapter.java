@@ -9,24 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
+import com.example.quickdate.model.OppositeUsers;
 import com.example.quickdate.model.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
     private ArrayList<User> Users;
 
-    public CardStackAdapter(com.example.quickdate.model.Users myUsers) {
-        this.Users = myUsers.getUsers();
+    public CardStackAdapter(OppositeUsers myOppositeUsers) {
+        this.Users = myOppositeUsers.getUsers();
     }
 
     public ArrayList<User> getUsers() {

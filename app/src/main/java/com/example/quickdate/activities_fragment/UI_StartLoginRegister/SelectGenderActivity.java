@@ -42,18 +42,8 @@ public class SelectGenderActivity extends AppCompatActivity {
         iv_submit = findViewById(R.id.iv_submit_selectGender);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getReference("Users/UnRegisters/" + firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.getValue(User.class);
-                doFunctionInAct();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        user = (User) getIntent().getSerializableExtra("User");
     }
 
     private void doFunctionInAct() {

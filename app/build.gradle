@@ -74,8 +74,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.2'
 
     //ImageSlider
-    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
-
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 
@@ -83,5 +81,5 @@ dependencies {
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
     //Circular Image view
-    implementation 'com.github.mohammadatif:CircularImageView:1.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

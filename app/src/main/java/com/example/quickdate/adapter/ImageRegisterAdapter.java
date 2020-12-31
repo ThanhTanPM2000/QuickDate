@@ -33,7 +33,7 @@ public class ImageRegisterAdapter extends RecyclerView.Adapter<ImageRegisterAdap
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View imageView = inflater.inflate(R.layout.layout_container_image, parent, false);
+        View imageView = inflater.inflate(R.layout.item_image, parent, false);
 
 
         return new ViewHolder(imageView);

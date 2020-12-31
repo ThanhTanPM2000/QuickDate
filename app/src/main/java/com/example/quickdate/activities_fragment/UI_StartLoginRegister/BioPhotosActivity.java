@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,6 +29,7 @@ import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
 import com.example.quickdate.adapter.ImageRegisterAdapter;
 import com.example.quickdate.listener.ImagesListener;
 import com.example.quickdate.model.User;
+import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,7 +54,10 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
     private ProgressDialog pd;
 
     private StorageReference storageReference;
+
+    // Model
     private User user;
+    private OppositeUsers oppositeUsers;
 
     // Adapter
     private ImageRegisterAdapter imageRegisterAdapter;
@@ -108,6 +111,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
 
         // Init User variable from pass value between fragment
         user = (User) getIntent().getSerializableExtra("User");
+        oppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
 
         // Init Data default
         et_nickName.setText(user.getInfo().getNickname());
@@ -225,7 +229,9 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
         if (isRegisterInfo) {
             Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("OppositeUsers", oppositeUsers);
             intent.putExtra("MenuDefault", 0);
+            intent.putExtra("User", user);
             startActivity(intent);
             finish();
             pd.dismiss();
@@ -334,25 +340,29 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                                             pd.dismiss();
                                             Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.putExtra("OppositeUsers", oppositeUsers);
                                             intent.putExtra("MenuDefault", 0);
+                                            intent.putExtra("User", user);
                                             startActivity(intent);
                                             finish();
                                         }).addOnFailureListener(e ->
                                         Toast.makeText(BioPhotosActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
                             } else {
-                                pd.dismiss();
-                                user.getInfo().setImgAvt(downloadUri.toString());
-                                Intent intent = new Intent(BioPhotosActivity.this, TypeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("User", user);
-                                startActivity(intent);
-                                finish();
+
+                                    pd.dismiss();
+                                    user.getInfo().setImgAvt(downloadUri.toString());
+                                    Intent intent = new Intent(BioPhotosActivity.this, TypeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("User", user);
+                                    startActivity(intent);
+                                    finish();
                             }
                         }
                     }
                 })
                 .addOnFailureListener(e -> {
                         // There were some error(s), get and show error message, dismiss progress dialog
+                    if (imagesURIForAdapter.indexOf(uri.toString()) == imagesURIForAdapter.size() - 1) {
                         String path = "Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + user.getIdUser();
                         FirebaseDatabase.getInstance().getReference(path).setValue(user)
                                 .addOnSuccessListener(aVoid ->
@@ -360,11 +370,14 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                                     Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("MenuDefault", 0);
+                                    intent.putExtra("User", user);
+                                    intent.putExtra("OppositeUsers", oppositeUsers);
                                     startActivity(intent);
                                     finish();
                                     pd.dismiss();
                                 }).addOnFailureListener(y ->
                                 Toast.makeText(BioPhotosActivity.this, y.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
                 });
     }
 

@@ -16,8 +16,8 @@ import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.listener.InterestsListener;
-import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
+import com.example.quickdate.model.OppositeUsers;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -25,7 +25,10 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
     private InterestsAdapter interestsAdapter;
     private RecyclerView recyclerView;
     private ImageView iv_backAct, iv_submit;
+
+    // Model
     private User user;
+    private OppositeUsers oppositeUsers;
 
     private Boolean isRegisterInfo;
 
@@ -45,6 +48,7 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
         iv_submit = findViewById(R.id.iv_submit_interestsAct);
 
         user = (User) getIntent().getSerializableExtra("User");
+        oppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
 
         isRegisterInfo = getIntent().getBooleanExtra("isRegisterInfo", false);
 
@@ -72,6 +76,8 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
         if (isRegisterInfo) {
             Intent intent = new Intent(InterestsActivity.this, SwipeAct.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("User", user);
+            intent.putExtra("OppositeUsers", oppositeUsers);
             intent.putExtra("MenuDefault", 0);
             startActivity(intent);
             finish();
@@ -85,22 +91,29 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
     }
 
     private void callSubmitAct() {
-        pd.setMessage("Updating...");
-        pd.show();
+
         if (isRegisterInfo) {
+            pd.setMessage("Updating...");
+            pd.show();
             String path = "Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + user.getIdUser();
             FirebaseDatabase.getInstance().getReference(path).setValue(user)
                     .addOnSuccessListener(aVoid ->
                     {
+                        pd.dismiss();
+                        Toast.makeText(InterestsActivity.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(InterestsActivity.this, SwipeAct.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("User", user);
+                        intent.putExtra("OppositeUsers", oppositeUsers);
                         intent.putExtra("MenuDefault", 0);
                         startActivity(intent);
                         finish();
+                    })
+                    .addOnFailureListener(e -> {
                         pd.dismiss();
-                        Toast.makeText(InterestsActivity.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
-                    }).addOnFailureListener(e ->
-                    Toast.makeText(InterestsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
+                        Toast.makeText(InterestsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
         } else {
             Intent intent = new Intent(InterestsActivity.this, DoneActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

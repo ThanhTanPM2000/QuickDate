@@ -3,10 +3,10 @@ package com.example.quickdate.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Users implements Serializable {
+public class OppositeUsers implements Serializable {
     ArrayList<User> users;
 
-    public Users(){
+    public OppositeUsers(){
         users = new ArrayList<User>();
     }
 

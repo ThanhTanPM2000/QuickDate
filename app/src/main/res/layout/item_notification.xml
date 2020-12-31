@@ -15,12 +15,17 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatarIv_itemNotification"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:src="@drawable/ic_thumb"
             android:layout_marginStart="10dp"
-            android:src="@drawable/img_doneemoji" />
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_info3_myProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_info_myProfile"/>
 
         <LinearLayout
             android:layout_width="match_parent"
