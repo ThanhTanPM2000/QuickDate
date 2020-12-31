@@ -26,8 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
-import com.example.quickdate.activities_fragment.UI_StartLoginRegister.BioPhotosActivity;
-import com.example.quickdate.activities_fragment.UI_StartLoginRegister.InterestsActivity;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_BioPhotos;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Interests;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.adapter.SliderAdapter;
 import com.example.quickdate.model.Interest;
@@ -54,7 +54,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
 
 
-public class MyProfileFragment extends Fragment {
+public class Fragment_MyProfile extends Fragment {
 
     // Components in View
     private CircleImageView circleImageView;
@@ -97,7 +97,7 @@ public class MyProfileFragment extends Fragment {
     private String[] cameraPermissions;
     private String[] storagePermissions;
 
-    public MyProfileFragment() {
+    public Fragment_MyProfile() {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -116,7 +116,7 @@ public class MyProfileFragment extends Fragment {
     private void init() {
 
         // Init User
-        SwipeAct act = (SwipeAct) getActivity();
+        Activity_Home act = (Activity_Home) getActivity();
         myUser = act.getCurrentUser();
         myOppositeUsers = act.getAllOppositeUsers();
         act.tv_head_title.setText("");
@@ -195,7 +195,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void editProfile() {
-        Intent intent = new Intent(getActivity(), BioPhotosActivity.class);
+        Intent intent = new Intent(getActivity(), Activity_BioPhotos.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", myUser);
         intent.putExtra("OppositeUsers", myOppositeUsers);
@@ -205,7 +205,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void editInterest() {
-        Intent intent = new Intent(getActivity(), InterestsActivity.class);
+        Intent intent = new Intent(getActivity(), Activity_Interests.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", myUser);
         intent.putExtra("OppositeUsers", myOppositeUsers);

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.listener.InterestsListener;
 import com.example.quickdate.model.User;
@@ -21,7 +21,7 @@ import com.example.quickdate.model.OppositeUsers;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-public class InterestsActivity extends AppCompatActivity implements InterestsListener {
+public class Activity_Interests extends AppCompatActivity implements InterestsListener {
     private InterestsAdapter interestsAdapter;
     private RecyclerView recyclerView;
     private ImageView iv_backAct, iv_submit;
@@ -52,7 +52,7 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
 
         isRegisterInfo = getIntent().getBooleanExtra("isRegisterInfo", false);
 
-        pd = new ProgressDialog(InterestsActivity.this);
+        pd = new ProgressDialog(Activity_Interests.this);
 
         interestsAdapter = new InterestsAdapter(user.getInterests(), this, false);
         recyclerView = findViewById(R.id.recyclerView_interestsAct);
@@ -69,12 +69,12 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
     private void loadDataToRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(interestsAdapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(InterestsActivity.this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(Activity_Interests.this, 3));
     }
 
     private void callBackAct() {
         if (isRegisterInfo) {
-            Intent intent = new Intent(InterestsActivity.this, SwipeAct.class);
+            Intent intent = new Intent(Activity_Interests.this, Activity_Home.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("User", user);
             intent.putExtra("OppositeUsers", oppositeUsers);
@@ -82,7 +82,7 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(InterestsActivity.this, TypeActivity.class);
+            Intent intent = new Intent(Activity_Interests.this, Activity_Type.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("User", user);
             startActivity(intent);
@@ -100,8 +100,8 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
                     .addOnSuccessListener(aVoid ->
                     {
                         pd.dismiss();
-                        Toast.makeText(InterestsActivity.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(InterestsActivity.this, SwipeAct.class);
+                        Toast.makeText(Activity_Interests.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Activity_Interests.this, Activity_Home.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("User", user);
                         intent.putExtra("OppositeUsers", oppositeUsers);
@@ -111,11 +111,11 @@ public class InterestsActivity extends AppCompatActivity implements InterestsLis
                     })
                     .addOnFailureListener(e -> {
                         pd.dismiss();
-                        Toast.makeText(InterestsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Interests.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
 
         } else {
-            Intent intent = new Intent(InterestsActivity.this, DoneActivity.class);
+            Intent intent = new Intent(Activity_Interests.this, Activity_RegisterDone.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("User", user);
             startActivity(intent);

@@ -30,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-public class SignUpActivity extends AppCompatActivity {
+public class Activity_SignUp extends AppCompatActivity {
 
     private EditText et_passWord, et_email;
     private Spinner sp_provincial;
@@ -95,36 +95,36 @@ public class SignUpActivity extends AppCompatActivity {
                                     if(task1.isSuccessful()){
                                         firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task11 -> {
                                             if(task11.isSuccessful()){
-                                                Toast.makeText(SignUpActivity.this, "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(Activity_SignUp.this, "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
                                             }else{
-                                                Toast.makeText(SignUpActivity.this, task11.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                Toast.makeText(Activity_SignUp.this, task11.getException().getMessage(), Toast.LENGTH_LONG).show();
                                             }
                                         });
                                     }
                                 });
                             }else{
-                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_SignUp.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                     else{
-                        Toast.makeText(SignUpActivity.this, "Sign up failed !!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_SignUp.this, "Sign up failed !!!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private boolean isCheckDataInput(String passWordCheck, String emailCheck){
         if(TextUtils.isEmpty(passWordCheck) && TextUtils.isEmpty(emailCheck)){
-            Toast.makeText(SignUpActivity.this, "All fields should not empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_SignUp.this, "All fields should not empty", Toast.LENGTH_SHORT).show();
         }
         else if(new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)){
-            Toast.makeText(SignUpActivity.this, "Field Email invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_SignUp.this, "Field Email invalid", Toast.LENGTH_SHORT).show();
         }
         else if(passWordCheck.length() <8){
-            Toast.makeText(SignUpActivity.this, "Field Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_SignUp.this, "Field Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
         }
         else if(!cb_policy.isChecked()){
-            Toast.makeText(SignUpActivity.this, "Please Agree to terms and Conditions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_SignUp.this, "Please Agree to terms and Conditions", Toast.LENGTH_SHORT).show();
         }
         else
             return true;
@@ -133,7 +133,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void callBackAct(){
         PushDownAnim.setPushDownAnimTo(iv_backAct_signUpAct).setOnClickListener(v -> {
-            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+            Intent intent = new Intent(Activity_SignUp.this, Activity_Main.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -141,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void setValueForSpinner(){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(SignUpActivity.this, R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity_SignUp.this, R.array.planets_array, R.layout.layout_spinner); // Create an ArrayAdapter using the string array and a default spinner layout
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // Specify the layout to use when the list of choices appears
         sp_provincial.setAdapter(adapter); // Apply the adapter to the spinner
     }

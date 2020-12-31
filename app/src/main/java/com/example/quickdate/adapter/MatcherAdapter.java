@@ -1,6 +1,7 @@
 package com.example.quickdate.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Chat;
 import com.example.quickdate.model.User;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -36,6 +38,9 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //get uid matcher
+        String matcherID = userArrayList.get(position).getIdUser();
+
         String userImage = userArrayList.get(position).getInfo().getImgAvt();
         String userName = userArrayList.get(position).getInfo().getNickname();
 
@@ -51,6 +56,15 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(holder.itemView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Activity_Chat.class);
+                intent.putExtra("MatcherID", matcherID);
+                context.startActivity(intent);
             }
         });
     }

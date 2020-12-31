@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class SwiperFragment extends Fragment implements CardStackListener {
+public class Fragment_Swiper extends Fragment implements CardStackListener {
 
 
     private CardStackView cardStackView;
@@ -79,7 +79,7 @@ public class SwiperFragment extends Fragment implements CardStackListener {
     }
 
     private void init(View view) {
-        SwipeAct act = (SwipeAct) getActivity();
+        Activity_Home act = (Activity_Home) getActivity();
         user = act.getCurrentUser();
         myOppositeUsers = act.getAllOppositeUsers();
         act.tv_head_title.setText("Quick Date");

@@ -5,7 +5,7 @@
     android:background="?attr/colorDayNightMode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities_fragment.UI_StartLoginRegister.TypeActivity">
+    tools:context=".activities_fragment.UI_StartLoginRegister.Activity_Type">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionBar_typeAct"

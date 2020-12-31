@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class Activity_ForgotPassword extends AppCompatActivity {
 
     EditText et_email;
     ImageButton btn_submit;
@@ -51,18 +51,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             if (checkDataInput(mail)) {
                 firebaseAuth.sendPasswordResetEmail(mail)
                         .addOnSuccessListener(aVoid ->
-                                Toast.makeText(ForgotPasswordActivity.this, "Check your email, to get new Password", Toast.LENGTH_SHORT).show())
+                                Toast.makeText(Activity_ForgotPassword.this, "Check your email, to get new Password", Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e ->
-                                Toast.makeText(ForgotPasswordActivity.this, "Seem like email wasn't register to QuickDate", Toast.LENGTH_SHORT).show());
+                                Toast.makeText(Activity_ForgotPassword.this, "Seem like email wasn't register to QuickDate", Toast.LENGTH_SHORT).show());
             }
         });
     }
 
     private boolean checkDataInput(String email) {
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(ForgotPasswordActivity.this, "You must fill your email :P", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_ForgotPassword.this, "You must fill your email :P", Toast.LENGTH_SHORT).show();
         } else if (new regexString().regexFunc(getString(R.string.regexEmail), email)) {
-            Toast.makeText(ForgotPasswordActivity.this, "You kidding me, it is not Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_ForgotPassword.this, "You kidding me, it is not Email", Toast.LENGTH_SHORT).show();
         } else {
             return true;
         }
@@ -71,7 +71,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void callBackAct() {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(v -> {
-            Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+            Intent intent = new Intent(Activity_ForgotPassword.this, Activity_Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

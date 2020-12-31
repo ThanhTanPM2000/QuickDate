@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
 
-public class MainActivity extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity {
 
     TextView tv_quick, tv_date;
     Button btnFacebook;
@@ -86,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void facebookLogin() {
         fbCallBackManager = CallbackManager.Factory.create();
-        FacebookSdk.sdkInitialize(MainActivity.this);
+        FacebookSdk.sdkInitialize(Activity_Main.this);
 
         PushDownAnim.setPushDownAnimTo(btnFacebook).setOnClickListener(v -> {
-            LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("email", "public_profile"));
+            LoginManager.getInstance().logInWithReadPermissions(Activity_Main.this, Arrays.asList("email", "public_profile"));
             LoginManager.getInstance().registerCallback(fbCallBackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancel() {
-                    Toast.makeText(MainActivity.this, "Cancle.",
+                    Toast.makeText(Activity_Main.this, "Cancle.",
                             Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(FacebookException error) {
-                    Toast.makeText(MainActivity.this, "Error.",
+                    Toast.makeText(Activity_Main.this, "Error.",
                             Toast.LENGTH_SHORT).show();
                 }
             });
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                         databaseReference.setValue(data).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.makeText(Activity_Main.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void callActLogin() {
         PushDownAnim.setPushDownAnimTo(btnLogin).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(Activity_Main.this, Activity_Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void callActSignUp() {
         PushDownAnim.setPushDownAnimTo(btnSignUp).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(Activity_Main.this, Activity_SignUp.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

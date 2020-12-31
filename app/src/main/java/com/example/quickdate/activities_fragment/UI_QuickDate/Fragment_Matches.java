@@ -1,16 +1,12 @@
 package com.example.quickdate.activities_fragment.UI_QuickDate;
 
-import android.graphics.Path;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
 import com.example.quickdate.adapter.MatcherAdapter;
-import com.example.quickdate.model.Matcher;
-import com.example.quickdate.model.OppositeUsers;
 import com.example.quickdate.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class MatchesFragment extends Fragment {
+public class Fragment_Matches extends Fragment {
 
     RecyclerView recyclerView;
     MatcherAdapter matcherAdapter;
@@ -80,7 +74,7 @@ public class MatchesFragment extends Fragment {
         et_search = root.findViewById(R.id.et_search_matchers);
 
         // Init model
-        SwipeAct act = (SwipeAct) getActivity();
+        Activity_Home act = (Activity_Home) getActivity();
         myUser = new User();
         myUser = act.getCurrentUser();
         act.tv_head_title.setText("Matches");

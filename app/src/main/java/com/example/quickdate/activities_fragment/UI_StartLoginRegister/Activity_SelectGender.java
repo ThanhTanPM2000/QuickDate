@@ -3,7 +3,6 @@ package com.example.quickdate.activities_fragment.UI_StartLoginRegister;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,13 +13,10 @@ import android.widget.ImageView;
 import com.example.quickdate.R;
 import com.example.quickdate.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-public class SelectGenderActivity extends AppCompatActivity {
+public class Activity_SelectGender extends AppCompatActivity {
 
     private ConstraintLayout ctl_male, ctl_female;
     private ImageView iv_isCheckedFemale, iv_isCheckedMale, iv_submit;
@@ -67,7 +63,7 @@ public class SelectGenderActivity extends AppCompatActivity {
     }
 
     private void submitDataFunction() {
-        Intent intent = new Intent(SelectGenderActivity.this, BioPhotosActivity.class);
+        Intent intent = new Intent(Activity_SelectGender.this, Activity_BioPhotos.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", user);
         startActivity(intent);

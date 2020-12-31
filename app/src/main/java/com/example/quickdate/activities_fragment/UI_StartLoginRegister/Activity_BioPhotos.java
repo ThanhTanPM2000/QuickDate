@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.adapter.ImageRegisterAdapter;
 import com.example.quickdate.listener.ImagesListener;
 import com.example.quickdate.model.User;
@@ -40,7 +40,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 
-public class BioPhotosActivity extends AppCompatActivity implements ImagesListener {
+public class Activity_BioPhotos extends AppCompatActivity implements ImagesListener {
 
     // Components of View
     private ConstraintLayout constraintsLayout_snake;
@@ -127,7 +127,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
         imagesURIForSave = new ArrayList<>(imagesURIForAdapter);
 
         // Init ProgressDialog
-        pd = new ProgressDialog(BioPhotosActivity.this);
+        pd = new ProgressDialog(Activity_BioPhotos.this);
 
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -137,7 +137,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
 
     private void loadImagesToRecycleView() {
         imageRegisterAdapter = new ImageRegisterAdapter(imagesURIForAdapter, this);
-        LinearLayoutManager linearLayout = new LinearLayoutManager(BioPhotosActivity.this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(Activity_BioPhotos.this, RecyclerView.HORIZONTAL, false);
 
         recyclerView.setAdapter(imageRegisterAdapter);
         recyclerView.setLayoutManager(linearLayout);
@@ -159,7 +159,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
         String[] options = {"Camera", "Gallary"};
 
         // Alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(BioPhotosActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_BioPhotos.this);
         // Set title
         builder.setTitle("Upload Image From");
         // Set item
@@ -204,7 +204,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                         pickFromCamera();
                     } else {
                         // Permissions denied
-                        Toast.makeText(BioPhotosActivity.this, "Please enable camera & storage permission", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Activity_BioPhotos.this, "Please enable camera & storage permission", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -217,7 +217,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                         pickFromGallery();
                     } else {
                         // Permissions denied
-                        Toast.makeText(BioPhotosActivity.this, "Please enable storage permission", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Activity_BioPhotos.this, "Please enable storage permission", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -227,7 +227,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
 
     private void callBackAct() {
         if (isRegisterInfo) {
-            Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
+            Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("OppositeUsers", oppositeUsers);
             intent.putExtra("MenuDefault", 0);
@@ -236,7 +236,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
             finish();
             pd.dismiss();
         } else {
-            Intent intent = new Intent(BioPhotosActivity.this, SelectGenderActivity.class);
+            Intent intent = new Intent(Activity_BioPhotos.this, Activity_SelectGender.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -336,9 +336,9 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                                 FirebaseDatabase.getInstance().getReference(path).setValue(user)
                                         .addOnSuccessListener(aVoid ->
                                         {
-                                            Toast.makeText(BioPhotosActivity.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Activity_BioPhotos.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
                                             pd.dismiss();
-                                            Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
+                                            Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             intent.putExtra("OppositeUsers", oppositeUsers);
                                             intent.putExtra("MenuDefault", 0);
@@ -346,12 +346,12 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                                             startActivity(intent);
                                             finish();
                                         }).addOnFailureListener(e ->
-                                        Toast.makeText(BioPhotosActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
+                                        Toast.makeText(Activity_BioPhotos.this, e.getMessage(), Toast.LENGTH_SHORT).show());
                             } else {
 
                                     pd.dismiss();
                                     user.getInfo().setImgAvt(downloadUri.toString());
-                                    Intent intent = new Intent(BioPhotosActivity.this, TypeActivity.class);
+                                    Intent intent = new Intent(Activity_BioPhotos.this, Activity_Type.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("User", user);
                                     startActivity(intent);
@@ -367,7 +367,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                         FirebaseDatabase.getInstance().getReference(path).setValue(user)
                                 .addOnSuccessListener(aVoid ->
                                 {
-                                    Intent intent = new Intent(BioPhotosActivity.this, SwipeAct.class);
+                                    Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("MenuDefault", 0);
                                     intent.putExtra("User", user);
@@ -376,7 +376,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
                                     finish();
                                     pd.dismiss();
                                 }).addOnFailureListener(y ->
-                                Toast.makeText(BioPhotosActivity.this, y.getMessage(), Toast.LENGTH_SHORT).show());
+                                Toast.makeText(Activity_BioPhotos.this, y.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 });
     }
@@ -385,7 +385,7 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
         // Check if storage permission is enable or not
         // return true if enabled
         // return false if not enabled
-        boolean result = ContextCompat.checkSelfPermission(BioPhotosActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(Activity_BioPhotos.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
         return !result;
     }
 
@@ -398,9 +398,9 @@ public class BioPhotosActivity extends AppCompatActivity implements ImagesListen
         // Check if storage permission is enable or not
         // return true if enabled
         // return false if not enabled
-        boolean result = ContextCompat.checkSelfPermission(BioPhotosActivity.this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(Activity_BioPhotos.this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
 
-        boolean result1 = ContextCompat.checkSelfPermission(BioPhotosActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(Activity_BioPhotos.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
         return !result || !result1;
     }
 

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.model.User;
 import com.example.quickdate.model.OppositeUsers;
 import com.example.quickdate.utility.regexString;
@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-public class LoginActivity extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity {
     private EditText et_email, et_password;
     private ImageButton btn_submit;
     private TextView tv_forgotPass, tv_signUp;
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         cb_rememberPass = findViewById(R.id.cb_rememberpass_loginAct);
         iv_backAct = findViewById(R.id.iv_backAct_loginAct);
         firebaseAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog = new ProgressDialog(Activity_Login.this);
         progressDialog.setMessage("Loading...");
 
         SharedPreferences loginPreferences = getSharedPreferences(remember,
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (user == null) {
                                                 findCurrentUser();
                                             } else {
-                                                Intent intent = new Intent(getApplicationContext(), SelectGenderActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(), Activity_SelectGender.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(intent);
                                                 finish();
@@ -131,11 +131,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isCheckDataInput(String emailCheck, String passWordCheck) {
         if (TextUtils.isEmpty(emailCheck) && TextUtils.isEmpty(passWordCheck)) {
-            Toast.makeText(LoginActivity.this, "All fields shouldn't empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_Login.this, "All fields shouldn't empty", Toast.LENGTH_SHORT).show();
         } else if (new regexString().regexFunc(getString(R.string.regexEmail), emailCheck)) {
-            Toast.makeText(LoginActivity.this, "Field Email invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_Login.this, "Field Email invalid", Toast.LENGTH_SHORT).show();
         } else if (passWordCheck.length() < 8) {
-            Toast.makeText(LoginActivity.this, "Email wasn't found or Password incorrect", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Activity_Login.this, "Email wasn't found or Password incorrect", Toast.LENGTH_SHORT).show();
         } else
             return true;
         return false;
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void callActForgotPassword() {
         PushDownAnim.setPushDownAnimTo(tv_forgotPass).setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            Intent intent = new Intent(Activity_Login.this, Activity_ForgotPassword.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void callActSignUp() {
         PushDownAnim.setPushDownAnimTo(tv_signUp).setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(Activity_Login.this, Activity_SignUp.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void callBackAct() {
         PushDownAnim.setPushDownAnimTo(iv_backAct).setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(Activity_Login.this, Activity_Main.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -219,7 +219,7 @@ public class LoginActivity extends AppCompatActivity {
                     User tempUser = item.getValue(User.class);
                     if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
                         myOppositeUsers.getUsers().add(tempUser);
-                        Intent intent = new Intent(getApplicationContext(), SwipeAct.class);
+                        Intent intent = new Intent(getApplicationContext(), Activity_Home.class);
                         intent.putExtra("User", user);
                         intent.putExtra("OppositeUsers", myOppositeUsers);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

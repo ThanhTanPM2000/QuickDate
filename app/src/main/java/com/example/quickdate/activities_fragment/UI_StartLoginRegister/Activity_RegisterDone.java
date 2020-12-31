@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.activities_fragment.UI_QuickDate.SwipeAct;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-public class DoneActivity extends AppCompatActivity {
+public class Activity_RegisterDone extends AppCompatActivity {
 
     private ImageView iv_submit;
     private FirebaseDatabase firebaseDatabase;
@@ -62,7 +62,7 @@ public class DoneActivity extends AppCompatActivity {
                 databaseReference = firebaseDatabase.getReference("Users/UnRegisters/" + firebaseUser.getUid());
                 databaseReference.removeValue();
             } else {
-                Toast.makeText(DoneActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_RegisterDone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -70,7 +70,7 @@ public class DoneActivity extends AppCompatActivity {
     }
 
     private void callSubmitAct() {
-        Intent intent = new Intent(DoneActivity.this, SwipeAct.class);
+        Intent intent = new Intent(Activity_RegisterDone.this, Activity_Home.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

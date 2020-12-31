@@ -17,7 +17,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import it.sephiroth.android.library.rangeseekbar.RangeSeekBar;
 
-public class TypeActivity extends AppCompatActivity {
+public class Activity_Type extends AppCompatActivity {
 
     private RangeSeekBar rangeSeekBar_age, rangeSeekBar_height, rangeSeekBar_weight;
     private ImageButton btn_longTerm, btn_oneNight, btn_Settlement;
@@ -133,52 +133,52 @@ public class TypeActivity extends AppCompatActivity {
     private void lookingForFunction() {
         PushDownAnim.setPushDownAnimTo(btn_oneNight).setOnClickListener(v -> {
             user.getLookingFor().setLooking("OneNight");
-            btn_oneNight.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_rectangle_white));
-            btn_oneNight.setColorFilter(TypeActivity.this.getResources().getColor(R.color.red, null));
+            btn_oneNight.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_rectangle_white));
+            btn_oneNight.setColorFilter(Activity_Type.this.getResources().getColor(R.color.red, null));
             tv_oneNight.setTextColor(getResources().getColor(R.color.black, null));
 
-            btn_longTerm.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_longTerm.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_longTerm.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_longTerm.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_longTerm.setTextColor(getResources().getColor(R.color.white, null));
 
-            btn_Settlement.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_Settlement.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_Settlement.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_Settlement.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_Settlement.setTextColor(getResources().getColor(R.color.white, null));
         });
 
         PushDownAnim.setPushDownAnimTo(btn_longTerm).setOnClickListener(v -> {
             user.getLookingFor().setLooking("LongTerm");
-            btn_longTerm.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_rectangle_white));
-            btn_longTerm.setColorFilter(TypeActivity.this.getResources().getColor(R.color.red, null));
+            btn_longTerm.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_rectangle_white));
+            btn_longTerm.setColorFilter(Activity_Type.this.getResources().getColor(R.color.red, null));
             tv_longTerm.setTextColor(getResources().getColor(R.color.black, null));
 
-            btn_oneNight.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_oneNight.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_oneNight.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_oneNight.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_oneNight.setTextColor(getResources().getColor(R.color.white, null));
 
-            btn_Settlement.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_Settlement.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_Settlement.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_Settlement.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_Settlement.setTextColor(getResources().getColor(R.color.white, null));
         });
 
         PushDownAnim.setPushDownAnimTo(btn_Settlement).setOnClickListener(v -> {
             user.getLookingFor().setLooking("Settlement");
-            btn_Settlement.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_rectangle_white));
-            btn_Settlement.setColorFilter(TypeActivity.this.getResources().getColor(R.color.red, null));
+            btn_Settlement.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_rectangle_white));
+            btn_Settlement.setColorFilter(Activity_Type.this.getResources().getColor(R.color.red, null));
             tv_Settlement.setTextColor(getResources().getColor(R.color.black, null));
 
-            btn_longTerm.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_longTerm.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_longTerm.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_longTerm.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_longTerm.setTextColor(getResources().getColor(R.color.white, null));
 
-            btn_oneNight.setBackground(ContextCompat.getDrawable(TypeActivity.this, R.drawable.shape_retangle_clarity));
-            btn_oneNight.setColorFilter(TypeActivity.this.getResources().getColor(R.color.white, null));
+            btn_oneNight.setBackground(ContextCompat.getDrawable(Activity_Type.this, R.drawable.shape_retangle_clarity));
+            btn_oneNight.setColorFilter(Activity_Type.this.getResources().getColor(R.color.white, null));
             tv_oneNight.setTextColor(getResources().getColor(R.color.white, null));
         });
     }
 
     private void callBackAct() {
-        Intent intent = new Intent(TypeActivity.this, BioPhotosActivity.class);
+        Intent intent = new Intent(Activity_Type.this, Activity_BioPhotos.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", user);
         startActivity(intent);
@@ -186,7 +186,7 @@ public class TypeActivity extends AppCompatActivity {
     }
 
     private void callSubmitAct() {
-        Intent intent = new Intent(TypeActivity.this, InterestsActivity.class);
+        Intent intent = new Intent(Activity_Type.this, Activity_Interests.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", user);
         startActivity(intent);

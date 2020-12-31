@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
-import com.example.quickdate.model.Matcher;
 import com.example.quickdate.model.User;
 import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,10 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
-import java.util.ArrayList;
 
-
-public class SwipeAct extends AppCompatActivity {
+public class Activity_Home extends AppCompatActivity {
 
     private User user;
     public TextView tv_head_title;
@@ -68,7 +65,7 @@ public class SwipeAct extends AppCompatActivity {
                 FirebaseDatabase.getInstance().getReference("Matcher").child(user.getIdUser()).setValue(myOppositeUsers.getUsers()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(SwipeAct.this, "add matcher successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Home.this, "add matcher successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -87,7 +84,7 @@ public class SwipeAct extends AppCompatActivity {
                     navView.setVisibility(View.GONE);
                     tv_head_title.setAlpha(0.4f);
                     isNotificationClick = false;
-                    loadFragment(new NotificationFragment(), R.id.dialog_fragment);
+                    loadFragment(new Fragment_Notification(), R.id.dialog_fragment);
                 }else{
                     dialogFragment.setVisibility(View.GONE);
                     navBotFragment.setAlpha(1f);
@@ -102,11 +99,11 @@ public class SwipeAct extends AppCompatActivity {
         });
 
         if(indexMenu == 0){
-            loadFragment(new MyProfileFragment(), R.id.nav_host_fragment);
+            loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
         }else if (indexMenu == 1){
-            loadFragment(new SwiperFragment(), R.id.nav_host_fragment);
+            loadFragment(new Fragment_Swiper(), R.id.nav_host_fragment);
         }else {
-            loadFragment(new MatchesFragment(), R.id.nav_host_fragment);
+            loadFragment(new Fragment_Matches(), R.id.nav_host_fragment);
         }
 
         // connect bottom navigation with menu
@@ -124,15 +121,15 @@ public class SwipeAct extends AppCompatActivity {
             bundle.putSerializable("User", myOppositeUsers);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fragment = new MyProfileFragment();
+                    fragment = new Fragment_MyProfile();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
                 case R.id.navigation_dashboard:
-                    fragment = new SwiperFragment();
+                    fragment = new Fragment_Swiper();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
                 case R.id.navigation_notifications:
-                    fragment = new MatchesFragment();
+                    fragment = new Fragment_Matches();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
             }
@@ -158,6 +155,6 @@ public class SwipeAct extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(SwipeAct.this,"Do you want to exist", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Activity_Home.this,"Do you want to exist", Toast.LENGTH_SHORT).show();
     }
 }

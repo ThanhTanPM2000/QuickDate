@@ -13,20 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.quickdate.R;
-import com.example.quickdate.adapter.MatcherAdapter;
 import com.example.quickdate.adapter.NotificationAdapter;
 import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class NotificationFragment extends Fragment {
+public class Fragment_Notification extends Fragment {
 
     //recyclerview
     private RecyclerView recyclerView;
@@ -52,7 +50,7 @@ public class NotificationFragment extends Fragment {
 
 
     private void init(View view) {
-        SwipeAct act = (SwipeAct) getActivity();
+        Activity_Home act = (Activity_Home) getActivity();
         user = act.getCurrentUser();
 
         recyclerView = view.findViewById(R.id.notification_rv);
