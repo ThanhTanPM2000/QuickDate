@@ -155,4 +155,9 @@ public class SwipeAct extends AppCompatActivity {
     public OppositeUsers getAllOppositeUsers() {
         return myOppositeUsers;
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(SwipeAct.this,"Do you want to exist", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -2,9 +2,15 @@ package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import android.graphics.Path;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,14 +37,34 @@ public class MatchesFragment extends Fragment {
     MatcherAdapter matcherAdapter;
     ArrayList<User> matcherArrayList;
 
+    private EditText et_search;
+
     // Model
     private User myUser;
-    private OppositeUsers oppositeUsers;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        doFunction();
+    }
 
+    private void doFunction() {
+
+        et_search.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                    String query = et_search.getText().toString();
+                    if(TextUtils.isEmpty(query)){
+                        getAllMatcher();
+                    }else{
+                        searchUser(query.toLowerCase());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,12 +76,13 @@ public class MatchesFragment extends Fragment {
 
     private void init(View root) {
 
+        // Init view
+        et_search = root.findViewById(R.id.et_search_matchers);
+
         // Init model
         SwipeAct act = (SwipeAct) getActivity();
         myUser = new User();
-        oppositeUsers = new OppositeUsers();
         myUser = act.getCurrentUser();
-        oppositeUsers = act.getAllOppositeUsers();
         act.tv_head_title.setText("Matches");
 
         // Init View
@@ -70,14 +97,37 @@ public class MatchesFragment extends Fragment {
     }
 
     private void getAllMatcher() {
-        // get current user
+        // get all matcher user
         FirebaseDatabase.getInstance().getReference("Matcher").child(myUser.getIdUser()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 matcherArrayList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     matcherArrayList.add(ds.getValue(User.class));
 
+                    matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList);
+                    recyclerView.setAdapter(matcherAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void searchUser(String query) {
+        // get all matcher user
+        FirebaseDatabase.getInstance().getReference("Matcher").child(myUser.getIdUser()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                matcherArrayList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User tempUser = ds.getValue(User.class);
+                    if(tempUser.getInfo().getNickname().toLowerCase().contains(query) || tempUser.getEmail().equals(query)){
+                        matcherArrayList.add(tempUser);
+                    }
                     matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList);
                     recyclerView.setAdapter(matcherAdapter);
                 }

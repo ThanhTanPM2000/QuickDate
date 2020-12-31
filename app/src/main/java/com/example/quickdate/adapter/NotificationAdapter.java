@@ -40,7 +40,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = notificationArrayList.get(position);
 
-        holder.tv_name.setText("");
+        holder.tv_name.setText(notification.getSenderName());
         holder.tv_notification.setText(notification.getNotification());
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -49,7 +49,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.tv_timeStamp.setText(pTime);
 
         try{
-            Picasso.get().load("").placeholder(R.drawable.img_doneemoji).into(holder.avatar_Image);
+            Picasso.get().load(notification.getSenderAvatar()).placeholder(R.drawable.ic_thumb).into(holder.avatar_Image);
         }catch (Exception e){
             holder.avatar_Image.setImageResource(R.drawable.img_doneemoji);
         }

@@ -10,6 +10,10 @@ public class Notification {
     private String notification;
     private String timeStamp;
 
+    public Notification(){
+
+    }
+
     public Notification(String senderId, String senderAvatar, String senderName, String type, String received, String notification, String timeStamp) {
         this.senderId = senderId;
         this.senderAvatar = senderAvatar;

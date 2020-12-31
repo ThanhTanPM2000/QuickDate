@@ -271,7 +271,7 @@ public class MyProfileFragment extends Fragment {
         //show avatar image
         try {
             // if image is received then set
-            Picasso.get().load(myUser.getInfo().getImgAvt()).placeholder(R.drawable.img_doneemoji).into(circleImageView);
+            Picasso.get().load(myUser.getInfo().getImgAvt()).placeholder(R.drawable.ic_thumb).into(circleImageView);
         } catch (Exception e) {
             // if there is any exception while getting image then set default
             circleImageView.setImageResource(R.drawable.img_doneemoji);

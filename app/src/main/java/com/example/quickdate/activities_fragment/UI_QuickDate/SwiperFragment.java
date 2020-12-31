@@ -58,6 +58,9 @@ public class SwiperFragment extends Fragment implements CardStackListener {
     private FirebaseUser firebaseUser;
     private Boolean flag = true;
 
+    // position of card swipe to liked
+    private int positionCard = 0;
+
     String uidUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
@@ -172,7 +175,8 @@ public class SwiperFragment extends Fragment implements CardStackListener {
             paginate();
         }
         if (direction == Direction.Right) {
-            User test = myOppositeUsers.getUsers().get(cardStackLayoutManager.getTopPosition() - 1);
+            positionCard = cardStackLayoutManager.getTopPosition() - 1;
+            User test = myOppositeUsers.getUsers().get(positionCard);
             addToHisNotifications(test.getInfo().getGender(), test.getLookingFor().getLooking(), test.getIdUser(), "Love", "Want to match with you");
         }
     }
@@ -210,20 +214,20 @@ public class SwiperFragment extends Fragment implements CardStackListener {
         String timeStamp = "" + System.currentTimeMillis();
 
         HashMap<Object, String> hashMap = new HashMap<>();
-        hashMap.put("type", type);
-        hashMap.put("Uid", hisId);
-        hashMap.put("myUid", firebaseUser.getUid());
-        hashMap.put("hisImage", user.getInfo().getImgAvt());
-        hashMap.put("hisName", user.getInfo().getNickname());
-        hashMap.put("notification", message);
+        hashMap.put("senderId", user.getIdUser());
+        hashMap.put("senderAvatar", user.getInfo().getImgAvt());
+        hashMap.put("senderName", user.getInfo().getNickname());
+        hashMap.put("type", "Liked");
+        hashMap.put("received", myOppositeUsers.getUsers().get(positionCard).getIdUser());
+        hashMap.put("notification", "Want to match with you");
         hashMap.put("timeStamp", timeStamp);
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/" + gender + "/" + looking + "/" + hisId + "/Notifications/" + timeStamp);
-        db.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notifications");
+        db.push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getActivity(), "send love", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Your liked was send", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
