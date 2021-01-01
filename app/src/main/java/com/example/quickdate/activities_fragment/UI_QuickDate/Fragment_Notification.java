@@ -66,14 +66,13 @@ public class Fragment_Notification extends Fragment {
 
     private void getAllNotifications() {
         // get all notifications from user
-        Query query = FirebaseDatabase.getInstance().getReference("Notifications").orderByChild("received").equalTo(user.getIdUser());
+        Query query = FirebaseDatabase.getInstance().getReference("Notifications").orderByChild("receiverId").equalTo(user.getIdUser());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()){
                     notificationArrayList.add(ds.getValue(Notification.class));
-
-                    notificationAdapter = new NotificationAdapter(getActivity(), notificationArrayList);
+                    notificationAdapter = new NotificationAdapter(getActivity(), notificationArrayList, user);
                     recyclerView.setAdapter(notificationAdapter);
                 }
             }

@@ -40,6 +40,12 @@ public class Activity_SelectGender extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
         user = (User) getIntent().getSerializableExtra("User");
+
+        if(user.getInfo().getGender().equals("Male")){
+            chooseGender(true);
+        }else{
+            chooseGender(false);
+        }
     }
 
     private void doFunctionInAct() {

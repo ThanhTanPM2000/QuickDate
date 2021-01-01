@@ -17,9 +17,10 @@ import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.listener.InterestsListener;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
 
 public class Activity_Interests extends AppCompatActivity implements InterestsListener {
     private InterestsAdapter interestsAdapter;
@@ -28,7 +29,7 @@ public class Activity_Interests extends AppCompatActivity implements InterestsLi
 
     // Model
     private User user;
-    private OppositeUsers oppositeUsers;
+    private ArrayList<User> oppositeUsers;
 
     private Boolean isRegisterInfo;
 
@@ -48,7 +49,7 @@ public class Activity_Interests extends AppCompatActivity implements InterestsLi
         iv_submit = findViewById(R.id.iv_submit_interestsAct);
 
         user = (User) getIntent().getSerializableExtra("User");
-        oppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
+        oppositeUsers = (ArrayList<User>) getIntent().getSerializableExtra("OppositeUsers");
 
         isRegisterInfo = getIntent().getBooleanExtra("isRegisterInfo", false);
 

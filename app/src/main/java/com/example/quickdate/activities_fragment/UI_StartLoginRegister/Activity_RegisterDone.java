@@ -52,8 +52,9 @@ public class Activity_RegisterDone extends AppCompatActivity {
 
     private void doFunctionInAct() {
         progressBar.setVisibility(View.VISIBLE);
-        user.setStatus(1);
-        databaseReference = firebaseDatabase.getReference("Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + firebaseUser.getUid());
+
+        user.setStatusOnline("" + System.currentTimeMillis());
+        databaseReference = firebaseDatabase.getReference("Users/" + user.getInfo().getGender() + "/" + firebaseUser.getUid());
         databaseReference.setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 progressBar.setVisibility(View.GONE);
@@ -70,7 +71,7 @@ public class Activity_RegisterDone extends AppCompatActivity {
     }
 
     private void callSubmitAct() {
-        Intent intent = new Intent(Activity_RegisterDone.this, Activity_Home.class);
+        Intent intent = new Intent(Activity_RegisterDone.this, Activity_Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

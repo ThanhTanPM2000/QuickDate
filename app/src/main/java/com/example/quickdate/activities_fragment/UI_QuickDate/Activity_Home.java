@@ -2,23 +2,31 @@ package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
 
 
 public class Activity_Home extends AppCompatActivity {
@@ -29,45 +37,68 @@ public class Activity_Home extends AppCompatActivity {
     private BottomNavigationView navView;
     private View dialogFragment, navBotFragment;
     private Boolean isNotificationClick;
-    private OppositeUsers myOppositeUsers;
+    private ArrayList<User> myOppositeUsers;
 
     // index menu default
     private int indexMenu;
 
+    private String statusOnline;
+
+    // Navigation View
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView_setting, navigationView_notification;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_swipe);
+        setContentView(R.layout.activity_home);
         init();
         doFunction();
     }
 
     private void init() {
         navView = findViewById(R.id.nav_view);
-        tv_head_title = (TextView) findViewById(R.id.tv_head_title);
-        btn_setting = (ImageButton) findViewById(R.id.btn_setting);
-        btn_notification = (ImageButton) findViewById(R.id.btn_notification);
-        dialogFragment = (View) findViewById(R.id.dialog_fragment);
-        navBotFragment = (View) findViewById(R.id.nav_host_fragment);
-        isNotificationClick = true;
+        drawerLayout = findViewById(R.id.drawerLayout_setting);
+        navigationView_setting = findViewById(R.id.nav_setting_swipeAct);
+        navigationView_setting.setItemIconTintList(null);
+        navigationView_notification = findViewById(R.id.nav_notification_swipeAct);
+        navigationView_setting.bringToFront();
+        navigationView_notification.bringToFront();
+
+        tv_head_title = findViewById(R.id.tv_head_title);
+        btn_setting = findViewById(R.id.btn_setting);
+        btn_notification = findViewById(R.id.btn_notification);
+        navBotFragment = findViewById(R.id.nav_host_fragment);
 
         user = (User) getIntent().getSerializableExtra("User");
-        myOppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
+        myOppositeUsers = (ArrayList<User>) getIntent().getSerializableExtra("OppositeUsers");
+
 
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
     }
 
     private void doFunction() {
+        navigationRightSelectedItem();
+
         //btn setting click
         PushDownAnim.setPushDownAnimTo(btn_setting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase.getInstance().getReference("Matcher").child(user.getIdUser()).setValue(myOppositeUsers.getUsers()).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+                else{
+                    drawerLayout.closeDrawer(GravityCompat.END);
+                }
+
+                /*FirebaseDatabase.getInstance().getReference("Matcher").child(user.getIdUser()).setValue(myOppositeUsers).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(Activity_Home.this, "add matcher successfully", Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
         });
 
@@ -75,25 +106,13 @@ public class Activity_Home extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(btn_notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isNotificationClick){
-                    dialogFragment.setVisibility(View.VISIBLE);
-                    navBotFragment.setAlpha(0.4f);
-                    btn_notification.setImageResource(R.drawable.ic_close);
-                    btn_setting.setAlpha(0.4f);
-                    btn_setting.setClickable(false);
-                    navView.setVisibility(View.GONE);
-                    tv_head_title.setAlpha(0.4f);
-                    isNotificationClick = false;
-                    loadFragment(new Fragment_Notification(), R.id.dialog_fragment);
-                }else{
-                    dialogFragment.setVisibility(View.GONE);
-                    navBotFragment.setAlpha(1f);
-                    btn_notification.setImageResource(R.drawable.ic_ring);
-                    btn_setting.setAlpha(1f);
-                    btn_setting.setClickable(true);
-                    navView.setVisibility(View.VISIBLE);
-                    tv_head_title.setAlpha(1f);
-                    isNotificationClick = true;
+
+                if(!drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    loadFragment(new Fragment_Notification(), R.id.fragment_notifications);
+                    drawerLayout.openDrawer(GravityCompat.END);
+                }
+                else{
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
             }
         });
@@ -111,6 +130,34 @@ public class Activity_Home extends AppCompatActivity {
         navView.getMenu().getItem(indexMenu).setChecked(true);
     }
 
+
+
+    private void navigationRightSelectedItem(){
+        navigationView_setting.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_watch_ads:
+                        break;
+                    case R.id.navigation_notifications:
+                        break;
+                    case R.id.navigation_darkmode:
+                        break;
+                    case R.id.navigation_changeType:
+                        break;
+                    case R.id.navigation_logout:
+                        break;
+                    case R.id.navigation_about:
+                        break;
+                    case R.id.navigation_faq:
+                        break;
+                }
+
+                return false;
+            }
+        });
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -120,15 +167,15 @@ public class Activity_Home extends AppCompatActivity {
             Bundle bundle=new Bundle();
             bundle.putSerializable("User", myOppositeUsers);
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_myProfile:
                     fragment = new Fragment_MyProfile();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_swipe:
                     fragment = new Fragment_Swiper();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_matches:
                     fragment = new Fragment_Matches();
                     loadFragment(fragment, R.id.nav_host_fragment);
                     return true;
@@ -149,12 +196,47 @@ public class Activity_Home extends AppCompatActivity {
         return user;
     }
 
-    public OppositeUsers getAllOppositeUsers() {
+    public ArrayList<User> getAllOppositeUsers() {
         return myOppositeUsers;
+    }
+
+    public String getStatusOnline(){
+        return statusOnline;
     }
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(Activity_Home.this,"Do you want to exist", Toast.LENGTH_SHORT).show();
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else if(drawerLayout.isDrawerOpen(GravityCompat.END))
+            drawerLayout.closeDrawer(GravityCompat.END);
+        else{
+
+        }
     }
+
+    private void checkUserStatus() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            checkOnlineStatus("Offline");
+            Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
+            startActivity(intent);
+            finish();
+        }else{
+            checkOnlineStatus("Online");
+        }
+    }
+
+    private void checkOnlineStatus(String status){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("StatusOnline").child(user.getIdUser());
+        databaseReference.setValue(status);
+    }
+
+    @Override
+    protected void onStart() {
+        checkUserStatus();
+        super.onStart();
+    }
+
+
 }

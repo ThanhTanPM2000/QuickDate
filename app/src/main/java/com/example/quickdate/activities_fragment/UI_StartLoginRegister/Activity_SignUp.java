@@ -49,8 +49,6 @@ public class Activity_SignUp extends AppCompatActivity {
 
         initialization();
         doFunctionInAct();
-
-
     }
 
     private void initialization(){
@@ -89,13 +87,17 @@ public class Activity_SignUp extends AppCompatActivity {
                                 assert firebaseUser != null : "cant find user";
                                 databaseReference = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/"+ firebaseUser.getUid());
 
-                                User user = new User( firebaseUser.getUid(), str_email, 0, new LookingFor(), new Info( sp_provincial.getSelectedItem().toString()));
+                                User user = new User( firebaseUser.getUid(), str_email, "Online", "noOne", new LookingFor(), new Info( sp_provincial.getSelectedItem().toString()));
 
                                 databaseReference.setValue(user).addOnCompleteListener(task1 -> {
                                     if(task1.isSuccessful()){
                                         firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task11 -> {
                                             if(task11.isSuccessful()){
                                                 Toast.makeText(Activity_SignUp.this, "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(Activity_SignUp.this, Activity_Login.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                finish();
                                             }else{
                                                 Toast.makeText(Activity_SignUp.this, task11.getException().getMessage(), Toast.LENGTH_LONG).show();
                                             }

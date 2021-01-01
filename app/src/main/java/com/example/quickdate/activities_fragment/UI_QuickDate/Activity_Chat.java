@@ -48,13 +48,17 @@ public class Activity_Chat extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private CircleImageView circleImageView;
-    private TextView nameTv, statusTv;
+    private TextView nameTv, statusTv, typingTv;
     private EditText messageEt;
     private ImageButton ib_uploadFile, ib_uploadImage, ib_send, ib_backAct;
 
     // data matcher ID
     private User matcher;
     private User myUser;
+
+    // check status online
+    private String matcherStatusOnline;
+    private String matcherTypingTo;
 
     // For checking if user has seen message or not
     ValueEventListener seenListener;
@@ -89,6 +93,7 @@ public class Activity_Chat extends AppCompatActivity {
         ib_backAct = findViewById(R.id.backAct_chatAct);
         ib_send = findViewById(R.id.send_message_chatAct);
         ib_uploadImage = findViewById(R.id.upload_image_chatAct);
+        typingTv = findViewById(R.id.tv_typing);
 
         // get model data
         myUser = (User) getIntent().getSerializableExtra("MyUser");
@@ -150,8 +155,8 @@ public class Activity_Chat extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        useRefForSeen.removeEventListener(seenListener);
         super.onPause();
+        useRefForSeen.removeEventListener(seenListener);
     }
 
     private void readMessages() {
@@ -241,16 +246,75 @@ public class Activity_Chat extends AppCompatActivity {
 
     private void checkUserStatus() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(myUser.getInfo().getGender())
+                .child(myUser.getIdUser())
+                .child("statusOnline");
+
         if (firebaseUser == null) {
+            databaseReference.setValue("" + System.currentTimeMillis());
             Intent intent = new Intent(Activity_Chat.this, Activity_Main.class);
             startActivity(intent);
             finish();
+        }else{
+            databaseReference.setValue("Online");
         }
+    }
+
+    private void checkOnlineStatus(){
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(matcher.getInfo().getGender())
+                .child(matcher.getIdUser())
+                .child(matcher.getStatusOnline()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                matcherStatusOnline = snapshot.getValue(String.class);
+                if(matcherStatusOnline.equals("Online")){
+                    statusTv.setText(matcherStatusOnline);
+                    statusTv.setTextColor(getResources().getColor(R.color.green, null));
+                }else{
+                    statusTv.setText("Offline");
+                    statusTv.setTextColor(getResources().getColor(R.color.red, null));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void checkTypingStatus(){
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(matcher.getInfo().getGender())
+                .child(matcher.getIdUser())
+                .child("typingTo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                matcherTypingTo = snapshot.getValue(String.class);
+                if(matcherTypingTo.equals(myUser.getIdUser())){
+                    typingTv.setText(matcher.getInfo().getNickname() + " typing...");
+                    typingTv.setVisibility(View.VISIBLE);
+                }else if(matcherTypingTo.equals("noOne")){
+                    typingTv.setText("");
+                    typingTv.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         checkUserStatus();
+        checkOnlineStatus();
+        checkTypingStatus();
         super.onStart();
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_watch_ads"
+            android:icon="@drawable/ic_clickads"
+            android:title="Watch Ads for support us" />
+
+        <item
+            android:id="@+id/navigation_notifications"
+            android:icon="@drawable/ic_notification_circle"
+            android:title="Push notifications" />
+
+        <item
+            android:id="@+id/navigation_darkmode"
+            android:icon="@drawable/ic_darkmode"
+            android:title="Dark mode" />
+
+        <item
+            android:id="@+id/navigation_changeType"
+            android:icon="@drawable/ic_setting_circle"
+            android:title="Change Your Type" />
+
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log out" />
+
+    </group>
+
+    <item
+        android:id="@+id/navigation_about"
+        android:title="About" />
+
+    <item
+        android:id="@+id/navigation_faq"
+        android:title="FAQ and Support" />
+
+</menu>

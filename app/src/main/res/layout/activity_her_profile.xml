@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     app:layout_constraintTop_toTopOf="parent"
     android:background="@color/white"
-    tools:context=".activities_fragment.UI_QuickDate.Fragment_MyProfile">
+    tools:context=".activities_fragment.UI_QuickDate.Activity_HerProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.smarteist.autoimageslider.SliderView
-            android:id="@+id/imageSlider_Profile"
+            android:id="@+id/imageSlider_herProfile"
             android:layout_width="match_parent"
             android:layout_height="378dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,22 +40,22 @@
             android:background="@drawable/color_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageSlider_Profile">
+            app:layout_constraintTop_toBottomOf="@+id/imageSlider_herProfile">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/avatarIv_myProfile"
+                android:id="@+id/avatarIv_herProfile"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_thumb"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_info3_myProfile"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_info3_herProfile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_info_myProfile"/>
+                app:layout_constraintTop_toTopOf="@+id/tv_info_herProfile"/>
 
             <TextView
-                android:id="@+id/tv_info_myProfile"
+                android:id="@+id/tv_info_herProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -64,11 +64,11 @@
                 android:text="Dave,"
                 android:textColor="@color/white"
                 android:textSize="25sp"
-                app:layout_constraintStart_toEndOf="@+id/avatarIv_myProfile"
+                app:layout_constraintStart_toEndOf="@+id/avatarIv_herProfile"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_info2_myProfile"
+                android:id="@+id/tv_info2_herProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -76,34 +76,34 @@
                 android:text="24"
                 android:textColor="@color/white"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_info_myProfile"
-                app:layout_constraintStart_toEndOf="@id/tv_info_myProfile"
-                app:layout_constraintTop_toTopOf="@id/tv_info_myProfile" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_info_herProfile"
+                app:layout_constraintStart_toEndOf="@id/tv_info_herProfile"
+                app:layout_constraintTop_toTopOf="@id/tv_info_herProfile" />
 
             <TextView
-                android:id="@+id/tv_info3_myProfile"
+                android:id="@+id/tv_info3_herProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/raleway_bold"
                 android:text="Los Angeles, CA - 1.77cm"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/tv_info_myProfile"
-                app:layout_constraintTop_toBottomOf="@id/tv_info_myProfile" />
+                app:layout_constraintStart_toStartOf="@id/tv_info_herProfile"
+                app:layout_constraintTop_toBottomOf="@id/tv_info_herProfile" />
 
 
             <ImageButton
-                android:id="@+id/edit_myProfile"
+                android:id="@+id/edit_herProfile"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="45dp"
-                android:src="@drawable/ic_pen"
+                android:src="@drawable/ic_chat"
                 android:background="@drawable/shape_circle_gray"
-                app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"
+                app:layout_constraintBottom_toBottomOf="@id/tv_info3_herProfile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
-                app:layout_constraintTop_toTopOf="@id/tv_info_myProfile"
+                app:layout_constraintTop_toTopOf="@id/tv_info_herProfile"
                 app:layout_constraintVertical_bias="0.333" />
 
             <View
@@ -114,11 +114,11 @@
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info3_myProfile" />
+                app:layout_constraintTop_toBottomOf="@id/tv_info3_herProfile" />
 
 
             <TextView
-                android:id="@+id/tv_info4_myProfile"
+                android:id="@+id/tv_info4_herProfile"
                 android:layout_width="377dp"
                 android:layout_height="69dp"
                 android:layout_marginTop="20dp"
@@ -142,10 +142,10 @@
                 app:layout_constraintHeight_percent="1"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info4_myProfile">
+                app:layout_constraintTop_toBottomOf="@id/tv_info4_herProfile">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView_myProfile"
+                    android:id="@+id/recyclerView_herProfile"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginStart="20dp"

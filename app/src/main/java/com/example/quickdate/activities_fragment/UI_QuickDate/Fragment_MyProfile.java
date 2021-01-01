@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,6 @@ import com.example.quickdate.adapter.InterestsAdapter;
 import com.example.quickdate.adapter.SliderAdapter;
 import com.example.quickdate.model.Interest;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -59,14 +59,14 @@ public class Fragment_MyProfile extends Fragment {
     // Components in View
     private CircleImageView circleImageView;
     private TextView tv_info, tv_info2, tv_info3, tv_info4;
-    private Button btn_edit;
+    private ImageButton btn_edit;
     private RecyclerView recyclerView;
     private View root;
     private ProgressDialog pd;
 
     // Model
     private User myUser;
-    private OppositeUsers myOppositeUsers;
+    private ArrayList<User> myOppositeUsers;
 
 
     // Slider images
@@ -97,9 +97,6 @@ public class Fragment_MyProfile extends Fragment {
     private String[] cameraPermissions;
     private String[] storagePermissions;
 
-    public Fragment_MyProfile() {
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_my_profile, container, false);
@@ -114,7 +111,6 @@ public class Fragment_MyProfile extends Fragment {
     }
 
     private void init() {
-
         // Init User
         Activity_Home act = (Activity_Home) getActivity();
         myUser = act.getCurrentUser();
@@ -294,7 +290,8 @@ public class Fragment_MyProfile extends Fragment {
                 interests.add(item);
             }
         }
-        InterestsAdapter interestsAdapter = new InterestsAdapter(interests, myUser.getStatus() == 1);
+
+        InterestsAdapter interestsAdapter = new InterestsAdapter(interests, true);
         recyclerView.setAdapter(interestsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
     }
@@ -378,7 +375,6 @@ public class Fragment_MyProfile extends Fragment {
                             // add/upload url in User's database
                             assert downloadUri != null;
                             databaseReference.child(myUser.getInfo().getGender())
-                                    .child(myUser.getLookingFor().getLooking())
                                     .child(myUser.getIdUser())
                                     .child("info")
                                     .child("imgAvt").setValue(downloadUri.toString())

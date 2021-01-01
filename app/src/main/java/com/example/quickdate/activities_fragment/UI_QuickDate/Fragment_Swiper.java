@@ -9,9 +9,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
@@ -21,9 +23,9 @@ import com.example.quickdate.R;
 import com.example.quickdate.adapter.CardStackAdapter;
 import com.example.quickdate.adapter.UserDiffCallBack;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +55,7 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private User user;
-    private OppositeUsers myOppositeUsers;
+    private ArrayList<User> myOppositeUsers;
     private View root;
     private FirebaseUser firebaseUser;
     private Boolean flag = true;
@@ -67,15 +69,14 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-        init(view);
-        doFunction();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_swiper, container, false);
+        View view = inflater.inflate(R.layout.fragment_swiper, container, false);
+        init(view);
+        doFunction();
+        return view;
     }
 
     private void init(View view) {
@@ -88,7 +89,7 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        cardStackAdapter = new CardStackAdapter(myOppositeUsers);
+        cardStackAdapter = new CardStackAdapter(getActivity() ,myOppositeUsers);
         cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
         btn_skip = (ImageButton) view.findViewById(R.id.skip_button);
         btn_love = (ImageButton) view.findViewById(R.id.love_button);
@@ -175,9 +176,15 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
             paginate();
         }
         if (direction == Direction.Right) {
-            positionCard = cardStackLayoutManager.getTopPosition() - 1;
-            User test = myOppositeUsers.getUsers().get(positionCard);
-            addToHisNotifications(test.getInfo().getGender(), test.getLookingFor().getLooking(), test.getIdUser(), "Love", "Want to match with you");
+            User test = myOppositeUsers.get(positionCard);
+            addToHisNotifications( cardStackLayoutManager.getTopPosition() -1,
+                    test.getInfo().getGender(),
+                    test.getLookingFor().getLooking(),
+                    test.getIdUser(),
+                    "Love",
+                    "Want to match with you");
+        }else if(direction == Direction.Left){
+            
         }
     }
 
@@ -203,27 +210,25 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     private void paginate() {
         ArrayList<User> old = cardStackAdapter.getUsers();
         ArrayList<User> newer = old;
-        newer.addAll(myOppositeUsers.getUsers());
+        newer.addAll(myOppositeUsers);
         UserDiffCallBack callback = new UserDiffCallBack(old, newer);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         cardStackAdapter.setUsers(newer);
         result.dispatchUpdatesTo(cardStackAdapter);
     }
 
-    private void addToHisNotifications(String gender, String looking, String hisId, String type, String message) {
+    private void addToHisNotifications(int position ,String gender, String looking, String hisId, String type, String message) {
         String timeStamp = "" + System.currentTimeMillis();
 
         HashMap<Object, String> hashMap = new HashMap<>();
         hashMap.put("senderId", user.getIdUser());
-        hashMap.put("senderAvatar", user.getInfo().getImgAvt());
-        hashMap.put("senderName", user.getInfo().getNickname());
+        hashMap.put("receiverId", myOppositeUsers.get(positionCard).getIdUser());
         hashMap.put("type", "Liked");
-        hashMap.put("received", myOppositeUsers.getUsers().get(positionCard).getIdUser());
         hashMap.put("notification", "Want to match with you");
         hashMap.put("timeStamp", timeStamp);
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notifications");
-        db.push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference("Notifications")
+                .push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

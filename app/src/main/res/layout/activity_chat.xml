@@ -17,24 +17,24 @@
             android:id="@+id/backAct_chatAct"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:src="@drawable/ic_backarrow"
-            android:tint="#EA465B"
             android:background="@drawable/shape_circle_black_light"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_backarrow"
+            android:tint="#EA465B" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/matcher_avatar"
             android:layout_width="54dp"
-            android:layout_marginStart="20dp"
             android:layout_height="54dp"
+            android:layout_marginStart="20dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_thumb" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginStart="10dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -60,35 +60,57 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_chatActivity"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
         android:layout_above="@id/chatLayout"
+        android:layout_below="@id/toolbar"
         android:background="@drawable/shape_background_gadient"
         android:paddingStart="30dp"
         android:paddingTop="30dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="20dp"/>
+        android:paddingBottom="20dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_chatActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_typing"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/tv_typing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/raleway_bold"
+            android:gravity="center"
+            android:text="Typing..."
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/chatLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="90dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/shape_background_white_one_corner"
         android:gravity="center"
+        android:orientation="horizontal"
         android:paddingStart="10dp"
-        android:paddingEnd="20dp"
-        android:orientation="horizontal">
+        android:paddingEnd="20dp">
 
         <ImageButton
             android:id="@+id/upload_image_chatAct"
             android:layout_width="37dp"
             android:layout_height="34dp"
-            android:background="@null"
             android:layout_marginEnd="3dp"
+            android:background="@null"
             android:src="@drawable/ic_captureimage"
             app:tint="@color/black" />
 
@@ -96,8 +118,8 @@
             android:id="@+id/upload_file_chatAct"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@null"
             android:layout_marginEnd="15dp"
+            android:background="@null"
 
             android:src="@drawable/ic_add"
             app:tint="@color/black" />
@@ -107,9 +129,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="textCapSentences|textMultiLine"
             android:background="@null"
             android:hint="Type message"
+            android:inputType="textCapSentences|textMultiLine"
             android:textColorHint="#80222222" />
 
         <ImageButton
@@ -117,8 +139,8 @@
             android:layout_width="51dp"
             android:layout_height="52dp"
             android:background="@null"
-            android:src="@drawable/ic_send"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_send" />
 
     </LinearLayout>
 

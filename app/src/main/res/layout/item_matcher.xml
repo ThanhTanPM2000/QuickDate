@@ -5,16 +5,37 @@
     android:layout_height="wrap_content"
     android:background="#00FFFFFF">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avatarIv_itemUser"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rtl"
         android:layout_width="62dp"
         android:layout_height="62dp"
-        android:src="@drawable/ic_thumb"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatarIv_itemUser"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:src="@drawable/ic_thumb"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/image_status"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/avatarIv_itemUser"
+            app:layout_constraintBottom_toBottomOf="@id/avatarIv_itemUser"
+            android:background="@drawable/shape_circle_green" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -23,9 +44,9 @@
         android:layout_marginStart="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintEnd_toStartOf="@+id/timeOffline_itemMatcher"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/avatarIv_itemUser"
+        app:layout_constraintStart_toEndOf="@+id/rtl"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -48,7 +69,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/timeOffline_itemMatcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -63,11 +84,11 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20dp"
         android:background="#4DFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintWidth_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

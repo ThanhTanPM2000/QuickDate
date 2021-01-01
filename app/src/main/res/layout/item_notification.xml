@@ -2,10 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="80dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="1dp"
     app:cardUseCompatPadding="true"
     app:contentPadding="3dp">
 
@@ -17,8 +17,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatarIv_itemNotification"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_thumb"
             android:layout_marginStart="10dp"
             app:civ_border_width="2dp"
@@ -40,7 +40,7 @@
                 android:fontFamily="@font/raleway_semibold"
                 android:text="Name"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_message_notification"
@@ -49,7 +49,7 @@
                 android:fontFamily="@font/raleway_semibold"
                 android:text="Message"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_timeStamp"

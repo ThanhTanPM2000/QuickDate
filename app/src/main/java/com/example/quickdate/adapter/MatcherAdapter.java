@@ -2,6 +2,7 @@ package com.example.quickdate.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHolder>{
     Context context;
     ArrayList<User> userArrayList;
-    User myUser;
+    private User myUser;
 
     public MatcherAdapter(Context context, ArrayList<User> userArrayList){
         this.context = context;
@@ -46,24 +49,30 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //get uid matcher
+        User marcher = userArrayList.get(position);
 
-        String userImage = userArrayList.get(position).getInfo().getImgAvt();
-        String userName = userArrayList.get(position).getInfo().getNickname();
+        String userImage = marcher.getInfo().getImgAvt();
+        String userName = marcher.getInfo().getNickname();
 
         holder.mNameTv.setText(userName);
+        if(marcher.getStatusOnline().equals("Online")){
+            holder.imageView_status.setVisibility(View.VISIBLE);
+            holder.mTimeOffline.setText("");
+        }else{
+            holder.imageView_status.setVisibility(View.GONE);
+
+            Calendar cal = Calendar.getInstance(Locale.CHINESE);
+            cal.setTimeInMillis(System.currentTimeMillis() - Long.parseLong(marcher.getStatusOnline()));
+            String dateTime = DateFormat.format("hh:mm", cal).toString() + " ago";
+
+            holder.mTimeOffline.setText(dateTime);
+        }
 
         try{
             Picasso.get().load(userImage).placeholder(R.drawable.ic_thumb).into(holder.mAvatarIv);
         }catch (Exception e){
-
+            Picasso.get().load(R.drawable.ic_thumb).into(holder.mAvatarIv);
         }
-
-        PushDownAnim.setPushDownAnimTo(holder.itemView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         PushDownAnim.setPushDownAnimTo(holder.itemView).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,8 +92,8 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView mAvatarIv;
-        TextView mNameTv, mMessaged;
+        ImageView mAvatarIv, imageView_status;
+        TextView mNameTv, mMessaged, mTimeOffline;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +101,8 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
             mAvatarIv = itemView.findViewById(R.id.avatarIv_itemUser);
             mNameTv = itemView.findViewById(R.id.tv_name_itemUser);
             mMessaged = itemView.findViewById(R.id.tv_message_itemUser);
+            imageView_status = itemView.findViewById(R.id.image_status);
+            mTimeOffline = itemView.findViewById(R.id.timeOffline_itemMatcher);
         }
     }
 }

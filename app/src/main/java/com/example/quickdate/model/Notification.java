@@ -3,10 +3,8 @@ package com.example.quickdate.model;
 public class Notification {
 
     private String senderId;
-    private String senderAvatar;
-    private String senderName;
     private String type;
-    private String received;
+    private String receiverId;
     private String notification;
     private String timeStamp;
 
@@ -14,12 +12,10 @@ public class Notification {
 
     }
 
-    public Notification(String senderId, String senderAvatar, String senderName, String type, String received, String notification, String timeStamp) {
+    public Notification(String senderId, String type, String receiverId, String notification, String timeStamp) {
         this.senderId = senderId;
-        this.senderAvatar = senderAvatar;
-        this.senderName = senderName;
         this.type = type;
-        this.received = received;
+        this.receiverId = receiverId;
         this.notification = notification;
         this.timeStamp = timeStamp;
     }
@@ -32,22 +28,6 @@ public class Notification {
         this.senderId = senderId;
     }
 
-    public String getSenderAvatar() {
-        return senderAvatar;
-    }
-
-    public void setSenderAvatar(String senderAvatar) {
-        this.senderAvatar = senderAvatar;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
     public String getType() {
         return type;
     }
@@ -56,12 +36,12 @@ public class Notification {
         this.type = type;
     }
 
-    public String getReceived() {
-        return received;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceived(String received) {
-        this.received = received;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getNotification() {

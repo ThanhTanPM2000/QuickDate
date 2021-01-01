@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities_fragment.UI_QuickDate.Activity_Home"
+    tools:openDrawer="end">
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_setting_swipeAct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@drawable/shape_rectangle_topright_corner_gray"
+        app:headerLayout="@layout/header_setting"
+        app:itemIconSize="40dp"
+        app:itemIconTint="@null"
+        app:menu="@menu/setting_nv_menu" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_notification_swipeAct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@drawable/shape_rectangle_topleft_corner_gray"
+        app:headerLayout="@layout/header_notifications"
+        app:itemIconSize="35dp"
+        app:itemIconTint="@null">
+
+        <fragment
+            android:id="@+id/fragment_notifications"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="90dp"
+            app:defaultNavHost="true" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="339dp"
+            android:layout_height="83dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/quickdatebotbackground"
+            app:menu="@menu/bottom_nv_menu" />
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            app:defaultNavHost="true" />
+
+        <!--<fragment
+            android:id="@+id/dialog_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/actionBar_swipeAct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:paddingStart="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_setting"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/shape_circle_white"
+                android:src="@drawable/ic_setting"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_head_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_semibold"
+                android:text="Quick Date"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_notification"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/shape_circle_white"
+                android:src="@drawable/ic_ring"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="349dp"
+                tools:layout_editor_absoluteY="35dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

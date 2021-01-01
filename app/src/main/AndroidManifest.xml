@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickDate">
-        <activity android:name=".activities_fragment.UI_QuickDate.Activity_Chat"></activity>
+        <activity android:name=".activities_fragment.UI_QuickDate.Activity_Match"></activity>
+        <activity android:name=".activities_fragment.UI_QuickDate.Activity_HerProfile" />
+        <activity android:name=".activities_fragment.UI_QuickDate.Activity_Chat" />
         <activity android:name=".activities_fragment.UI_QuickDate.Activity_Home" />
         <activity android:name=".activities_fragment.UI_StartLoginRegister.Activity_Login" />
         <activity android:name=".activities_fragment.UI_StartLoginRegister.Activity_SignUp" />

@@ -1,5 +1,7 @@
 package com.example.quickdate.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,28 +11,32 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickdate.R;
-import com.example.quickdate.model.OppositeUsers;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_HerProfile;
 import com.example.quickdate.model.User;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.thekhaeng.pushdownanim.PushDownAnim;
+import com.yuyakaido.android.cardstackview.CardStackListener;
 
 import java.util.ArrayList;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
-    private ArrayList<User> Users;
+    Context context;
+    private ArrayList<User> userArrayList;
 
-    public CardStackAdapter(OppositeUsers myOppositeUsers) {
-        this.Users = myOppositeUsers.getUsers();
+    public CardStackAdapter(Context context ,ArrayList<User> myOppositeUsers) {
+        this.context = context;
+        this.userArrayList = myOppositeUsers;
     }
 
     public ArrayList<User> getUsers() {
-        return Users;
+        return userArrayList;
     }
 
     public void setUsers(ArrayList<User> users) {
-        Users = users;
+        userArrayList = users;
     }
 
     @NonNull
@@ -42,7 +48,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = Users.get(position);
+        User user = userArrayList.get(position);
         String[] arr = user.getInfo().getNickname().split(" ");
         if(arr[arr.length -1].length() > 8){
             holder.tv_name.setText(arr[arr.length -1].substring(0, 8) + "...,");
@@ -60,6 +66,15 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             @Override
             public void onError(Exception e) {
 
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(holder.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Activity_HerProfile.class);
+                intent.putExtra("User", userArrayList.get(position));
+                context.startActivity(intent);
             }
         });
     }

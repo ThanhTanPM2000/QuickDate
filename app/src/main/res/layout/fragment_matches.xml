@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,55 +10,50 @@
         android:id="@+id/actionBar_login"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
         android:paddingStart="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry">
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        tools:ignore="RtlSymmetry" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/actionBar_login"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
-        android:background="#4DFFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionBar_login" />
+        android:background="#4DFFFFFF" />
 
     <EditText
         android:id="@+id/et_search_matchers"
-        android:layout_width="329dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/divider"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="20dp"
         android:fontFamily="@font/raleway_bold"
         android:hint="Search for nickname/email..."
-        android:textColorHint="#BFFFFFFF"
-        android:textColor="#BFFFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.195"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
         android:inputType="textPersonName"
+        android:textColor="#BFFFFFFF"
+        android:textColorHint="#BFFFFFFF"
+        android:textSize="14sp"
         tools:ignore="LabelFor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_matchesFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_below="@+id/et_search_matchers"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_background_gadient"
         android:padding="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_search_matchers"
         tools:listitem="@layout/item_matcher" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -19,6 +19,7 @@ import com.example.quickdate.adapter.MatcherAdapter;
 import com.example.quickdate.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -32,6 +33,9 @@ public class Fragment_Matches extends Fragment {
     ArrayList<User> matcherArrayList;
 
     private EditText et_search;
+
+    private ValueEventListener valueEventListener;
+    private DatabaseReference useForCheckOnline;
 
     // Model
     private User myUser;
@@ -132,5 +136,11 @@ public class Fragment_Matches extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 }

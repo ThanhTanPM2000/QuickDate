@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,17 +22,21 @@ import android.widget.Toast;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
+import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
 import com.example.quickdate.utility.regexString;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Activity_Login extends AppCompatActivity {
     private EditText et_email, et_password;
@@ -42,7 +48,7 @@ public class Activity_Login extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private User user;
-    private OppositeUsers myOppositeUsers;
+    private ArrayList<User> userArrayList;
 
     private static final String remember = "vidslogin";
     private static final String emailRemember = "email";
@@ -94,10 +100,9 @@ public class Activity_Login extends AppCompatActivity {
                         firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 //user.isEmailVerified()
-
                                 if (true) {
                                     DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    db.addValueEventListener(new ValueEventListener() {
+                                    db.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             progressDialog.dismiss();
@@ -107,6 +112,7 @@ public class Activity_Login extends AppCompatActivity {
                                             } else {
                                                 Intent intent = new Intent(getApplicationContext(), Activity_SelectGender.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.putExtra("User", user);
                                                 startActivity(intent);
                                                 finish();
                                             }
@@ -179,20 +185,73 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void findCurrentUser() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-
         String[] genders = new String[]{"Male", "Female"};
-        String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
         for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                Query query = ref.child(genders[i]).child(lookingFor[j]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(genders[i]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        user = snapshot.getValue(User.class);
+                        user.setStatusOnline("Online");
+                        databaseReference.child("statusOnline").setValue("Online");
+                        getAllOppositeUsers();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    private void getAllOppositeUsers() {
+        userArrayList = new ArrayList<>();
+
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(user.getInfo().getGender().equals("Male") ? "Female" : "Male")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            user = snapshot.getValue(User.class);
-                            getAllOppositeUsers();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            User tempUser = ds.getValue(User.class);
+                            if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() &&
+                                    tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age() &&
+                                    tempUser.getLookingFor().getLooking().equals(user.getLookingFor().getLooking()) &&
+                                    tempUser.getInfo().getWeight() <= user.getLookingFor().getMax_weight() &&
+                                    tempUser.getInfo().getWeight() >= user.getLookingFor().getMin_weight() &&
+                                    tempUser.getInfo().getHeight() <= user.getLookingFor().getMax_height() &&
+                                    tempUser.getInfo().getHeight() >= user.getLookingFor().getMin_height())
+                            {
+                                FirebaseDatabase.getInstance().getReference("Matchers").child(user.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()){
+                                            for(DataSnapshot ds : snapshot.getChildren()){
+                                                if(!tempUser.getIdUser().equals(ds.getValue(String.class))){
+                                                    userArrayList.add(tempUser);
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            userArrayList.add(tempUser);
+                                        }
+                                        Intent intent = new Intent(getApplicationContext(), Activity_Home.class);
+                                        intent.putExtra("User", user);
+                                        intent.putExtra("OppositeUsers", userArrayList);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
                         }
                     }
 
@@ -201,37 +260,5 @@ public class Activity_Login extends AppCompatActivity {
 
                     }
                 });
-            }
-        }
-    }
-
-    private void getAllOppositeUsers() {
-        myOppositeUsers = new OppositeUsers();
-        FirebaseDatabase.getInstance().getReference("Users/" + (user.getInfo().getGender().equals("Male") ? "Female/" : "Male/")).child(user.getLookingFor().getLooking()).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //myUsers.getUsers().clear();
-                /*if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
-                    myUsers.getUsers().add(tempUser);
-                }*/
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    User tempUser = item.getValue(User.class);
-                    if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() || tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age()) {
-                        myOppositeUsers.getUsers().add(tempUser);
-                        Intent intent = new Intent(getApplicationContext(), Activity_Home.class);
-                        intent.putExtra("User", user);
-                        intent.putExtra("OppositeUsers", myOppositeUsers);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
 }

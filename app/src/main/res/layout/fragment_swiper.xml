@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,42 +7,38 @@
     android:background="@drawable/color_gradient"
     tools:context=".activities_fragment.UI_QuickDate.Fragment_Swiper">
 
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/img_cardswipe"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/app_name" />
+        android:layout_above="@+id/constraintLayout3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/img_cardswipe"/>
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-        app:layout_constraintCircleRadius="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
+        android:layout_above="@+id/constraintLayout3"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
         app:layout_constraintWidth_percent="1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="212dp"
         android:layout_height="110dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/img_depth"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_above="@+id/rewind_button"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/img_depth">
 
         <ImageButton
             android:id="@+id/skip_button"
@@ -66,30 +62,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/rewind_button"
         android:layout_width="45dp"
         android:layout_height="44dp"
+        android:layout_above="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/img_reload"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+        android:contentDescription="@string/app_name" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="339dp"
         android:layout_height="83dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="32dp"
         android:background="@drawable/quickdatebotbackground"
         android:contentDescription="@string/app_name"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:visibility="invisible" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -29,7 +29,6 @@ import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.example.quickdate.adapter.ImageRegisterAdapter;
 import com.example.quickdate.listener.ImagesListener;
 import com.example.quickdate.model.User;
-import com.example.quickdate.model.OppositeUsers;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -57,7 +56,7 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
 
     // Model
     private User user;
-    private OppositeUsers oppositeUsers;
+    private ArrayList<User> oppositeUsers;
 
     // Adapter
     private ImageRegisterAdapter imageRegisterAdapter;
@@ -82,7 +81,7 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
     private Boolean isFailed = false;
 
     // is Register Info
-    private Boolean isRegisterInfo;
+    private Boolean isRegisterInfo = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
 
         // Init User variable from pass value between fragment
         user = (User) getIntent().getSerializableExtra("User");
-        oppositeUsers = (OppositeUsers) getIntent().getSerializableExtra("OppositeUsers");
+        oppositeUsers = (ArrayList<User>) getIntent().getSerializableExtra("OppositeUsers");
 
         // Init Data default
         et_nickName.setText(user.getInfo().getNickname());
@@ -238,6 +237,7 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
         } else {
             Intent intent = new Intent(Activity_BioPhotos.this, Activity_SelectGender.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("User", user);
             startActivity(intent);
             finish();
         }
@@ -289,13 +289,22 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 // Image is picked from gallery, get uri of image
                 image_Uri = data.getData();
-                imagesURIForAdapter.add(image_Uri.toString());
-                loadImagesToRecycleView();
+                if(!imagesURIForAdapter.contains(image_Uri)){
+                    imagesURIForAdapter.add(image_Uri.toString());
+                    loadImagesToRecycleView();
+                }else{
+                    Toast.makeText(Activity_BioPhotos.this, "this image was upload", Toast.LENGTH_SHORT).show();
+                }
+
             }
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 // Image is picked from camera, get uri of image
-                imagesURIForAdapter.add(image_Uri.toString());
-                loadImagesToRecycleView();
+                if(!imagesURIForAdapter.contains(image_Uri)){
+                    imagesURIForAdapter.add(image_Uri.toString());
+                    loadImagesToRecycleView();
+                }else{
+                    Toast.makeText(Activity_BioPhotos.this, "this image was upload", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -328,56 +337,12 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
                         assert downloadUri != null;
                         imagesURIForSave.add(downloadUri.toString());
 
-                        if (imagesURIForAdapter.indexOf(uri.toString()) == imagesURIForAdapter.size() - 1) {
-                            user.getInfo().setImages(imagesURIForSave);
-
-                            if (isRegisterInfo) {
-                                String path = "Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + user.getIdUser();
-                                FirebaseDatabase.getInstance().getReference(path).setValue(user)
-                                        .addOnSuccessListener(aVoid ->
-                                        {
-                                            Toast.makeText(Activity_BioPhotos.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
-                                            pd.dismiss();
-                                            Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            intent.putExtra("OppositeUsers", oppositeUsers);
-                                            intent.putExtra("MenuDefault", 0);
-                                            intent.putExtra("User", user);
-                                            startActivity(intent);
-                                            finish();
-                                        }).addOnFailureListener(e ->
-                                        Toast.makeText(Activity_BioPhotos.this, e.getMessage(), Toast.LENGTH_SHORT).show());
-                            } else {
-
-                                    pd.dismiss();
-                                    user.getInfo().setImgAvt(downloadUri.toString());
-                                    Intent intent = new Intent(Activity_BioPhotos.this, Activity_Type.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("User", user);
-                                    startActivity(intent);
-                                    finish();
-                            }
-                        }
+                        saveDataUser(uri, downloadUri);
                     }
                 })
                 .addOnFailureListener(e -> {
                         // There were some error(s), get and show error message, dismiss progress dialog
-                    if (imagesURIForAdapter.indexOf(uri.toString()) == imagesURIForAdapter.size() - 1) {
-                        String path = "Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + user.getIdUser();
-                        FirebaseDatabase.getInstance().getReference(path).setValue(user)
-                                .addOnSuccessListener(aVoid ->
-                                {
-                                    Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("MenuDefault", 0);
-                                    intent.putExtra("User", user);
-                                    intent.putExtra("OppositeUsers", oppositeUsers);
-                                    startActivity(intent);
-                                    finish();
-                                    pd.dismiss();
-                                }).addOnFailureListener(y ->
-                                Toast.makeText(Activity_BioPhotos.this, y.getMessage(), Toast.LENGTH_SHORT).show());
-                    }
+                    saveDataUser(uri, uri);
                 });
     }
 
@@ -428,5 +393,38 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
         Intent galleryIntent = new Intent(Intent.ACTION_PICK);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
+    }
+
+    private void saveDataUser(Uri uri, Uri uriStorage){
+        if (imagesURIForAdapter.indexOf(uri.toString()) == imagesURIForAdapter.size() - 1) {
+
+            user.getInfo().setImages(imagesURIForSave);
+
+            if (isRegisterInfo) {
+                String path = "Users/" + user.getInfo().getGender()  + "/" + user.getIdUser();
+                FirebaseDatabase.getInstance().getReference(path).setValue(user)
+                        .addOnSuccessListener(aVoid ->
+                        {
+                            Toast.makeText(Activity_BioPhotos.this, "Updating Successfully", Toast.LENGTH_SHORT).show();
+                            pd.dismiss();
+                            Intent intent = new Intent(Activity_BioPhotos.this, Activity_Home.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("OppositeUsers", oppositeUsers);
+                            intent.putExtra("MenuDefault", 0);
+                            intent.putExtra("User", user);
+                            startActivity(intent);
+                            finish();
+                        }).addOnFailureListener(e ->
+                        Toast.makeText(Activity_BioPhotos.this, e.getMessage(), Toast.LENGTH_SHORT).show());
+            } else {
+                pd.dismiss();
+                user.getInfo().setImgAvt(uriStorage.toString());
+                Intent intent = new Intent(Activity_BioPhotos.this, Activity_Type.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("User", user);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }
