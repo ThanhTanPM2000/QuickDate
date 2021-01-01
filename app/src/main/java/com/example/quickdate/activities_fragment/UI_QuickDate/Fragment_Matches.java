@@ -99,7 +99,7 @@ public class Fragment_Matches extends Fragment {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     matcherArrayList.add(ds.getValue(User.class));
 
-                    matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList);
+                    matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList, myUser);
                     recyclerView.setAdapter(matcherAdapter);
                 }
             }

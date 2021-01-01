@@ -23,10 +23,17 @@ import java.util.ArrayList;
 public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHolder>{
     Context context;
     ArrayList<User> userArrayList;
+    User myUser;
 
     public MatcherAdapter(Context context, ArrayList<User> userArrayList){
         this.context = context;
         this.userArrayList = userArrayList;
+    }
+
+    public MatcherAdapter(Context context, ArrayList<User> userArrayList, User user){
+        this.context = context;
+        this.userArrayList = userArrayList;
+        myUser = user;
     }
 
     @NonNull
@@ -39,7 +46,6 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //get uid matcher
-        String matcherID = userArrayList.get(position).getIdUser();
 
         String userImage = userArrayList.get(position).getInfo().getImgAvt();
         String userName = userArrayList.get(position).getInfo().getNickname();
@@ -63,7 +69,8 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Activity_Chat.class);
-                intent.putExtra("MatcherID", matcherID);
+                intent.putExtra("Matcher", userArrayList.get(position));
+                intent.putExtra("MyUser", myUser);
                 context.startActivity(intent);
             }
         });

@@ -41,8 +41,6 @@ public class Activity_Login extends AppCompatActivity {
     private ImageView iv_backAct;
     private ProgressDialog progressDialog;
 
-    private String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     private User user;
     private OppositeUsers myOppositeUsers;
 
@@ -96,8 +94,9 @@ public class Activity_Login extends AppCompatActivity {
                         firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 //user.isEmailVerified()
+
                                 if (true) {
-                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + idUser);
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     db.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -186,7 +185,7 @@ public class Activity_Login extends AppCompatActivity {
         String[] lookingFor = new String[]{"OneNight", "LongTerm", "Settlement"};
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
-                Query query = ref.child(genders[i]).child(lookingFor[j]).child(idUser);
+                Query query = ref.child(genders[i]).child(lookingFor[j]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
