@@ -228,8 +228,8 @@ public class Activity_Home extends AppCompatActivity {
     }
 
     private void checkOnlineStatus(String status){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("StatusOnline").child(user.getIdUser());
-        databaseReference.setValue(status);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender()).child(user.getIdUser());
+        databaseReference.child("statusOnline").setValue(status);
     }
 
     @Override

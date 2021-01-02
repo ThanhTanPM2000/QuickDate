@@ -194,7 +194,6 @@ public class Activity_Login extends AppCompatActivity {
                     if (snapshot.exists()) {
                         user = snapshot.getValue(User.class);
                         user.setStatusOnline("Online");
-                        databaseReference.child("statusOnline").setValue("Online");
                         getAllOppositeUsers();
                     }
                 }

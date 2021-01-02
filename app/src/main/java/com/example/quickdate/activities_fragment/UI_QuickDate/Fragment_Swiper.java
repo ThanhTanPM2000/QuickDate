@@ -176,12 +176,12 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
             paginate();
         }
         if (direction == Direction.Right) {
-            User test = myOppositeUsers.get(positionCard);
+            User test = myOppositeUsers.get(cardStackLayoutManager.getTopPosition() -1);
             addToHisNotifications( cardStackLayoutManager.getTopPosition() -1,
                     test.getInfo().getGender(),
                     test.getLookingFor().getLooking(),
                     test.getIdUser(),
-                    "Love",
+                    "Liked",
                     "Want to match with you");
         }else if(direction == Direction.Left){
             

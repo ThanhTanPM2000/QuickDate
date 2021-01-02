@@ -4,8 +4,8 @@ import com.google.firebase.database.PropertyName;
 
 public class Chat {
     private String message;
-    private String receiver;
-    private String sender;
+    private String receiverId;
+    private String senderId;
     private String timestamp;
     private boolean isSeen;
 
@@ -13,10 +13,10 @@ public class Chat {
 
     }
 
-    public Chat(String message, String receiver, String sender, String timestamp, boolean isSeen) {
+    public Chat(String message, String receiverId, String senderId, String timestamp, boolean isSeen) {
         this.message = message;
-        this.receiver = receiver;
-        this.sender = sender;
+        this.receiverId = receiverId;
+        this.senderId = senderId;
         this.timestamp = timestamp;
         this.isSeen = isSeen;
     }
@@ -29,20 +29,20 @@ public class Chat {
         this.message = message;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public String getSender() {
-        return sender;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
     public String getTimestamp() {
@@ -53,13 +53,11 @@ public class Chat {
         this.timestamp = timestamp;
     }
 
-    @PropertyName("isSeen")
     public boolean isSeen() {
         return isSeen;
     }
 
-    @PropertyName("isSeen")
     public void setSeen(boolean seen) {
-        this.isSeen = seen;
+        isSeen = seen;
     }
 }

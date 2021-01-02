@@ -137,7 +137,7 @@ public class Activity_Chat extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Chat chat = ds.getValue(Chat.class);
-                    if(chat.getReceiver().equals(myUser.getIdUser()) && chat.getSender().equals(matcher.getIdUser())){
+                    if(chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser())){
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("isSeen", true);
 
@@ -167,8 +167,8 @@ public class Activity_Chat extends AppCompatActivity {
                 chatArrayList.clear();
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Chat chat = ds.getValue(Chat.class);
-                    if(chat.getReceiver().equals(myUser.getIdUser()) && chat.getSender().equals(matcher.getIdUser()) ||
-                            chat.getReceiver().equals(matcher.getIdUser()) && chat.getSender().equals(myUser.getIdUser())){
+                    if(chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser()) ||
+                            chat.getReceiverId().equals(matcher.getIdUser()) && chat.getSenderId().equals(myUser.getIdUser())){
                         chatArrayList.add(chat);
                     }
 
@@ -223,8 +223,8 @@ public class Activity_Chat extends AppCompatActivity {
             String timeStamp = String.valueOf(System.currentTimeMillis());
 
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("sender", myUser.getIdUser());
-            hashMap.put("receiver", matcher.getIdUser());
+            hashMap.put("senderId", myUser.getIdUser());
+            hashMap.put("receiverId", matcher.getIdUser());
             hashMap.put("message", messageEt.getText().toString().trim());
             hashMap.put("timestamp", timeStamp);
             hashMap.put("isSeen", false);
