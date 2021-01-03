@@ -20,6 +20,7 @@ import com.example.quickdate.adapter.NotificationAdapter;
 import com.example.quickdate.listener.Notification_RequestMatch_Listener;
 import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +39,6 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
     private NotificationAdapter notificationAdapter;
     private Notification_RequestMatch_Listener listener;
 
-    ArrayList<User> listOppositeUser;
     // Model
     private User user;
     private User matcher;
@@ -84,7 +84,6 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         notificationArrayList = new ArrayList<>();
         listMatcher_Id = new ArrayList<>();
 
-        listOppositeUser = new ArrayList<>();
     }
 
     @Override
@@ -166,9 +165,6 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
 
     @Override
     public void acceptClick(Notification notification, int position, ProgressDialog pd) {
-        FragmentManager fm = getFragmentManager();
-        Fragment_Swiper fragm = (Fragment_Swiper) fm.findFragmentById(R.id.nav_host_fragment);
-        listOppositeUser = fragm.getOppositeUsers();
 
         // show progressDialog
         pd.show();
@@ -251,12 +247,18 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
 
                                         // remove this matcher out of oppositeUser
                                         matcher = new User();
-                                        for(User oppositeUser : listOppositeUser){
-                                            if(oppositeUser.getIdUser().equals(notification.getSenderId())){
-                                                matcher = oppositeUser;
-                                                listOppositeUser.remove(oppositeUser);
+                                        FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender().equals("Male")?"Female":"Male")
+                                                .child(notification.getSenderId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                matcher = snapshot.getValue(User.class);
                                             }
-                                        }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
 
                                         // After finish add data to database, dismiss progressDialog
                                         pd.dismiss();
@@ -265,7 +267,6 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                                         intent.putExtra("User", user);
                                         intent.putExtra("Matcher", matcher);
-                                        intent.putExtra("OppositeUsers", listOppositeUser);
                                         startActivity(intent);
                                     }
 
