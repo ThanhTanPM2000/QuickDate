@@ -202,7 +202,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
                 myOppositeUsers.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     User tempUser = ds.getValue(User.class);
-                    assert tempUser != null;
                     if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() &&
                             tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age() &&
                             tempUser.getLookingFor().getLooking().equals(user.getLookingFor().getLooking()) &&
@@ -235,6 +234,7 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
                         });
                     }
                 }
+                int a =1;
             }
 
             @Override
@@ -248,6 +248,11 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     public void onStart() {
         getAllOppositeUsers();
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

@@ -61,6 +61,7 @@ public class Activity_Type extends AppCompatActivity {
         rangeSeekBar_age.setProgress(user.getLookingFor().getMin_age() - 18, user.getLookingFor().getMax_age() -18);
         rangeSeekBar_height.setProgress(user.getLookingFor().getMin_height() - 100, user.getLookingFor().getMax_height() - 100);
         rangeSeekBar_weight.setProgress(user.getLookingFor().getMin_weight() - 40, user.getLookingFor().getMax_weight() - 40);
+
         if(user.getLookingFor().getLooking().equals("LongTerm")){
             longTermClick();
         }else if (user.getLookingFor().getLooking().equals("OneNight")){
@@ -68,6 +69,12 @@ public class Activity_Type extends AppCompatActivity {
         }else{
             settlementClick();
         }
+        String strValue = user.getLookingFor().getMin_age() + "-" + user.getLookingFor().getMax_age();
+        tv_age.setText(strValue);
+        String strValue1 = user.getLookingFor().getMin_weight() + "-" + user.getLookingFor().getMax_weight() + "kg";
+        tv_weight.setText(strValue1);
+        String strValue2 = user.getLookingFor().getMin_height() + "-" + user.getLookingFor().getMax_height() + "cm";
+        tv_height.setText(strValue2);
     }
 
     private void doFunctionInAct() {

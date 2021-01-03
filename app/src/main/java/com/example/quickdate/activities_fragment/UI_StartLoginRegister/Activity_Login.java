@@ -93,8 +93,7 @@ public class Activity_Login extends AppCompatActivity {
                         isRememberPasswordFunction(str_email, str_password);
                         firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                //user.isEmailVerified()
-                                if (true) {
+                                if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
                                     DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     db.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
