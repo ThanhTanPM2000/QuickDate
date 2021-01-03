@@ -10,17 +10,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
 import com.example.quickdate.model.Notification;
+import com.example.quickdate.model.Notifications.Token;
 import com.example.quickdate.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -31,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class Activity_Home extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView_setting, navigationView_notification;
 
+    String sUID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,17 @@ public class Activity_Home extends AppCompatActivity {
         notification_Counter = findViewById(R.id.notification_counter);
 
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
+
+        checkUserStatus();
+
+        //update Token
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+    }
+
+    public void updateToken(String token){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token mToken = new Token(token);
+        ref.child(sUID).setValue(mToken);
     }
 
     private void doFunction() {
@@ -257,13 +273,20 @@ public class Activity_Home extends AppCompatActivity {
 
     private void checkUserStatus() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) {
-            checkOnlineStatus("Offline");
+        if (firebaseUser != null) {
+            sUID = firebaseUser.getUid();
+
+            SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            editor.putString("Current_USER", json);
+            editor.apply();
+
+        } else {
             Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
             startActivity(intent);
             finish();
-        } else {
-            checkOnlineStatus("Online");
         }
     }
 
@@ -303,12 +326,14 @@ public class Activity_Home extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        checkUserStatus();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         refIsSeenNotification.removeEventListener(isSeenNotificationListener);
+        refGetCurrentUser.removeEventListener(getCurrentUserListener);
+        super.onPause();
     }
 }

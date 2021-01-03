@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,8 +20,6 @@ import android.widget.Toast;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
-import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Match;
-import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.example.quickdate.utility.regexString;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,13 +27,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Activity_Login extends AppCompatActivity {
     private EditText et_email, et_password;
