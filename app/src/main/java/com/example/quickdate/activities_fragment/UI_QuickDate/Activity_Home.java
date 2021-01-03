@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
 import com.example.quickdate.model.Notification;
-import com.example.quickdate.model.Notifications.Token;
 import com.example.quickdate.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -32,8 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
@@ -46,7 +43,6 @@ public class Activity_Home extends AppCompatActivity {
     public TextView tv_head_title;
     private ImageButton btn_setting, btn_notification;
     private BottomNavigationView navView;
-    private ArrayList<User> myOppositeUsers;
     private CardView notification_Counter;
 
     // index menu default
@@ -88,17 +84,6 @@ public class Activity_Home extends AppCompatActivity {
         notification_Counter = findViewById(R.id.notification_counter);
 
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
-
-        checkUserStatus();
-
-        //update Token
-        updateToken(FirebaseInstanceId.getInstance().getToken());
-    }
-
-    public void updateToken(String token){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token mToken = new Token(token);
-        ref.child(sUID).setValue(mToken);
     }
 
     private void doFunction() {
@@ -196,8 +181,6 @@ public class Activity_Home extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("User", myOppositeUsers);
             switch (item.getItemId()) {
                 case R.id.navigation_myProfile:
                     fragment = new Fragment_MyProfile();
@@ -275,14 +258,6 @@ public class Activity_Home extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             sUID = firebaseUser.getUid();
-
-            SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(user);
-            editor.putString("Current_USER", json);
-            editor.apply();
-
         } else {
             Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
             startActivity(intent);
@@ -332,8 +307,7 @@ public class Activity_Home extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        refIsSeenNotification.removeEventListener(isSeenNotificationListener);
-        refGetCurrentUser.removeEventListener(getCurrentUserListener);
         super.onPause();
+        refIsSeenNotification.removeEventListener(isSeenNotificationListener);
     }
 }

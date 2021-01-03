@@ -8,15 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,29 +21,20 @@ import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
 import com.example.quickdate.adapter.ChatAdapter;
 import com.example.quickdate.model.Chat;
-import com.example.quickdate.model.Notifications.APIService;
-import com.example.quickdate.model.Notifications.Client;
-import com.example.quickdate.model.Notifications.Data;
-import com.example.quickdate.model.Notifications.Response;
-import com.example.quickdate.model.Notifications.Sender;
-import com.example.quickdate.model.Notifications.Token;
 import com.example.quickdate.model.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -66,7 +54,6 @@ public class Activity_Chat extends AppCompatActivity {
     // data matcher ID
     private User myUser;
     private User matcher;
-    private String matcherId;
 
     // For checking if user has seen message or not
     ValueEventListener seenListener;
@@ -78,9 +65,6 @@ public class Activity_Chat extends AppCompatActivity {
 
     ArrayList<Chat> chatArrayList;
     ChatAdapter adapter;
-
-    APIService apiService;
-    boolean notify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +96,14 @@ public class Activity_Chat extends AppCompatActivity {
 
         // get model data
         myUser = (User) getIntent().getSerializableExtra("User");
-        matcherId = getIntent().getStringExtra("MatcherId");
+        matcher = (User) getIntent().getSerializableExtra("Matcher");
 
-        getMatcherInfo();
+        nameTv.setText(matcher.getInfo().getNickname());
+        try {
+            Picasso.get().load(matcher.getInfo().getImgAvt()).placeholder(R.drawable.ic_thumb).into(circleImageView);
+        }catch (Exception e){
+            Picasso.get().load(R.drawable.ic_thumb).into(circleImageView);
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
@@ -122,9 +111,6 @@ public class Activity_Chat extends AppCompatActivity {
         //recyclerView properies
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        // create api service
-        apiService = Client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
 
         seenListener = new ValueEventListener() {
             @Override
@@ -149,7 +135,7 @@ public class Activity_Chat extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Chat chat = ds.getValue(Chat.class);
-                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcherId)) {
+                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser())) {
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("isSeen", true);
 
@@ -172,29 +158,6 @@ public class Activity_Chat extends AppCompatActivity {
         refMatcherInfo.removeEventListener(matcherListener);
     }
 
-    private void getMatcherInfo(){
-        refMatcherInfo = FirebaseDatabase.getInstance().getReference("Users").child(myUser.getInfo().getGender().equals("Male") ? "Female" : "Male")
-                .child(matcherId);
-        matcherListener = refMatcherInfo.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                matcher = snapshot.getValue(User.class);
-                // Load data matcher to chat layout
-                nameTv.setText(matcher.getInfo().getNickname());
-                try {
-                    Picasso.get().load(matcher.getInfo().getImgAvt()).placeholder(R.drawable.ic_thumb).into(circleImageView);
-                } catch (Exception e) {
-                    Picasso.get().load(R.drawable.ic_thumb).into(circleImageView);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     private void readMessages() {
         chatArrayList = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(new ValueEventListener() {
@@ -203,8 +166,8 @@ public class Activity_Chat extends AppCompatActivity {
                 chatArrayList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Chat chat = ds.getValue(Chat.class);
-                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcherId) ||
-                            chat.getReceiverId().equals(matcherId) && chat.getSenderId().equals(myUser.getIdUser())) {
+                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser()) ||
+                            chat.getReceiverId().equals(matcher.getIdUser()) && chat.getSenderId().equals(myUser.getIdUser())) {
                         chatArrayList.add(chat);
                     }
 
@@ -239,8 +202,6 @@ public class Activity_Chat extends AppCompatActivity {
         PushDownAnim.setPushDownAnimTo(ib_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notify = true;
-
                 sendMessageToDatabase();
             }
         });
@@ -260,11 +221,11 @@ public class Activity_Chat extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() == 0) {
+                /*if (s.toString().trim().length() == 0) {
                     checkTypingStatus("NoOne");
                 } else {
-                    checkTypingStatus(matcherId);
-                }
+                    checkTypingStatus(matcher.getIdUser());
+                }*/
             }
 
             @Override
@@ -284,53 +245,14 @@ public class Activity_Chat extends AppCompatActivity {
 
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("senderId", myUser.getIdUser());
-            hashMap.put("receiverId", matcherId);
+            hashMap.put("receiverId", matcher.getIdUser());
             hashMap.put("message", message);
             hashMap.put("timestamp", timeStamp);
             hashMap.put("isSeen", false);
             FirebaseDatabase.getInstance().getReference("Chats").push().setValue(hashMap);
 
             messageEt.setText("");
-
-            String msg = message;
-
-            if (notify) {
-                sendNotification(matcherId, myUser.getInfo().getNickname(), message);
-            }
-            notify = false;
         }
-    }
-
-    private void sendNotification(String matcherId, String nickname, String message) {
-        DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
-        Query query = allTokens.orderByKey().equalTo(matcherId);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Token token = ds.getValue(Token.class);
-                    Data data = new Data(myUser.getIdUser(), nickname + ":" + message, "New Message", matcherId, R.drawable.img_quick_date);
-
-                    Sender sender = new Sender(data, token.getToken());
-                    apiService.sendNotification(sender).enqueue(new Callback<Response>() {
-                        @Override
-                        public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                            Toast.makeText(Activity_Chat.this, "Hello " + response.message(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Response> call, Throwable t) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void checkUserStatus() {
@@ -354,7 +276,7 @@ public class Activity_Chat extends AppCompatActivity {
     private void checkOnlineStatus() {
         FirebaseDatabase.getInstance().getReference("Users")
                 .child(myUser.getInfo().getGender().equals("Male")?"Female":"Male")
-                .child(matcherId).addValueEventListener(new ValueEventListener() {
+                .child(matcher.getIdUser()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String matcherStatusOnline = "" + snapshot.child("statusOnline").getValue();
@@ -394,7 +316,6 @@ public class Activity_Chat extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        getMatcherInfo();
         checkUserStatus();
         checkOnlineStatus();
         super.onStart();
