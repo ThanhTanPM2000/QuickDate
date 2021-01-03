@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -136,7 +137,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (holder.viewType == NOTIFICATION_MESSAGE) {
 
             // this view is type notification_message, i will executive editText and button send message
-            replyMessage(holder, notification);
+            PushDownAnim.setPushDownAnimTo(holder.ib_send).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replyMessage(holder, notification);
+                }
+            });
         }
 
         // get image and name of sender to load to View :V
@@ -167,15 +173,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     Picasso.get().load(senderUser.getInfo().getImgAvt()).placeholder(R.drawable.ic_thumb).into(holder.avatar_Image);
                 } catch (Exception e) {
                     holder.avatar_Image.setImageResource(R.drawable.img_doneemoji);
-                }
-
-                if (notification.getType().equals("Liked")) {
-                    PushDownAnim.setPushDownAnimTo(holder.itemView).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
                 }
 
                 // Set Name
@@ -212,6 +209,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                             // after send successfully, dismiss progressDialog
                             progressDialog.dismiss();
+                            FirebaseDatabase.getInstance().getReference("Notifications").orderByChild("receiverId").equalTo(myUser.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot ds : snapshot.getChildren()){
+                                        Notification nof = ds.getValue(Notification.class);
+                                        if(nof.getSenderId().equals(notification.getSenderId()) && nof.getReceiverId().equals(notification.getReceiverId()) && nof.getType().equals(notification.getType())){
+                                            ds.getRef().removeValue();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -221,6 +234,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         }
                     });
         } else {
+            progressDialog.dismiss();
             // show toast to notification cant send empty text
             Toast.makeText(context, "Cant send empty message", Toast.LENGTH_SHORT).show();
         }

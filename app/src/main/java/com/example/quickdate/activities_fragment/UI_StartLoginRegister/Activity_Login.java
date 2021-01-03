@@ -128,6 +128,8 @@ public class Activity_Login extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                    }else{
+                        progressDialog.dismiss();
                     }
                 });
     }

@@ -124,7 +124,7 @@ public class Fragment_Matches extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
+        refGetMatcher.removeEventListener(getMatchersListener);
     }
 
     @Override

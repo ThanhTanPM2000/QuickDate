@@ -86,7 +86,7 @@ public class Activity_Match extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Activity_Match.this, Activity_Chat.class);
+        Intent intent = new Intent(Activity_Match.this, Activity_Home.class);
         intent.putExtra("OppositeUsers", oppositeUsersList);
         intent.putExtra("User", user);
         startActivity(intent);

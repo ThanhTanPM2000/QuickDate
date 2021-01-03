@@ -96,7 +96,7 @@ public class Activity_Interests extends AppCompatActivity implements InterestsLi
         if (isRegisterInfo) {
             pd.setMessage("Updating...");
             pd.show();
-            String path = "Users/" + user.getInfo().getGender() + "/" + user.getLookingFor().getLooking() + "/" + user.getIdUser();
+            String path = "Users/" + user.getInfo().getGender()  + "/" + user.getIdUser();
             FirebaseDatabase.getInstance().getReference(path).setValue(user)
                     .addOnSuccessListener(aVoid ->
                     {

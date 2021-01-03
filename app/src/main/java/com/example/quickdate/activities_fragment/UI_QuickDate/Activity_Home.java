@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_BioPhotos;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Interests;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Login;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
+import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Type;
 import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,10 +53,6 @@ public class Activity_Home extends AppCompatActivity {
     // index menu default
     private int indexMenu;
 
-    private ValueEventListener valueEventListener;
-    private ValueEventListener getCurrentUserListener;
-    private DatabaseReference refGetCurrentUser;
-
     private ValueEventListener isSeenNotificationListener;
     private DatabaseReference refIsSeenNotification;
 
@@ -59,13 +60,29 @@ public class Activity_Home extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView_setting, navigationView_notification;
 
+    ProgressDialog progressDialog;
+
     String sUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         init();
+
+        if (user == null) {
+            findCurrentUser();
+        } else {
+            if (indexMenu == 0) {
+                loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
+            } else if (indexMenu == 1) {
+                loadFragment(new Fragment_Swiper(), R.id.nav_host_fragment);
+            } else if (indexMenu == 2) {
+                loadFragment(new Fragment_Matches(), R.id.nav_host_fragment);
+            }
+        }
+
         doFunction();
     }
 
@@ -82,6 +99,8 @@ public class Activity_Home extends AppCompatActivity {
         btn_setting = findViewById(R.id.btn_setting);
         btn_notification = findViewById(R.id.btn_notification);
         notification_Counter = findViewById(R.id.notification_counter);
+
+        user = (User) getIntent().getSerializableExtra("User");
 
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
     }
@@ -152,16 +171,21 @@ public class Activity_Home extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_watch_ads:
-                        break;
-                    case R.id.navigation_notifications:
-                        break;
-                    case R.id.navigation_darkmode:
-                        break;
                     case R.id.navigation_changeType:
+                        Intent intent = new Intent(Activity_Home.this, Activity_Type.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("User", user);
+                        intent.putExtra("isRegisterInfo", true);
+                        startActivity(intent);
+                        finish();
                         break;
                     case R.id.navigation_logout:
-                        Toast.makeText(Activity_Home.this, "Error", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                        checkOnlineStatus("" + System.currentTimeMillis());
+                        Intent intent1 = new Intent(Activity_Home.this, Activity_Login.class);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        finish();
                         break;
                     case R.id.navigation_about:
                         break;
@@ -211,21 +235,17 @@ public class Activity_Home extends AppCompatActivity {
         String[] genders = new String[]{"Male", "Female"};
         for (int i = 0; i < 2; i++) {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(genders[i]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        refGetCurrentUser = snapshot.getRef();
-                        getCurrentUserListener = valueEventListener;
                         user = snapshot.getValue(User.class);
-                        checkUserStatus();
-                        checkIsSeenNotification();
 
                         if (indexMenu == 0) {
                             loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
                         } else if (indexMenu == 1) {
                             loadFragment(new Fragment_Swiper(), R.id.nav_host_fragment);
-                        } else {
+                        } else if (indexMenu == 2) {
                             loadFragment(new Fragment_Matches(), R.id.nav_host_fragment);
                         }
                     }
@@ -258,7 +278,9 @@ public class Activity_Home extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             sUID = firebaseUser.getUid();
+            //checkOnlineStatus("Online");
         } else {
+            //checkOnlineStatus("" + System.currentTimeMillis());
             Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
             startActivity(intent);
             finish();
@@ -272,13 +294,14 @@ public class Activity_Home extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        findCurrentUser();
+        checkUserStatus();
+        checkIsSeenNotification();
         super.onStart();
     }
 
     private void checkIsSeenNotification() {
         refIsSeenNotification = FirebaseDatabase.getInstance().getReference("Notifications");
-        isSeenNotificationListener = refIsSeenNotification.orderByChild("receiverId").equalTo(user.getIdUser())
+        isSeenNotificationListener = refIsSeenNotification.orderByChild("receiverId").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -300,14 +323,15 @@ public class Activity_Home extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        checkUserStatus();
-        super.onResume();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         refIsSeenNotification.removeEventListener(isSeenNotificationListener);
+    }
+
+    @Override
+    protected void onResume() {
+        checkUserStatus();
+        checkIsSeenNotification();
+        super.onResume();
     }
 }

@@ -38,9 +38,11 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
     private NotificationAdapter notificationAdapter;
     private Notification_RequestMatch_Listener listener;
 
+    ArrayList<User> listOppositeUser;
     // Model
     private User user;
-    private ArrayList<User> listOppositeUser;
+
+    ValueEventListener notificationsListener;
 
     // DataReference to matchers and notifications nodes of realtime database
     DatabaseReference dataRef_matchers, dataRef_notifications;
@@ -69,10 +71,6 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         Activity_Home act = (Activity_Home) getActivity();
         user = act.getCurrentUser();
 
-        FragmentManager fm = getFragmentManager();
-        Fragment_Swiper fragm = (Fragment_Swiper) fm.findFragmentById(R.id.nav_host_fragment);
-        listOppositeUser = fragm.getOppositeUsers();
-
         // DataReference to matchers and notifications nodes of realtime database
         dataRef_matchers = FirebaseDatabase.getInstance().getReference("Matchers").child(user.getIdUser());
         dataRef_notifications = FirebaseDatabase.getInstance().getReference("Notifications");
@@ -84,16 +82,35 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         notificationArrayList = new ArrayList<>();
         listMatcher_Id = new ArrayList<>();
 
-        getAllNotifications();
+        listOppositeUser = new ArrayList<>();
+    }
 
+    @Override
+    public void onStart() {
+        getAllNotifications();
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        getAllNotifications();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        dataRef_notifications.removeEventListener(notificationsListener);
     }
 
     private void getAllNotifications() {
         // get all notifications from user
-        Query query = FirebaseDatabase.getInstance().getReference("Notifications").orderByChild("receiverId").equalTo(user.getIdUser());
-        query.addValueEventListener(new ValueEventListener() {
+        Query query = dataRef_notifications.orderByChild("receiverId").equalTo(user.getIdUser());
+        notificationsListener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                notificationArrayList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     notificationArrayList.add(ds.getValue(Notification.class));
                     notificationAdapter = new NotificationAdapter(getActivity(), notificationArrayList, user, listener);
@@ -115,7 +132,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         pd.show();
 
         //find notification liked and delete it
-        FirebaseDatabase.getInstance().getReference("Notifications")
+        dataRef_notifications
                 .orderByChild("type").equalTo(notification.getType())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -147,6 +164,10 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
 
     @Override
     public void acceptClick(Notification notification, int position, ProgressDialog pd) {
+        FragmentManager fm = getFragmentManager();
+        Fragment_Swiper fragm = (Fragment_Swiper) fm.findFragmentById(R.id.nav_host_fragment);
+        listOppositeUser = fragm.getOppositeUsers();
+
         // show progressDialog
         pd.show();
 

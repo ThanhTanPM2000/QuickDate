@@ -75,7 +75,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         Activity_Home act = (Activity_Home) getActivity();
         assert act != null;
         myOppositeUsers = new ArrayList<>();
-        user = new User();
         user = act.getCurrentUser();
 
         cardStackView = view.findViewById(R.id.card_stack_view);
@@ -249,11 +248,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     public void onStart() {
         getAllOppositeUsers();
         super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override

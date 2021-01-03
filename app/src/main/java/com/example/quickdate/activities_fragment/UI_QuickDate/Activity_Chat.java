@@ -22,6 +22,7 @@ import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_
 import com.example.quickdate.adapter.ChatAdapter;
 import com.example.quickdate.model.Chat;
 import com.example.quickdate.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +50,7 @@ public class Activity_Chat extends AppCompatActivity {
     private CircleImageView circleImageView;
     private TextView nameTv, statusTv, typingTv;
     private EditText messageEt;
-    private ImageButton ib_uploadFile, ib_uploadImage, ib_send, ib_backAct;
+    private ImageButton ib_send, ib_backAct;
 
     // data matcher ID
     private User myUser;
@@ -88,10 +89,8 @@ public class Activity_Chat extends AppCompatActivity {
         nameTv = findViewById(R.id.matcher_name);
         statusTv = findViewById(R.id.matcher_status);
         messageEt = findViewById(R.id.messageEt_chatAct);
-        ib_uploadFile = findViewById(R.id.upload_file_chatAct);
         ib_backAct = findViewById(R.id.backAct_chatAct);
         ib_send = findViewById(R.id.send_message_chatAct);
-        ib_uploadImage = findViewById(R.id.upload_image_chatAct);
         typingTv = findViewById(R.id.tv_typing);
 
         // get model data
@@ -155,7 +154,6 @@ public class Activity_Chat extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         useRefForSeen.removeEventListener(seenListener);
-        refMatcherInfo.removeEventListener(matcherListener);
     }
 
     private void readMessages() {
@@ -185,19 +183,6 @@ public class Activity_Chat extends AppCompatActivity {
     }
 
     private void doFunc() {
-        PushDownAnim.setPushDownAnimTo(ib_uploadFile).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        PushDownAnim.setPushDownAnimTo(ib_uploadImage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         PushDownAnim.setPushDownAnimTo(ib_send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,7 +234,22 @@ public class Activity_Chat extends AppCompatActivity {
             hashMap.put("message", message);
             hashMap.put("timestamp", timeStamp);
             hashMap.put("isSeen", false);
-            FirebaseDatabase.getInstance().getReference("Chats").push().setValue(hashMap);
+
+            FirebaseDatabase.getInstance().getReference("Chats").push().setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    hashMap.clear();
+                    hashMap.put("senderId", myUser.getIdUser());
+                    hashMap.put("receiverId", matcher.getIdUser());
+                    hashMap.put("type", "Messaged");
+                    hashMap.put("notification", message);
+                    hashMap.put("timeStamp", timeStamp);
+                    hashMap.put("isSeen", false);
+
+                    FirebaseDatabase.getInstance().getReference("Notifications").push().setValue(hashMap);
+                }
+            });
 
             messageEt.setText("");
         }

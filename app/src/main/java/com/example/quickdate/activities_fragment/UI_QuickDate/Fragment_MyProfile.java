@@ -193,7 +193,6 @@ public class Fragment_MyProfile extends Fragment {
         Intent intent = new Intent(getActivity(), Activity_BioPhotos.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("User", myUser);
-        intent.putExtra("OppositeUsers", myOppositeUsers);
         intent.putExtra("isRegisterInfo", true);
         startActivity(intent);
         getActivity().finish();

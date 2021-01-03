@@ -10,6 +10,7 @@ import android.graphics.Shader;
 import android.os.Bundle;
 
 import com.example.quickdate.R;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -42,8 +43,6 @@ public class Activity_Main extends AppCompatActivity {
     ImageButton btnLogin, btnSignUp;
     CallbackManager fbCallBackManager;
     FirebaseAuth auth;
-    FirebaseUser user;
-    DatabaseReference databaseReference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class Activity_Main extends AppCompatActivity {
     private void initialization() {
         tv_quick = findViewById(R.id.tv_quick);
         tv_date = findViewById(R.id.tv_date);
-        btnFacebook = findViewById(R.id.btn_facebookLogin);
         btnLogin = findViewById(R.id.btn_login_splashAct);
         btnSignUp = findViewById(R.id.btn_signUp_splashAct);
         auth = FirebaseAuth.getInstance();
@@ -79,74 +77,8 @@ public class Activity_Main extends AppCompatActivity {
     }
 
     private void doFunctionInAct() {
-        facebookLogin();
         callActLogin();
         callActSignUp();
-    }
-
-    private void facebookLogin() {
-        fbCallBackManager = CallbackManager.Factory.create();
-        FacebookSdk.sdkInitialize(Activity_Main.this);
-
-        PushDownAnim.setPushDownAnimTo(btnFacebook).setOnClickListener(v -> {
-            LoginManager.getInstance().logInWithReadPermissions(Activity_Main.this, Arrays.asList("email", "public_profile"));
-            LoginManager.getInstance().registerCallback(fbCallBackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    handleFacebookAccessToken(loginResult.getAccessToken());
-                }
-
-                @Override
-                public void onCancel() {
-                    Toast.makeText(Activity_Main.this, "Cancle.",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Toast.makeText(Activity_Main.this, "Error.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-    }
-
-    private void handleFacebookAccessToken(AccessToken fbToken) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(fbToken.getToken());
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener((Executor) this, task -> {
-                    if (task.isSuccessful()) {
-                        user = FirebaseAuth.getInstance().getCurrentUser();
-                        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-
-                        HashMap<String, Object> data = new HashMap<>();
-                        data.put("username", user.getDisplayName());
-                        data.put("email", user.getEmail());
-                        data.put("phone", "");
-                        data.put("imgAvt", user.getPhotoUrl().toString());
-                        data.put("provincial", "HCMC");  // get value item from spinner
-                        data.put("gender", "male");
-                        data.put("age", 18);
-                        data.put("description", "");
-                        data.put("height", 170);
-                        data.put("weight", 50);
-                        data.put("type_gender", "male");
-                        data.put("min_age", 18);
-                        data.put("max_age", 40);
-                        data.put("min_height", 150);
-                        data.put("max_height", 200);
-                        data.put("min_weight", 40);
-                        data.put("max_weight", 80);
-                        data.put("interest", "");
-
-                        databaseReference.setValue(data).addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Toast.makeText(Activity_Main.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
     }
 
     private void callActLogin() {
@@ -183,4 +115,15 @@ public class Activity_Main extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent intent = new Intent(Activity_Main.this, Activity_Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

@@ -63,7 +63,7 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
 
             Calendar cal = Calendar.getInstance(Locale.CHINESE);
             cal.setTimeInMillis(System.currentTimeMillis() - Long.parseLong(marcher.getStatusOnline()));
-            String dateTime = DateFormat.format("hh:mm", cal).toString() + " ago";
+            String dateTime = DateFormat.format("m", cal).toString() + "m ago";
 
             holder.mTimeOffline.setText(dateTime);
         }
