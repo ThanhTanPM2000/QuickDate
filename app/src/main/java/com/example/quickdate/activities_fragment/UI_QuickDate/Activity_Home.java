@@ -2,31 +2,39 @@ package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_StartLoginRegister.Activity_Main;
+import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Activity_Home extends AppCompatActivity {
@@ -35,19 +43,22 @@ public class Activity_Home extends AppCompatActivity {
     public TextView tv_head_title;
     private ImageButton btn_setting, btn_notification;
     private BottomNavigationView navView;
-    private View dialogFragment, navBotFragment;
-    private Boolean isNotificationClick;
     private ArrayList<User> myOppositeUsers;
+    private CardView notification_Counter;
 
     // index menu default
     private int indexMenu;
 
-    private String statusOnline;
+    private ValueEventListener valueEventListener;
+    private ValueEventListener getCurrentUserListener;
+    private DatabaseReference refGetCurrentUser;
+
+    private ValueEventListener isSeenNotificationListener;
+    private DatabaseReference refIsSeenNotification;
 
     // Navigation View
     private DrawerLayout drawerLayout;
     private NavigationView navigationView_setting, navigationView_notification;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +80,7 @@ public class Activity_Home extends AppCompatActivity {
         tv_head_title = findViewById(R.id.tv_head_title);
         btn_setting = findViewById(R.id.btn_setting);
         btn_notification = findViewById(R.id.btn_notification);
-        navBotFragment = findViewById(R.id.nav_host_fragment);
-
-        user = (User) getIntent().getSerializableExtra("User");
-        myOppositeUsers = (ArrayList<User>) getIntent().getSerializableExtra("OppositeUsers");
-
+        notification_Counter = findViewById(R.id.notification_counter);
 
         indexMenu = getIntent().getIntExtra("MenuDefault", 1);
     }
@@ -86,19 +93,11 @@ public class Activity_Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.openDrawer(GravityCompat.START);
-                }
-                else{
+                } else {
                     drawerLayout.closeDrawer(GravityCompat.END);
                 }
-
-                /*FirebaseDatabase.getInstance().getReference("Matcher").child(user.getIdUser()).setValue(myOppositeUsers).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(Activity_Home.this, "add matcher successfully", Toast.LENGTH_SHORT).show();
-                    }
-                });*/
             }
         });
 
@@ -107,33 +106,48 @@ public class Activity_Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                    loadFragment(new Fragment_Notification(), R.id.fragment_notifications);
-                    drawerLayout.openDrawer(GravityCompat.END);
-                }
-                else{
+                if (!drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    refIsSeenNotification.removeEventListener(isSeenNotificationListener);
+
+                    // set isSeen = true when btn_notification click
+                    refIsSeenNotification.orderByChild("receiverId").equalTo(user.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                Notification notification = ds.getValue(Notification.class);
+                                String s = ds.getKey();
+                                assert notification != null;
+                                if (!notification.isSeen()) {
+                                    refIsSeenNotification.child(Objects.requireNonNull(ds.getKey())).child("isSeen").setValue(true);
+                                }
+                            }
+                            loadFragment(new Fragment_Notification(), R.id.fragment_notifications);
+                            drawerLayout.openDrawer(GravityCompat.END);
+                            checkIsSeenNotification();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    //set notification counter setVisibility is gone
+                    notification_Counter.setVisibility(View.GONE);
+                } else {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
             }
         });
-
-        if(indexMenu == 0){
-            loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
-        }else if (indexMenu == 1){
-            loadFragment(new Fragment_Swiper(), R.id.nav_host_fragment);
-        }else {
-            loadFragment(new Fragment_Matches(), R.id.nav_host_fragment);
-        }
 
         // connect bottom navigation with menu
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navView.getMenu().getItem(indexMenu).setChecked(true);
     }
 
-
-
-    private void navigationRightSelectedItem(){
+    private void navigationRightSelectedItem() {
         navigationView_setting.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -146,6 +160,7 @@ public class Activity_Home extends AppCompatActivity {
                     case R.id.navigation_changeType:
                         break;
                     case R.id.navigation_logout:
+                        Toast.makeText(Activity_Home.this, "Error", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.navigation_about:
                         break;
@@ -158,13 +173,14 @@ public class Activity_Home extends AppCompatActivity {
         });
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putSerializable("User", myOppositeUsers);
             switch (item.getItemId()) {
                 case R.id.navigation_myProfile:
@@ -192,25 +208,49 @@ public class Activity_Home extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void findCurrentUser() {
+        String[] genders = new String[]{"Male", "Female"};
+        for (int i = 0; i < 2; i++) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(genders[i]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        refGetCurrentUser = snapshot.getRef();
+                        getCurrentUserListener = valueEventListener;
+                        user = snapshot.getValue(User.class);
+                        checkUserStatus();
+                        checkIsSeenNotification();
+
+                        if (indexMenu == 0) {
+                            loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
+                        } else if (indexMenu == 1) {
+                            loadFragment(new Fragment_Swiper(), R.id.nav_host_fragment);
+                        } else {
+                            loadFragment(new Fragment_Matches(), R.id.nav_host_fragment);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
     public User getCurrentUser() {
         return user;
     }
 
-    public ArrayList<User> getAllOppositeUsers() {
-        return myOppositeUsers;
-    }
-
-    public String getStatusOnline(){
-        return statusOnline;
-    }
-
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else if(drawerLayout.isDrawerOpen(GravityCompat.END))
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.END))
             drawerLayout.closeDrawer(GravityCompat.END);
-        else{
+        else {
 
         }
     }
@@ -222,21 +262,53 @@ public class Activity_Home extends AppCompatActivity {
             Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
             startActivity(intent);
             finish();
-        }else{
+        } else {
             checkOnlineStatus("Online");
         }
     }
 
-    private void checkOnlineStatus(String status){
+    private void checkOnlineStatus(String status) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender()).child(user.getIdUser());
         databaseReference.child("statusOnline").setValue(status);
     }
 
     @Override
     protected void onStart() {
-        checkUserStatus();
+        findCurrentUser();
         super.onStart();
     }
 
+    private void checkIsSeenNotification() {
+        refIsSeenNotification = FirebaseDatabase.getInstance().getReference("Notifications");
+        isSeenNotificationListener = refIsSeenNotification.orderByChild("receiverId").equalTo(user.getIdUser())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Notification nof = ds.getValue(Notification.class);
+                            assert nof != null;
+                            if (!nof.isSeen()) {
+                                notification_Counter.setVisibility(View.VISIBLE);
+                            }
+                        }
 
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refIsSeenNotification.removeEventListener(isSeenNotificationListener);
+    }
 }

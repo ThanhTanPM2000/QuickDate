@@ -9,11 +9,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
@@ -25,11 +23,11 @@ import com.example.quickdate.adapter.UserDiffCallBack;
 import com.example.quickdate.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -43,6 +41,7 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class Fragment_Swiper extends Fragment implements CardStackListener {
@@ -52,18 +51,11 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     private CardStackLayoutManager cardStackLayoutManager;
     private CardStackAdapter cardStackAdapter;
     private ImageButton btn_skip, btn_love, btn_rewind;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
     private User user;
     private ArrayList<User> myOppositeUsers;
-    private View root;
-    private FirebaseUser firebaseUser;
-    private Boolean flag = true;
 
-    // position of card swipe to liked
-    private int positionCard = 0;
-
-    String uidUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private ValueEventListener getAllOppositeUsersListener;
+    private DatabaseReference refGetAllOppositeUsers;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -81,19 +73,18 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
 
     private void init(View view) {
         Activity_Home act = (Activity_Home) getActivity();
+        assert act != null;
+        myOppositeUsers = new ArrayList<>();
+        user = new User();
         user = act.getCurrentUser();
-        myOppositeUsers = act.getAllOppositeUsers();
-        act.tv_head_title.setText("Quick Date");
 
         cardStackView = view.findViewById(R.id.card_stack_view);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        cardStackAdapter = new CardStackAdapter(getActivity() ,myOppositeUsers);
         cardStackLayoutManager = new CardStackLayoutManager(getActivity(), this);
-        btn_skip = (ImageButton) view.findViewById(R.id.skip_button);
-        btn_love = (ImageButton) view.findViewById(R.id.love_button);
-        btn_rewind = (ImageButton) view.findViewById(R.id.rewind_button);
+        btn_skip = view.findViewById(R.id.skip_button);
+        btn_love = view.findViewById(R.id.love_button);
+        btn_rewind = view.findViewById(R.id.rewind_button);
+
+        act.tv_head_title.setText("Quick Date");
     }
 
     private void doFunction() {
@@ -156,13 +147,119 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         cardStackLayoutManager.setOverlayInterpolator(new LinearInterpolator());
 
         cardStackView.setLayoutManager(cardStackLayoutManager);
-        cardStackView.setAdapter(cardStackAdapter);
 
         RecyclerView.ItemAnimator itemAnimator = cardStackView.getItemAnimator();
         if (itemAnimator instanceof DefaultItemAnimator) {
             DefaultItemAnimator di = (DefaultItemAnimator) itemAnimator;
             di.setSupportsChangeAnimations(false);
         }
+    }
+
+
+
+    private void paginate() {
+        ArrayList<User> old = cardStackAdapter.getUsers();
+        ArrayList<User> newer = old;
+        newer.addAll(myOppositeUsers);
+        UserDiffCallBack callback = new UserDiffCallBack(old, newer);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        cardStackAdapter.setUsers(newer);
+        result.dispatchUpdatesTo(cardStackAdapter);
+    }
+
+    private void addToHisNotifications(String hisId) {
+        String timeStamp = "" + System.currentTimeMillis();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("senderId", user.getIdUser());
+        hashMap.put("receiverId", hisId);
+        hashMap.put("type", "Liked");
+        hashMap.put("notification", "Want to match with you");
+        hashMap.put("timeStamp", timeStamp);
+        hashMap.put("isSeen", false);
+
+        FirebaseDatabase.getInstance().getReference("Notifications")
+                .push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Your liked was send", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public ArrayList<User> getOppositeUsers(){
+        return  myOppositeUsers;
+    }
+
+    private void getAllOppositeUsers() {
+        refGetAllOppositeUsers = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender().equals("Male") ? "Female" : "Male");
+        getAllOppositeUsersListener = refGetAllOppositeUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myOppositeUsers.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User tempUser = ds.getValue(User.class);
+                    assert tempUser != null;
+                    if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() &&
+                            tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age() &&
+                            tempUser.getLookingFor().getLooking().equals(user.getLookingFor().getLooking()) &&
+                            tempUser.getInfo().getWeight() <= user.getLookingFor().getMax_weight() &&
+                            tempUser.getInfo().getWeight() >= user.getLookingFor().getMin_weight() &&
+                            tempUser.getInfo().getHeight() <= user.getLookingFor().getMax_height() &&
+                            tempUser.getInfo().getHeight() >= user.getLookingFor().getMin_height())
+                    {
+                        FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender()).child(user.getIdUser()).child("matchers").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    for(DataSnapshot ds : snapshot.getChildren()){
+                                        if(!tempUser.getIdUser().equals(ds.getValue(String.class))){
+                                            myOppositeUsers.add(tempUser);
+                                        }
+                                    }
+                                }
+                                else {
+                                    myOppositeUsers.add(tempUser);
+                                }
+                                cardStackAdapter = new CardStackAdapter(getActivity() ,myOppositeUsers);
+                                cardStackView.setAdapter(cardStackAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        getAllOppositeUsers();
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refGetAllOppositeUsers.removeEventListener(getAllOppositeUsersListener);
     }
 
     @Override
@@ -177,14 +274,9 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         }
         if (direction == Direction.Right) {
             User test = myOppositeUsers.get(cardStackLayoutManager.getTopPosition() -1);
-            addToHisNotifications( cardStackLayoutManager.getTopPosition() -1,
-                    test.getInfo().getGender(),
-                    test.getLookingFor().getLooking(),
-                    test.getIdUser(),
-                    "Liked",
-                    "Want to match with you");
+            addToHisNotifications(test.getIdUser());
         }else if(direction == Direction.Left){
-            
+
         }
     }
 
@@ -205,38 +297,5 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
 
     @Override
     public void onCardDisappeared(View view, int position) {
-    }
-
-    private void paginate() {
-        ArrayList<User> old = cardStackAdapter.getUsers();
-        ArrayList<User> newer = old;
-        newer.addAll(myOppositeUsers);
-        UserDiffCallBack callback = new UserDiffCallBack(old, newer);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        cardStackAdapter.setUsers(newer);
-        result.dispatchUpdatesTo(cardStackAdapter);
-    }
-
-    private void addToHisNotifications(int position ,String gender, String looking, String hisId, String type, String message) {
-        String timeStamp = "" + System.currentTimeMillis();
-
-        HashMap<Object, String> hashMap = new HashMap<>();
-        hashMap.put("senderId", user.getIdUser());
-        hashMap.put("receiverId", myOppositeUsers.get(positionCard).getIdUser());
-        hashMap.put("type", "Liked");
-        hashMap.put("notification", "Want to match with you");
-        hashMap.put("timeStamp", timeStamp);
-
-        FirebaseDatabase.getInstance().getReference("Notifications")
-                .push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Your liked was send", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }

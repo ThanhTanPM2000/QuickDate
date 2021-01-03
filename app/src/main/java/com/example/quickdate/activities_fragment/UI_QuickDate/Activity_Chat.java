@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -56,10 +58,6 @@ public class Activity_Chat extends AppCompatActivity {
     private User matcher;
     private User myUser;
 
-    // check status online
-    private String matcherStatusOnline;
-    private String matcherTypingTo;
-
     // For checking if user has seen message or not
     ValueEventListener seenListener;
     DatabaseReference useRefForSeen;
@@ -96,7 +94,7 @@ public class Activity_Chat extends AppCompatActivity {
         typingTv = findViewById(R.id.tv_typing);
 
         // get model data
-        myUser = (User) getIntent().getSerializableExtra("MyUser");
+        myUser = (User) getIntent().getSerializableExtra("User");
         matcher = (User) getIntent().getSerializableExtra("Matcher");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -135,9 +133,9 @@ public class Activity_Chat extends AppCompatActivity {
         seenListener = useRefForSeen.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     Chat chat = ds.getValue(Chat.class);
-                    if(chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser())){
+                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser())) {
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("isSeen", true);
 
@@ -165,10 +163,10 @@ public class Activity_Chat extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatArrayList.clear();
-                for(DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     Chat chat = ds.getValue(Chat.class);
-                    if(chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser()) ||
-                            chat.getReceiverId().equals(matcher.getIdUser()) && chat.getSenderId().equals(myUser.getIdUser())){
+                    if (chat.getReceiverId().equals(myUser.getIdUser()) && chat.getSenderId().equals(matcher.getIdUser()) ||
+                            chat.getReceiverId().equals(matcher.getIdUser()) && chat.getSenderId().equals(myUser.getIdUser())) {
                         chatArrayList.add(chat);
                     }
 
@@ -211,6 +209,27 @@ public class Activity_Chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        messageEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    checkTypingStatus("NoOne");
+                } else {
+                    checkTypingStatus(matcher.getIdUser());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -257,23 +276,33 @@ public class Activity_Chat extends AppCompatActivity {
             Intent intent = new Intent(Activity_Chat.this, Activity_Main.class);
             startActivity(intent);
             finish();
-        }else{
+        } else {
             databaseReference.setValue("Online");
         }
     }
 
-    private void checkOnlineStatus(){
+    private void checkOnlineStatus() {
         FirebaseDatabase.getInstance().getReference("Users")
                 .child(matcher.getInfo().getGender())
-                .child(matcher.getIdUser())
-                .child(matcher.getStatusOnline()).addValueEventListener(new ValueEventListener() {
+                .child(matcher.getIdUser()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                matcherStatusOnline = snapshot.getValue(String.class);
-                if(matcherStatusOnline.equals("Online")){
+                String matcherStatusOnline = "" + snapshot.child("statusOnline").getValue();
+
+                String typingTo = "" + snapshot.child("typingTo").getValue();
+
+                if (typingTo.equals(myUser.getIdUser())) {
+                    typingTv.setText(matcher.getInfo().getNickname() + " typing...");
+                    typingTv.setVisibility(View.VISIBLE);
+                } else {
+                    typingTv.setText("");
+                    typingTv.setVisibility(View.INVISIBLE);
+                }
+
+                if (matcherStatusOnline.equals("Online")) {
                     statusTv.setText(matcherStatusOnline);
                     statusTv.setTextColor(getResources().getColor(R.color.green, null));
-                }else{
+                } else {
                     statusTv.setText("Offline");
                     statusTv.setTextColor(getResources().getColor(R.color.red, null));
                 }
@@ -286,35 +315,17 @@ public class Activity_Chat extends AppCompatActivity {
         });
     }
 
-    private void checkTypingStatus(){
+    private void checkTypingStatus(String typing) {
         FirebaseDatabase.getInstance().getReference("Users")
                 .child(matcher.getInfo().getGender())
                 .child(matcher.getIdUser())
-                .child("typingTo").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                matcherTypingTo = snapshot.getValue(String.class);
-                if(matcherTypingTo.equals(myUser.getIdUser())){
-                    typingTv.setText(matcher.getInfo().getNickname() + " typing...");
-                    typingTv.setVisibility(View.VISIBLE);
-                }else if(matcherTypingTo.equals("noOne")){
-                    typingTv.setText("");
-                    typingTv.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                .child("typingTo").setValue(typing);
     }
 
     @Override
     protected void onStart() {
         checkUserStatus();
         checkOnlineStatus();
-        checkTypingStatus();
         super.onStart();
     }
 }

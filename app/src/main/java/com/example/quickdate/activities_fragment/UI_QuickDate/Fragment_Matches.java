@@ -30,12 +30,17 @@ public class Fragment_Matches extends Fragment {
 
     RecyclerView recyclerView;
     MatcherAdapter matcherAdapter;
+
+    ArrayList<String> idMatcherList;
     ArrayList<User> matcherArrayList;
 
     private EditText et_search;
 
-    private ValueEventListener valueEventListener;
-    private DatabaseReference useForCheckOnline;
+    private ValueEventListener checkOnlineMatcherListener;
+    private DatabaseReference refCheckOnlineMatcher;
+
+    private ValueEventListener getMatchersListener;
+    private DatabaseReference refGetMatcher;
 
     // Model
     private User myUser;
@@ -51,11 +56,11 @@ public class Fragment_Matches extends Fragment {
         et_search.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     String query = et_search.getText().toString();
-                    if(TextUtils.isEmpty(query)){
-                        getAllMatcher();
-                    }else{
+                    if (TextUtils.isEmpty(query)) {
+                        findIdMatchers();
+                    } else {
                         searchUser(query.toLowerCase());
                     }
                     return true;
@@ -63,6 +68,7 @@ public class Fragment_Matches extends Fragment {
                 return false;
             }
         });
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -88,42 +94,19 @@ public class Fragment_Matches extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        idMatcherList = new ArrayList<>();
         matcherArrayList = new ArrayList<>();
-
-        getAllMatcher();
-
-    }
-
-    private void getAllMatcher() {
-        // get all matcher user
-        FirebaseDatabase.getInstance().getReference("Matcher").child(myUser.getIdUser()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                matcherArrayList.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    matcherArrayList.add(ds.getValue(User.class));
-
-                    matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList, myUser);
-                    recyclerView.setAdapter(matcherAdapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void searchUser(String query) {
         // get all matcher user
-        FirebaseDatabase.getInstance().getReference("Matcher").child(myUser.getIdUser()).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Users").child(myUser.getInfo().getGender()).child(myUser.getIdUser()).child("matchers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 matcherArrayList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     User tempUser = ds.getValue(User.class);
-                    if(tempUser.getInfo().getNickname().toLowerCase().contains(query) || tempUser.getEmail().equals(query)){
+                    if (tempUser.getInfo().getNickname().toLowerCase().contains(query) || tempUser.getEmail().equals(query)) {
                         matcherArrayList.add(tempUser);
                     }
                     matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList);
@@ -142,5 +125,52 @@ public class Fragment_Matches extends Fragment {
     public void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    public void onStart() {
+        findIdMatchers();
+        super.onStart();
+    }
+
+    private void findIdMatchers() {
+        refGetMatcher = FirebaseDatabase.getInstance().getReference("Users").child(myUser.getInfo().getGender()).child(myUser.getIdUser()).child("matchers");
+        getMatchersListener = refGetMatcher.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                idMatcherList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    idMatcherList.add(ds.getValue(String.class));
+                }
+                findAllMatchers();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void findAllMatchers() {
+        FirebaseDatabase.getInstance().getReference("Users").child(myUser.getInfo().getGender().equals("Male") ? "Female" : "Male").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                matcherArrayList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if (idMatcherList.contains(user.getIdUser())) {
+                        matcherArrayList.add(user);
+                    }
+                    matcherAdapter = new MatcherAdapter(getActivity(), matcherArrayList, myUser);
+                    recyclerView.setAdapter(matcherAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

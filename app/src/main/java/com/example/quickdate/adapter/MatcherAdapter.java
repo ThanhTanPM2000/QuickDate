@@ -79,7 +79,7 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
             public void onClick(View v) {
                 Intent intent = new Intent(context, Activity_Chat.class);
                 intent.putExtra("Matcher", userArrayList.get(position));
-                intent.putExtra("MyUser", myUser);
+                intent.putExtra("User", myUser);
                 context.startActivity(intent);
             }
         });

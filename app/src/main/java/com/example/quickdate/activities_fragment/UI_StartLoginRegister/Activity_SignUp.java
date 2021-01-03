@@ -1,5 +1,6 @@
 package com.example.quickdate.activities_fragment.UI_StartLoginRegister;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -40,7 +41,8 @@ public class Activity_SignUp extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private DatabaseReference databaseReference;
-    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,8 +60,10 @@ public class Activity_SignUp extends AppCompatActivity {
         btn_submit = findViewById(R.id.btn_submit_signUpAct);
         iv_backAct_signUpAct = findViewById(R.id.iv_backAct_signUpAct);
         cb_policy = findViewById(R.id.cb_policy_signUpAct);
-        progressBar = findViewById(R.id.progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        progressDialog = new ProgressDialog(Activity_SignUp.this);
+        progressDialog.setMessage("Loading...");
 
         TextView tv_hyperLink = findViewById(R.id.tv_hyperLink);
         tv_hyperLink.setMovementMethod(LinkMovementMethod.getInstance());
@@ -78,11 +82,10 @@ public class Activity_SignUp extends AppCompatActivity {
                 .setOnClickListener(view -> {
                     String str_password = et_passWord.getText().toString();
                     String str_email = et_email.getText().toString();
-                    progressBar.setVisibility(View.VISIBLE);
+                    progressDialog.show();
                     if(isCheckDataInput(str_password, str_email)){
                         firebaseAuth.createUserWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if(task.isComplete()){
-                                progressBar.setVisibility(View.GONE);
                                 firebaseUser = firebaseAuth.getCurrentUser();
                                 assert firebaseUser != null : "cant find user";
                                 databaseReference = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/"+ firebaseUser.getUid());
@@ -93,6 +96,7 @@ public class Activity_SignUp extends AppCompatActivity {
                                     if(task1.isSuccessful()){
                                         firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task11 -> {
                                             if(task11.isSuccessful()){
+                                                progressDialog.dismiss();
                                                 Toast.makeText(Activity_SignUp.this, "Register Successfully, please check your email and verification", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(Activity_SignUp.this, Activity_Login.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -110,6 +114,7 @@ public class Activity_SignUp extends AppCompatActivity {
                         });
                     }
                     else{
+                        progressDialog.dismiss();
                         Toast.makeText(Activity_SignUp.this, "Sign up failed !!!", Toast.LENGTH_SHORT).show();
                     }
                 });

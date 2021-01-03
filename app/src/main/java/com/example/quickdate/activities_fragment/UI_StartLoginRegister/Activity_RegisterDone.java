@@ -66,7 +66,6 @@ public class Activity_RegisterDone extends AppCompatActivity {
                 Toast.makeText(Activity_RegisterDone.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         PushDownAnim.setPushDownAnimTo(iv_submit).setOnClickListener(v -> callSubmitAct());
     }
 

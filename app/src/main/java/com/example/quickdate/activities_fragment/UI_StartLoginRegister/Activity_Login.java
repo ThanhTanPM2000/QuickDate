@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.quickdate.R;
 import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Home;
+import com.example.quickdate.activities_fragment.UI_QuickDate.Activity_Match;
 import com.example.quickdate.model.Notification;
 import com.example.quickdate.model.User;
 import com.example.quickdate.utility.regexString;
@@ -108,7 +109,11 @@ public class Activity_Login extends AppCompatActivity {
                                             progressDialog.dismiss();
                                             User user = snapshot.getValue(User.class);
                                             if (user == null) {
-                                                findCurrentUser();
+                                                Intent intent = new Intent(getApplicationContext(), Activity_Home.class);
+                                                intent.putExtra("User", user);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                finish();
                                             } else {
                                                 Intent intent = new Intent(getApplicationContext(), Activity_SelectGender.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -182,82 +187,5 @@ public class Activity_Login extends AppCompatActivity {
             finish();
 
         });
-    }
-
-    private void findCurrentUser() {
-        String[] genders = new String[]{"Male", "Female"};
-        for (int i = 0; i < 2; i++) {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(genders[i]).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        user = snapshot.getValue(User.class);
-                        user.setStatusOnline("Online");
-                        getAllOppositeUsers();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-    }
-
-    private void getAllOppositeUsers() {
-        userArrayList = new ArrayList<>();
-
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(user.getInfo().getGender().equals("Male") ? "Female" : "Male")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            User tempUser = ds.getValue(User.class);
-                            if (tempUser.getInfo().getAge() >= user.getLookingFor().getMin_age() &&
-                                    tempUser.getInfo().getAge() <= user.getLookingFor().getMax_age() &&
-                                    tempUser.getLookingFor().getLooking().equals(user.getLookingFor().getLooking()) &&
-                                    tempUser.getInfo().getWeight() <= user.getLookingFor().getMax_weight() &&
-                                    tempUser.getInfo().getWeight() >= user.getLookingFor().getMin_weight() &&
-                                    tempUser.getInfo().getHeight() <= user.getLookingFor().getMax_height() &&
-                                    tempUser.getInfo().getHeight() >= user.getLookingFor().getMin_height())
-                            {
-                                FirebaseDatabase.getInstance().getReference("Matchers").child(user.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(snapshot.exists()){
-                                            for(DataSnapshot ds : snapshot.getChildren()){
-                                                if(!tempUser.getIdUser().equals(ds.getValue(String.class))){
-                                                    userArrayList.add(tempUser);
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            userArrayList.add(tempUser);
-                                        }
-                                        Intent intent = new Intent(getApplicationContext(), Activity_Home.class);
-                                        intent.putExtra("User", user);
-                                        intent.putExtra("OppositeUsers", userArrayList);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
     }
 }

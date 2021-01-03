@@ -43,7 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
     private static final int NOTIFICATION_MESSAGE = 0;
-    private static final int NOTIFICATION_MATCHER = 1;
+    private static final int NOTIFICATION_LIKED = 1;
 
     // listener for acceptClick and unAcceptClick
     Notification_RequestMatch_Listener listener;
@@ -67,10 +67,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public int getItemViewType(int position) {
-        if (notificationArrayList.get(position).getType().equals("Message")) {
+        if (notificationArrayList.get(position).getType().equals("Liked")) {
+            return NOTIFICATION_LIKED;
+        }
+        else {
             return NOTIFICATION_MESSAGE;
-        } else
-            return NOTIFICATION_MATCHER;
+        }
     }
 
     @NonNull
@@ -103,7 +105,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     holder.relativeLayout.setVisibility(View.VISIBLE);
                     holder.ib_expand.setImageResource(R.drawable.ic_arrow_bot);
                 } else {
-
                     // this will close
                     TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
                     holder.relativeLayout.setVisibility(View.GONE);
@@ -114,7 +115,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
 
         // executive with layout notification_message and executive with layout notification_matcher
-        if (holder.viewType == NOTIFICATION_MATCHER) {
+        if (holder.viewType == NOTIFICATION_LIKED) {
 
             // this view is type notification_matcher, i will executive 2 button is unAccept and accept
             // unAcceptClick
@@ -261,7 +262,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             relativeLayout = itemView.findViewById(R.id.rtl_expand);
             cardView = itemView.findViewById(R.id.cardView);
 
-            if (viewType == NOTIFICATION_MATCHER) {
+            if (viewType == NOTIFICATION_LIKED) {
                 ib_unAccept = itemView.findViewById(R.id.ib_unAccept);
                 ib_accept = itemView.findViewById(R.id.ib_accept);
             } else if (viewType == NOTIFICATION_MESSAGE) {

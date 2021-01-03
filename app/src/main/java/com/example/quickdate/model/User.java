@@ -12,6 +12,7 @@ public class User implements Serializable {
     private LookingFor lookingFor;
     private Info info;
     private ArrayList<Interest> interests;
+    private ArrayList<String> matchers;
 
     public User() {
     }
@@ -23,7 +24,7 @@ public class User implements Serializable {
         this.typingTo = typingTo;
         this.lookingFor = lookingFor;
         this.info = info;
-        this.interests = new ArrayList<Interest>();
+        this.interests = new ArrayList<>();
         this.interests.add(new Interest("Art & Design", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_artDesign.jpg?alt=media&token=a53a7b34-f71a-4adb-85cd-2ee29e93bd52"));
         this.interests.add(new Interest("TV & Music", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_movie.jpg?alt=media&token=05690019-15d5-4f58-b5be-c213bcdf7c3e"));
         this.interests.add(new Interest("Tech", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_tech.jpg?alt=media&token=503e0e7e-b97a-4d85-aca1-6a100fdb756e"));
@@ -33,6 +34,7 @@ public class User implements Serializable {
         this.interests.add(new Interest("Cars", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_cars.jpg?alt=media&token=6370fadb-8132-467e-a933-350d7e94a9a2"));
         this.interests.add(new Interest("Sports", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_fooball.jpg?alt=media&token=eae0fc7f-a071-4be9-97d3-d3ed1d934996"));
         this.interests.add(new Interest("Books", false, "https://firebasestorage.googleapis.com/v0/b/quickdate-c927e.appspot.com/o/imageSystem%2Fimage_book.jpg?alt=media&token=7faaf98e-fad9-4085-9f77-32e7ba8c4a9e"));
+        this.matchers = new ArrayList<>();
     }
 
     public String getTypingTo() {
@@ -89,6 +91,14 @@ public class User implements Serializable {
 
     public void setInterests(ArrayList<Interest> interests) {
         this.interests = interests;
+    }
+
+    public ArrayList<String> getMatchers() {
+        return matchers;
+    }
+
+    public void setMatchers(ArrayList<String> matchers) {
+        this.matchers = matchers;
     }
 }
 

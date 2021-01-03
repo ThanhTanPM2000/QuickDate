@@ -20,25 +20,31 @@
         app:layout_constraintVertical_bias="0.443">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageMatcher_matchAct"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:background="@drawable/shape_circle_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/imageUser_matchAct"
-            app:layout_constraintEnd_toStartOf="@+id/imageUser_matchAct"
-            app:layout_constraintStart_toStartOf="@id/imageUser_matchAct"
-            app:layout_constraintTop_toTopOf="@+id/imageUser_matchAct" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageUser_matchAct"
             android:layout_width="133.32dp"
             android:layout_height="133.72dp"
-            android:background="@drawable/shape_circle_gray"
+            android:background="@null"
+            android:src="@drawable/ic_thumb"
+            app:civ_border_color="#FB7254"
+            app:civ_border_width="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.586"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageMatcher_matchAct"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:background="@null"
+            android:src="@drawable/ic_thumb"
+            app:civ_border_color="#FB7254"
+            app:civ_border_width="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageUser_matchAct"
+            app:layout_constraintEnd_toStartOf="@+id/imageUser_matchAct"
+            app:layout_constraintStart_toStartOf="@id/imageUser_matchAct"
+            app:layout_constraintTop_toTopOf="@+id/imageUser_matchAct" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,26 +56,26 @@
         android:text="You and Alex just liked each other"
         android:textColor="#BFFFFFFF"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toTopOf="@+id/ib_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
         app:layout_constraintVertical_bias="0.136" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ib_send"
         android:layout_width="63dp"
         android:layout_height="63dp"
         android:layout_marginBottom="6dp"
         android:background="@drawable/shape_circle_white"
         android:src="@drawable/ic_chat"
         android:tint="#EA465B"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintBottom_toTopOf="@+id/tv_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"

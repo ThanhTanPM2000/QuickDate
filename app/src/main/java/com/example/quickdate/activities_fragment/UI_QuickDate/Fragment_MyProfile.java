@@ -114,7 +114,6 @@ public class Fragment_MyProfile extends Fragment {
         // Init User
         Activity_Home act = (Activity_Home) getActivity();
         myUser = act.getCurrentUser();
-        myOppositeUsers = act.getAllOppositeUsers();
         act.tv_head_title.setText("");
 
         // Init View

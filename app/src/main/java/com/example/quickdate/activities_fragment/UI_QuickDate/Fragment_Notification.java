@@ -1,11 +1,13 @@
 package com.example.quickdate.activities_fragment.UI_QuickDate;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +28,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Fragment_Notification extends Fragment implements Notification_RequestMatch_Listener {
 
@@ -37,12 +40,13 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
 
     // Model
     private User user;
+    private ArrayList<User> listOppositeUser;
 
     // DataReference to matchers and notifications nodes of realtime database
     DatabaseReference dataRef_matchers, dataRef_notifications;
 
     // ArrayList use for save list matchers of myUser
-    private final ArrayList<String> listMatcher_Id = new ArrayList<>();
+    private ArrayList<String> listMatcher_Id;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -65,6 +69,10 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         Activity_Home act = (Activity_Home) getActivity();
         user = act.getCurrentUser();
 
+        FragmentManager fm = getFragmentManager();
+        Fragment_Swiper fragm = (Fragment_Swiper) fm.findFragmentById(R.id.nav_host_fragment);
+        listOppositeUser = fragm.getOppositeUsers();
+
         // DataReference to matchers and notifications nodes of realtime database
         dataRef_matchers = FirebaseDatabase.getInstance().getReference("Matchers").child(user.getIdUser());
         dataRef_notifications = FirebaseDatabase.getInstance().getReference("Notifications");
@@ -74,6 +82,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         notificationArrayList = new ArrayList<>();
+        listMatcher_Id = new ArrayList<>();
 
         getAllNotifications();
 
@@ -161,8 +170,47 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                 notificationArrayList.remove(position);
                                 notificationAdapter.notifyDataSetChanged();
 
+                                DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender().equals("Male")?"Female":"Male")
+                                        .child(notification.getSenderId()).child("matchers");
+
+                                dataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        listMatcher_Id.clear();
+                                        // add idMatcher was accept from acceptClick function
+                                        listMatcher_Id.add(notification.getReceiverId());
+
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+
+                                            //add list matcher from database to arrayList
+                                            listMatcher_Id.add(ds.getValue(String.class));
+                                        }
+
+                                        // after add to arrayList, push again to database
+                                        dataRef.setValue(listMatcher_Id);
+
+                                        String timeStamp = "" + System.currentTimeMillis();
+
+                                        HashMap<Object, String> hashMap = new HashMap<>();
+                                        hashMap.put("senderId", user.getIdUser());
+                                        hashMap.put("receiverId", notification.getSenderId());
+                                        hashMap.put("type", "Matched");
+                                        hashMap.put("notification", user.getInfo().getNickname() + " accept your match request");
+                                        hashMap.put("timeStamp", timeStamp);
+
+                                        FirebaseDatabase.getInstance().getReference("Notifications").push().setValue(hashMap);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
                                 // save id matcher to Matchers node
-                                FirebaseDatabase.getInstance().getReference("Matchers").child(notification.getReceiverId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                DatabaseReference dataRef2 = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender())
+                                        .child(notification.getReceiverId()).child("matchers");
+                                dataRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         listMatcher_Id.clear();
@@ -176,10 +224,26 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                         }
 
                                         // after add to arrayList, push again to database
-                                        dataRef_matchers.setValue(listMatcher_Id);
+                                        dataRef2.setValue(listMatcher_Id);
+
+                                        // remove this matcher out of oppositeUser
+                                        User matcher = new User();
+                                        for(User oppositeUser : listOppositeUser){
+                                            if(oppositeUser.getIdUser().equals(notification.getSenderId())){
+                                                matcher = oppositeUser;
+                                                listOppositeUser.remove(oppositeUser);
+                                            }
+                                        }
 
                                         // After finish add data to database, dismiss progressDialog
                                         pd.dismiss();
+
+                                        Intent intent = new Intent(getActivity(), Activity_Match.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                        intent.putExtra("User", user);
+                                        intent.putExtra("Matcher", matcher);
+                                        intent.putExtra("OppositeUsers", listOppositeUser);
+                                        startActivity(intent);
                                     }
 
                                     @Override

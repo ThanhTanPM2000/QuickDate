@@ -1,5 +1,7 @@
 package com.example.quickdate.model;
 
+import com.google.firebase.database.PropertyName;
+
 public class Notification {
 
     private String senderId;
@@ -7,17 +9,10 @@ public class Notification {
     private String receiverId;
     private String notification;
     private String timeStamp;
+    private boolean isSeen;
 
     public Notification(){
 
-    }
-
-    public Notification(String senderId, String type, String receiverId, String notification, String timeStamp) {
-        this.senderId = senderId;
-        this.type = type;
-        this.receiverId = receiverId;
-        this.notification = notification;
-        this.timeStamp = timeStamp;
     }
 
     public String getSenderId() {
@@ -58,5 +53,15 @@ public class Notification {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    @PropertyName("isSeen")
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    @PropertyName("isSeen")
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 }
