@@ -93,7 +93,7 @@ public class Activity_Login extends AppCompatActivity {
                         isRememberPasswordFunction(str_email, str_password);
                         firebaseAuth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                if (true) {
                                     DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users/UnRegisters/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     db.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -124,6 +124,7 @@ public class Activity_Login extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Please verification your email for login", Toast.LENGTH_LONG).show();
                                 }
                             } else {
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });

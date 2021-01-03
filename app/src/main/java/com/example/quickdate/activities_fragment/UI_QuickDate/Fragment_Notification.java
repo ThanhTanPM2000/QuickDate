@@ -41,6 +41,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
     ArrayList<User> listOppositeUser;
     // Model
     private User user;
+    private User matcher;
 
     ValueEventListener notificationsListener;
 
@@ -70,6 +71,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
 
         Activity_Home act = (Activity_Home) getActivity();
         user = act.getCurrentUser();
+
 
         // DataReference to matchers and notifications nodes of realtime database
         dataRef_matchers = FirebaseDatabase.getInstance().getReference("Matchers").child(user.getIdUser());
@@ -248,7 +250,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                         dataRef2.setValue(listMatcher_Id);
 
                                         // remove this matcher out of oppositeUser
-                                        User matcher = new User();
+                                        matcher = new User();
                                         for(User oppositeUser : listOppositeUser){
                                             if(oppositeUser.getIdUser().equals(notification.getSenderId())){
                                                 matcher = oppositeUser;

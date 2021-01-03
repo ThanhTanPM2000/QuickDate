@@ -215,7 +215,7 @@ public class Activity_Type extends AppCompatActivity {
 
     private void callBackAct() {
         if(isRegisterInfo){
-            Intent intent = new Intent(Activity_Type.this, Activity_Type.class);
+            Intent intent = new Intent(Activity_Type.this, Activity_Home.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("User", user);
             startActivity(intent);
