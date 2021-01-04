@@ -65,8 +65,8 @@ public class MatcherAdapter extends  RecyclerView.Adapter<MatcherAdapter.ViewHol
             holder.imageView_status.setVisibility(View.GONE);
 
             Calendar cal = Calendar.getInstance(Locale.CHINESE);
-            cal.setTimeInMillis(System.currentTimeMillis() - Long.parseLong(marcher.getStatusOnline()));
-            String dateTime = DateFormat.format("dd/MM/YYYY hh:mm aa", cal).toString();
+            cal.setTimeInMillis(Long.parseLong(marcher.getStatusOnline()));
+            String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", cal).toString();
 
             holder.mTimeOffline.setText(dateTime);
         }

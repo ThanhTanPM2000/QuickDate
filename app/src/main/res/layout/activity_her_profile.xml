@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintTop_toTopOf="parent"
     android:background="@color/white"
+    app:layout_constraintTop_toTopOf="parent"
     tools:context=".activities_fragment.UI_QuickDate.Activity_HerProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,11 +48,11 @@
                 android:layout_height="65dp"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_thumb"
-                app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_info3_herProfile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_info_herProfile"/>
+                app:layout_constraintTop_toTopOf="@+id/tv_info_herProfile" />
 
             <TextView
                 android:id="@+id/tv_info_herProfile"
@@ -97,12 +97,11 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="45dp"
-                android:src="@drawable/ic_chat"
                 android:background="@drawable/shape_circle_gray"
+                android:src="@drawable/ic_chat"
                 app:layout_constraintBottom_toBottomOf="@id/tv_info3_herProfile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
                 app:layout_constraintTop_toTopOf="@id/tv_info_herProfile"
                 app:layout_constraintVertical_bias="0.333" />
 
@@ -127,7 +126,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/background_white"
-                app:layout_constraintStart_toStartOf="@+id/avatarIv_myProfile"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 app:layout_constraintVertical_bias="0.0" />
 
