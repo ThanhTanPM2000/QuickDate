@@ -252,6 +252,13 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 matcher = snapshot.getValue(User.class);
+                                                pd.dismiss();
+
+                                                Intent intent = new Intent(getActivity(), Activity_Match.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                                intent.putExtra("User", user);
+                                                intent.putExtra("Matcher", matcher);
+                                                startActivity(intent);
                                             }
 
                                             @Override
@@ -261,13 +268,7 @@ public class Fragment_Notification extends Fragment implements Notification_Requ
                                         });
 
                                         // After finish add data to database, dismiss progressDialog
-                                        pd.dismiss();
 
-                                        Intent intent = new Intent(getActivity(), Activity_Match.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                                        intent.putExtra("User", user);
-                                        intent.putExtra("Matcher", matcher);
-                                        startActivity(intent);
                                     }
 
                                     @Override
