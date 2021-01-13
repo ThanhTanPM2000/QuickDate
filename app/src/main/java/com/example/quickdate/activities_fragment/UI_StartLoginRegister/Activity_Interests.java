@@ -128,4 +128,9 @@ public class Activity_Interests extends AppCompatActivity implements InterestsLi
     public void onInterestsClicked(int position, Boolean status) {
         user.getInterests().get(position).setStatus(status);
     }
+
+    @Override
+    public void onBackPressed() {
+        callBackAct();
+    }
 }

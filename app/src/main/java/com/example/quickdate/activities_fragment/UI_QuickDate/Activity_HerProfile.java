@@ -31,7 +31,6 @@ public class Activity_HerProfile extends AppCompatActivity {
     // Components in View
     private CircleImageView circleImageView;
     private TextView tv_info, tv_info2, tv_info3, tv_info4;
-    private ImageButton btn_edit;
     private RecyclerView recyclerView;
     private ProgressDialog pd;
 
@@ -67,7 +66,6 @@ public class Activity_HerProfile extends AppCompatActivity {
         tv_info2 = findViewById(R.id.tv_info2_herProfile);
         tv_info3 = findViewById(R.id.tv_info3_herProfile);
         tv_info4 = findViewById(R.id.tv_info4_herProfile);
-        btn_edit = findViewById(R.id.edit_herProfile);
         recyclerView = findViewById(R.id.recyclerView_herProfile);
         sliderView = findViewById(R.id.imageSlider_herProfile);
 
@@ -80,12 +78,6 @@ public class Activity_HerProfile extends AppCompatActivity {
         showSliderImage();
         showInfo();
         showInterestRecyclerview();
-
-        PushDownAnim.setPushDownAnimTo(btn_edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
     }
 
     private void showSliderImage() {

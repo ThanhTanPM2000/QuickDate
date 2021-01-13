@@ -34,9 +34,10 @@
             app:sliderScrollTimeInSec="1"
             app:sliderStartAutoCycle="true" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
+            android:id="@+id/relativeLayout_herProfile"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/color_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,74 +48,69 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:src="@drawable/ic_thumb"
-                app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_info3_myProfile"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_info_myProfile"/>
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/tv_info_myProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_alignTop="@id/avatarIv_myProfile"
+                android:layout_toEndOf="@+id/avatarIv_myProfile"
+                android:layout_toStartOf="@+id/tv_info2_myProfile"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Dave,"
                 android:textColor="@color/white"
-                android:textSize="25sp"
-                app:layout_constraintStart_toEndOf="@+id/avatarIv_myProfile"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tv_info2_myProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="36dp"
+                android:layout_toStartOf="@+id/edit_myProfile"
+                android:layout_alignTop="@id/avatarIv_myProfile"
                 android:fontFamily="@font/montserrat_light"
                 android:text="24"
                 android:textColor="@color/white"
-                android:textSize="25sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_info_myProfile"
-                app:layout_constraintStart_toEndOf="@id/tv_info_myProfile"
-                app:layout_constraintTop_toTopOf="@id/tv_info_myProfile" />
+                android:textSize="25sp" />
+
+            <ImageButton
+                android:id="@+id/edit_myProfile"
+                android:layout_width="55dp"
+                android:layout_alignTop="@+id/avatarIv_myProfile"
+                android:layout_height="55dp"
+                android:layout_marginEnd="45dp"
+                android:src="@drawable/ic_pen"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_circle_gray"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/tv_info3_myProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_info_myProfile"
+                android:layout_below="@id/tv_info2_myProfile"
+                android:layout_toEndOf="@+id/avatarIv_myProfile"
                 android:fontFamily="@font/raleway_bold"
                 android:text="Los Angeles, CA - 1.77cm"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/tv_info_myProfile"
-                app:layout_constraintTop_toBottomOf="@id/tv_info_myProfile" />
+                android:textSize="14sp" />
 
-
-            <ImageButton
-                android:id="@+id/edit_myProfile"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginEnd="45dp"
-                android:src="@drawable/ic_pen"
-                android:background="@drawable/shape_circle_gray"
-                app:layout_constraintBottom_toBottomOf="@id/tv_info3_myProfile"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/tv_info2_myProfile"
-                app:layout_constraintTop_toTopOf="@id/tv_info_myProfile"
-                app:layout_constraintVertical_bias="0.333" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/avatarIv_myProfile"
                 android:layout_marginTop="20dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info3_myProfile" />
+                android:background="@color/white" />
 
 
             <TextView
@@ -122,27 +118,23 @@
                 android:layout_width="377dp"
                 android:layout_height="69dp"
                 android:layout_marginTop="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/divider"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/raleway_bold"
                 android:text="Nullam tellus libero, tincidunt ut ipsum in, aliquet dictum dolor. Sed interdum lacinia urna non euismod. "
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/background_white"
-                app:layout_constraintStart_toStartOf="@+id/avatarIv_myProfile"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                app:layout_constraintVertical_bias="0.0" />
+                android:textSize="14sp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/background_white"
                 android:layout_width="match_parent"
                 android:layout_height="405dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/background_myprofile"
-                android:backgroundTint="#F4F2F2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="1"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info4_myProfile">
+                android:layout_below="@+id/tv_info4_myProfile"
+                android:background="@drawable/shape_rectangle_topright_corner_gray"
+                android:backgroundTint="#F4F2F2">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_myProfile"
@@ -156,8 +148,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

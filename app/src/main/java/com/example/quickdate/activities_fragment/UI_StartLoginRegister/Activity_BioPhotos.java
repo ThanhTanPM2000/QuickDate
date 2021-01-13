@@ -427,4 +427,9 @@ public class Activity_BioPhotos extends AppCompatActivity implements ImagesListe
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        callBackAct();
+    }
 }

@@ -60,8 +60,6 @@ public class Activity_Home extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView_setting, navigationView_notification;
 
-    ProgressDialog progressDialog;
-
     String sUID;
 
     @Override
@@ -240,7 +238,8 @@ public class Activity_Home extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         user = snapshot.getValue(User.class);
-
+                        checkUserStatus();
+                        checkIsSeenNotification();
                         if (indexMenu == 0) {
                             loadFragment(new Fragment_MyProfile(), R.id.nav_host_fragment);
                         } else if (indexMenu == 1) {
@@ -278,9 +277,9 @@ public class Activity_Home extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             sUID = firebaseUser.getUid();
-            //checkOnlineStatus("Online");
+            checkOnlineStatus("Online");
         } else {
-            //checkOnlineStatus("" + System.currentTimeMillis());
+            checkOnlineStatus("" + System.currentTimeMillis());
             Intent intent = new Intent(Activity_Home.this, Activity_Main.class);
             startActivity(intent);
             finish();
@@ -294,8 +293,8 @@ public class Activity_Home extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        checkUserStatus();
-        checkIsSeenNotification();
+        findCurrentUser();
+
         super.onStart();
     }
 
@@ -330,8 +329,6 @@ public class Activity_Home extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        checkUserStatus();
-        checkIsSeenNotification();
         super.onResume();
     }
 }

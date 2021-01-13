@@ -84,8 +84,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if(position == chatArrayList.size()-1){
             if(chatArrayList.get(position).isSeen()){
                 holder.isSeenTv.setText("Seen");
-            }else
+            }else{
                 holder.isSeenTv.setText("Delivered");
+            }
+
         }else{
             holder.isSeenTv.setVisibility(View.GONE);
         }

@@ -154,8 +154,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         }
     }
 
-
-
     private void paginate() {
         ArrayList<User> old = cardStackAdapter.getUsers();
         ArrayList<User> newer = old;
@@ -190,10 +188,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
         });
     }
 
-    public ArrayList<User> getOppositeUsers(){
-        return  myOppositeUsers;
-    }
-
     private void getAllOppositeUsers() {
         refGetAllOppositeUsers = FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender().equals("Male") ? "Female" : "Male");
         getAllOppositeUsersListener = refGetAllOppositeUsers.addValueEventListener(new ValueEventListener() {
@@ -210,17 +204,15 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
                             tempUser.getInfo().getHeight() <= user.getLookingFor().getMax_height() &&
                             tempUser.getInfo().getHeight() >= user.getLookingFor().getMin_height())
                     {
-                        FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender()).child(user.getIdUser()).child("matchers").addListenerForSingleValueEvent(new ValueEventListener() {
+                        FirebaseDatabase.getInstance().getReference("Users").child(user.getInfo().getGender()).child(user.getIdUser()).child("matchers").orderByValue().equalTo(tempUser.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    for(DataSnapshot ds : snapshot.getChildren()){
+                                if(!snapshot.exists()){
+                                    /*for(DataSnapshot ds : snapshot.getChildren()){
                                         if(!tempUser.getIdUser().equals(ds.getValue(String.class))){
                                             myOppositeUsers.add(tempUser);
                                         }
-                                    }
-                                }
-                                else {
+                                    }*/
                                     myOppositeUsers.add(tempUser);
                                 }
                                 cardStackAdapter = new CardStackAdapter(getActivity() ,myOppositeUsers);
@@ -248,11 +240,6 @@ public class Fragment_Swiper extends Fragment implements CardStackListener {
     public void onStart() {
         getAllOppositeUsers();
         super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override

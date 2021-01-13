@@ -273,11 +273,11 @@ public class Fragment_MyProfile extends Fragment {
 
         String[] arr = myUser.getInfo().getNickname().split(" ");
         if (arr[arr.length - 1].length() > 8) {
-            tv_info.setText(arr[arr.length - 1].substring(0, 8) + "...,");
+            tv_info.setText(arr[arr.length - 1].substring(0, 8) + "...");
         } else {
-            tv_info.setText(arr[arr.length - 1] + ",");
+            tv_info.setText(arr[arr.length - 1] + "");
         }
-        tv_info2.setText(myUser.getInfo().getAge() + "");
+        tv_info2.setText( "," + myUser.getInfo().getAge());
         tv_info3.setText(myUser.getInfo().getProvincial() + ", " + myUser.getInfo().getHeight() + "cm - " + myUser.getInfo().getWeight() + "kg");
         tv_info4.setText(myUser.getInfo().getAboutMe());
     }
